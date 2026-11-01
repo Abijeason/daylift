@@ -31,3 +31,18 @@ test('the theme follows the phone by default', () => {
   render(<AppDataProvider><App /></AppDataProvider>)
   expect(document.documentElement.dataset.theme).toBe('auto')
 })
+
+test('first-time users land on the welcome page, then setup', async () => {
+  render(<AppDataProvider><App /></AppDataProvider>)
+  expect(screen.getByRole('heading', { name: 'Daylift' })).toBeInTheDocument()
+  await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+  expect(screen.getByRole('heading', { name: /what's your goal/i })).toBeInTheDocument()
+})
+
+test('returning users go straight to Home', () => {
+  save({ version: 1, profile: testProfile, history: [], inProgress: null })
+  render(<AppDataProvider><App /></AppDataProvider>)
+  expect(screen.queryByRole('button', { name: /get started/i })).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Home' })).toHaveAttribute('aria-current', 'page')
+  expect(screen.getByText('Daylift')).toBeInTheDocument()
+})

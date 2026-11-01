@@ -6,17 +6,19 @@ import { Progress } from './screens/Progress'
 import { Settings } from './screens/Settings'
 import { Setup } from './screens/Setup'
 import { Today } from './screens/Today'
+import { Welcome } from './screens/Welcome'
 import { Workout } from './screens/Workout'
 import { useAppData } from './state/useAppData'
 
-const TABS = ['Today', 'Exercises', 'Progress', 'Settings'] as const
+const TABS = ['Home', 'Exercises', 'Progress', 'Settings'] as const
 type Tab = (typeof TABS)[number]
 
 
 export function App() {
   const { data, update, saveFailed, damaged, reset } = useAppData()
-  const [tab, setTab] = useState<Tab>('Today')
+  const [tab, setTab] = useState<Tab>('Home')
   const [inWorkout, setInWorkout] = useState(false)
+  const [started, setStarted] = useState(false)
   const theme = data.theme ?? 'auto'
 
   useEffect(() => {
@@ -32,6 +34,8 @@ export function App() {
       </main>
     )
   }
+
+  if (!data.profile && !started) return <Welcome onStart={() => setStarted(true)} />
 
   if (!data.profile) {
     return (
@@ -52,7 +56,7 @@ export function App() {
     <>
       {warning}
       <div className="tab-screen" key={tab}>
-        {tab === 'Today' && (
+        {tab === 'Home' && (
           <Today
             onStart={plan => {
               update(d => ({ ...d, inProgress: newSession(plan, d.profile!.units, new Date(), d.profile!.daysPerWeek) }))

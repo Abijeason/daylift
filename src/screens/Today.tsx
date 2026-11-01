@@ -47,7 +47,10 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
 
   return (
     <main className="screen">
-      <p className="eyebrow">{now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+      <header className="home-head">
+        <strong>Daylift</strong>
+        <p className="eyebrow">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</p>
+      </header>
 
       <section className="hero">
         <h1><span>{title}</span></h1>

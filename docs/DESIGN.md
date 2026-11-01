@@ -8,7 +8,7 @@
 
 ## Screens
 
-Setup, Today, Active workout, Exercises, Progress and Settings. The last four main areas use a bottom tab bar, and the tab bar hides during a workout.
+Welcome, Setup, Home, Active workout, Exercises, Progress and Settings. The last four main areas use a bottom tab bar, and the tab bar hides during a workout.
 
 ## Theme
 
@@ -16,9 +16,9 @@ Sports editorial, like a training magazine. Headings use Archivo at its condense
 
 Light and dark themes both exist. The app follows the phone by default, and Settings lets people choose. Colours are variables at the top of `src/styles/app.css`.
 
-## Today
+## Home
 
-Today answers three questions: what do I do now, how is my week going, and what did I do last time. It has the workout title, a looping form preview of the first exercise, a Monday to Sunday strip, lifetime stats, the full exercise list and the last workout.
+Home answers three questions: what do I do now, how is my week going, and what did I do last time. It has the workout title, a looping form preview of the first exercise, a Monday to Sunday strip, lifetime stats, the full exercise list and the last workout.
 
 ## Motion
 

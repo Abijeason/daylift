@@ -1,0 +1,18 @@
+const RADIUS = 54
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS
+
+export function TimerRing({ seconds, total }: { seconds: number; total: number }) {
+  const left = Math.min(1, seconds / total)
+  return (
+    <div className="timer" role="timer" aria-label={`Rest, ${seconds} seconds left`}>
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle className="timer-track" cx="60" cy="60" r={RADIUS} />
+        <circle
+          className="timer-value" cx="60" cy="60" r={RADIUS}
+          strokeDasharray={CIRCUMFERENCE} strokeDashoffset={CIRCUMFERENCE * (1 - left)}
+        />
+      </svg>
+      <strong className="number">{seconds}</strong>
+    </div>
+  )
+}

@@ -90,4 +90,5 @@ export interface SavedData {
   profile: Profile | null
   history: WorkoutLog[]
   inProgress: InProgress | null
+  timerNoteSeen?: boolean
 }

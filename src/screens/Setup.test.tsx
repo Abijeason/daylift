@@ -2,7 +2,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { Setup } from './Setup'
+import { existsSync } from 'node:fs'
 import { PRESETS } from '../lib/planner'
+import { EQUIPMENT_PHOTOS } from '../lib/rules'
+import { EQUIPMENT } from '../types'
 
 async function pick(user: ReturnType<typeof userEvent.setup>, name: RegExp) {
   await user.click(screen.getByRole('button', { name }))
@@ -57,4 +60,19 @@ test('equipment can be tapped on and off', async () => {
   expect(item).toHaveAttribute('aria-pressed', 'false')
   await user.click(item)
   expect(item).toHaveAttribute('aria-pressed', 'true')
+})
+
+test('every equipment item has a photo that exists', () => {
+  EQUIPMENT.forEach(item => expect(existsSync(`public/exercises/${EQUIPMENT_PHOTOS[item]}`)).toBe(true))
+})
+
+test('equipment tiles show a photo beside their name', async () => {
+  const user = userEvent.setup()
+  const { container } = render(<Setup onDone={vi.fn()} />)
+  await pick(user, /not sure yet/i)
+  await pick(user, /^beginner/i)
+  await pick(user, /^3 days/i)
+  await pick(user, /^short/i)
+  expect(container.querySelectorAll('.tile img')).toHaveLength(EQUIPMENT.length)
+  expect(screen.getByRole('button', { name: 'Leg press' })).toBeInTheDocument()
 })

@@ -10,6 +10,15 @@ export const EQUIPMENT_LABELS: Record<Equipment, string> = {
   kettlebells: 'Kettlebells', bands: 'Resistance bands', cardioMachine: 'Cardio machine',
 }
 
+// Real gym photos from the exercise library, so people can recognise equipment they can't name.
+export const EQUIPMENT_PHOTOS: Record<Equipment, string> = {
+  dumbbells: 'Dumbbell_Bicep_Curl/0.jpg', barbellRack: 'Barbell_Squat/0.jpg', bench: 'Dumbbell_Bench_Press/0.jpg',
+  cable: 'Triceps_Pushdown/0.jpg', latPulldown: 'Wide-Grip_Lat_Pulldown/0.jpg', seatedRow: 'Seated_Cable_Rows/0.jpg',
+  chestPress: 'Machine_Bench_Press/0.jpg', shoulderPress: 'Leverage_Shoulder_Press/0.jpg', legPress: 'Leg_Press/0.jpg',
+  legExtension: 'Leg_Extensions/0.jpg', legCurl: 'Lying_Leg_Curls/0.jpg', pullUpBar: 'Pullups/0.jpg',
+  kettlebells: 'Goblet_Squat/0.jpg', bands: 'Band_Pull_Apart/0.jpg', cardioMachine: 'Walking_Treadmill/0.jpg',
+}
+
 export const MUSCLE_NAMES: Record<Muscle, string> = {
   abdominals: 'Core', abductors: 'Outer thighs', adductors: 'Inner thighs', biceps: 'Biceps', calves: 'Calves',
   chest: 'Chest', forearms: 'Forearms', glutes: 'Glutes', hamstrings: 'Hamstrings', lats: 'Lats',

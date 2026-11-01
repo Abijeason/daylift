@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SAFETY_NOTE } from '../data/copy'
 import { PRESETS } from '../lib/planner'
-import { allowedDays, EQUIPMENT_LABELS, GOALS, LEVELS } from '../lib/rules'
+import { allowedDays, EQUIPMENT_LABELS, EQUIPMENT_PHOTOS, GOALS, LEVELS } from '../lib/rules'
 import { EQUIPMENT } from '../types'
 import type { Equipment, Goal, Level, Profile } from '../types'
 
@@ -29,7 +29,8 @@ export function EquipmentPicker({ value, onChange }: { value: Equipment[]; onCha
       <div className="equipment-grid">
         {EQUIPMENT.map(item => (
           <button key={item} className="tile" aria-pressed={value.includes(item)} onClick={() => toggle(item)}>
-            {EQUIPMENT_LABELS[item]}
+            <img src={`${import.meta.env.BASE_URL}exercises/${EQUIPMENT_PHOTOS[item]}`} alt="" loading="lazy" />
+            <span>{EQUIPMENT_LABELS[item]}</span>
           </button>
         ))}
       </div>

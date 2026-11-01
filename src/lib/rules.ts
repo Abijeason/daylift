@@ -1,6 +1,19 @@
-import type { Exercise, Goal, Level, Prescription, Profile } from '../types'
+import type { Equipment, Exercise, Goal, Level, Prescription, Profile, WorkoutType } from '../types'
 
 export const WARMUP_MINUTES = 8
+
+export const EQUIPMENT_LABELS: Record<Equipment, string> = {
+  dumbbells: 'Dumbbells', barbellRack: 'Barbell and rack', bench: 'Adjustable bench', cable: 'Cable machine',
+  latPulldown: 'Lat pulldown', seatedRow: 'Seated row', chestPress: 'Chest press', shoulderPress: 'Shoulder press',
+  legPress: 'Leg press', legExtension: 'Leg extension', legCurl: 'Leg curl', pullUpBar: 'Pull-up bar',
+  kettlebells: 'Kettlebells', bands: 'Resistance bands', cardioMachine: 'Cardio machine',
+}
+
+export const WORKOUT_NAMES: Record<WorkoutType, string> = {
+  fullA: 'Full Body A', fullB: 'Full Body B', fullC: 'Full Body C', upperA: 'Upper Body A', upperB: 'Upper Body B',
+  lowerA: 'Lower Body A', lowerB: 'Lower Body B', push: 'Push Day', pull: 'Pull Day', legs: 'Leg Day',
+  upper: 'Upper Body', lower: 'Lower Body',
+}
 
 interface GoalRule {
   label: string

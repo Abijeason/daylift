@@ -53,7 +53,9 @@ An unfinished workout is saved after each set, so it can be resumed if the app c
 ### Exercises
 - Front and back body map. Tapping a muscle lists its exercises.
 - Search by name.
-- Each exercise shows its images, short form steps, common mistakes, the equipment it needs and easier alternatives.
+- Each exercise shows a looping form animation, short form steps, common mistakes, the equipment it needs and easier alternatives.
+- A "Watch form" button opens a hand-picked short YouTube video for that exercise. If it has no link, the button opens a YouTube search for the exercise's form. Videos open on YouTube and are not embedded, and the button needs internet.
+- The active workout screen has the same animation and button.
 
 ### Progress
 - Workout history
@@ -242,8 +244,15 @@ All animations use CSS or the browser's built-in animation tools. They turn off 
 - Reminders when the app is closed
 - App Store and Play Store apps
 
-## 14. Before launch
+Custom licensed or filmed video clips are also left for a future release.
+
+## 14. Project documents
+
+The public repository has `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, a licence, and these files in `docs/`: `PRD.md`, `DESIGN.md`, `ARCHITECTURE.md` (including why there is no API, plus integrations), `DATA-MODEL.md`, `SECURITY.md`, `IMPLEMENTATION.md`, `SETUP.md`, `TESTING.md` and `DEBUGGING.md`. They describe only what really exists. There is no MCP document, because the app does not use MCP.
+
+## 15. Before launch
 
 - The owner creates the free Google Form for feedback and provides its link.
-- The owner approves publishing to GitHub Pages.
+- The owner approves publishing to GitHub Pages in a public repository at github.com/Abijeason.
+- The owner checks the video list in `docs/VIDEO-REVIEW.md`, because an automated check can confirm a link, title and channel but not that the form shown is correct.
 - The hand-written exercise and warm-up content gets a final read-through. Review by a qualified trainer is recommended if possible.

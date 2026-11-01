@@ -15,7 +15,7 @@ const atFirst = () => session({ exerciseIndex: 0 })
 
 async function logSet(weight: string, reps: string) {
   const user = userEvent.setup()
-  const w = screen.queryByLabelText(/weight/i)
+  const w = screen.queryByLabelText(/^weight/i)
   if (w) { await user.clear(w); await user.type(w, weight) }
   await user.clear(screen.getByLabelText(/reps/i))
   await user.type(screen.getByLabelText(/reps/i), reps)
@@ -73,7 +73,10 @@ test('finish adds a log and clears in-progress', async () => {
   const user = userEvent.setup()
   renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
   await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
   await user.click(screen.getByRole('button', { name: /end workout/i }))
+  expect(load().data.history).toHaveLength(0)
+  await user.click(screen.getByRole('button', { name: /yes, end/i }))
   expect(load().data.history).toHaveLength(1)
   expect(load().data.inProgress).toBeNull()
   expect(screen.getByRole('heading', { name: /workout complete/i })).toBeInTheDocument()
@@ -83,6 +86,7 @@ test('finishing with no sets adds no log', async () => {
   const onExit = vi.fn()
   renderWithData(<Workout onExit={onExit} />, { inProgress: atFirst() })
   await userEvent.click(screen.getByRole('button', { name: /end workout/i }))
+  await userEvent.click(screen.getByRole('button', { name: /yes, end/i }))
   expect(load().data.history).toHaveLength(0)
   expect(onExit).toHaveBeenCalled()
 })
@@ -109,6 +113,48 @@ test('cardio finisher appears for lose weight', () => {
   })
   expect(screen.getByRole('heading', { name: /cardio/i })).toBeInTheDocument()
   expect(screen.getByText(/10 minutes/i)).toBeInTheDocument()
+})
+
+test('summary shows the streak', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /end workout/i }))
+  await user.click(screen.getByRole('button', { name: /yes, end/i }))
+  expect(screen.getByText(/week streak/i)).toBeInTheDocument()
+})
+
+test('swap list closes after a set, so logged sets cannot be wiped', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  await user.click(screen.getByRole('button', { name: /swap/i }))
+  await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
+  expect(screen.queryAllByRole('button', { name: /^use /i })).toHaveLength(0)
+})
+
+test('the next set keeps the last weight', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
+  expect(screen.getByLabelText(/weight/i)).toHaveValue('20')
+})
+
+test('a timed exercise asks for seconds', () => {
+  const plank = exercises.find(e => e.id === 'Plank')!
+  const p = { ...plan, exercises: [plank, ...plan.exercises.slice(1)] }
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: { ...newSession(p, 'kg', new Date()), exerciseIndex: 0 } })
+  expect(screen.getByText(/hold 20/i)).toBeInTheDocument()
+  expect(screen.getByLabelText(/seconds/i)).toBeInTheDocument()
+  expect(screen.queryByText(/8–12 reps/)).not.toBeInTheDocument()
+})
+
+test('band exercises need no weight', () => {
+  const band = exercises.find(e => e.id === 'Band_Pull_Apart')!
+  const p = { ...plan, exercises: [band, ...plan.exercises.slice(1)] }
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: { ...newSession(p, 'kg', new Date()), exerciseIndex: 0 } })
+  expect(screen.queryByLabelText(/weight/i)).not.toBeInTheDocument()
 })
 
 test('watch form links to YouTube', () => {

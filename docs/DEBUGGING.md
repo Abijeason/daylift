@@ -24,6 +24,17 @@ Real problems found while building Daylift.
 **Symptom:** treadmill walking is labelled as a quadriceps exercise, so it could be picked for strength work.
 **Fix:** the planner excludes cardio machines from strength slots, with a test to keep it that way.
 
+## A bad backup could lock users out
+
+**Symptom:** an independent review imported a backup with `history: [{}]`, and the app crashed on every launch, so Reset couldn't be reached.
+**Cause:** backup checks only looked at the top level of the file.
+**Fix:** saved data and backups now have every field checked, and an error boundary offers a way to start fresh.
+
+## Swap could erase logged sets
+
+**Symptom:** with the Swap list open, logging a set and then choosing a swap removed the set.
+**Fix:** the list closes after a set, and only appears before the first set.
+
 ## Useful tips
 
 - Offline behaviour only shows in `npm run build` then `npm run preview`.

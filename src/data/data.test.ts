@@ -36,3 +36,7 @@ test('copy has no calorie numbers', () => {
 test('coming soon lists the future features', () => {
   expect(COMING_SOON).toEqual(expect.arrayContaining(['AI photo scan', 'AI coach', 'Cloud backup']))
 })
+
+test('band exercises log no weight', () => {
+  exercises.filter(e => e.needs.includes('bands')).forEach(e => expect(e.bodyweight).toBe(true))
+})

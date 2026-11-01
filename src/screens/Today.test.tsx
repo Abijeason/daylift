@@ -4,6 +4,7 @@ import { vi } from 'vitest'
 import { Today } from './Today'
 import { renderWithData, testLog, testProfile } from '../test-utils'
 import { buildWorkout } from '../lib/planner'
+import { newSession } from '../lib/session'
 import { exercises } from '../data'
 
 const props = { onStart: vi.fn(), onResume: vi.fn() }
@@ -36,7 +37,7 @@ test('rest day shows message and Train anyway', () => {
 test('shows Resume when a workout is in progress', () => {
   const plan = buildWorkout(testProfile, 'fullA', exercises)
   renderWithData(<Today {...props} />, {
-    inProgress: { log: testLog(), plan, exerciseIndex: 0, restEndsAt: null },
+    inProgress: newSession(plan, 'kg', new Date()),
   })
   expect(screen.getByRole('button', { name: /resume/i })).toBeInTheDocument()
 })

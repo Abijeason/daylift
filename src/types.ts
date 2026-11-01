@@ -24,6 +24,7 @@ export interface Exercise {
   needs: Equipment[]
   region: 'upper' | 'lower'
   bodyweight: boolean
+  timed?: boolean
   images: string[]
   videoUrl: string | null
   steps: string[]
@@ -73,6 +74,7 @@ export interface WorkoutLog {
   id: string
   type: WorkoutType
   units: Units
+  targetDays?: number
   startedAt: string
   finishedAt: string
   entries: LoggedExercise[]

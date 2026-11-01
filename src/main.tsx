@@ -1,13 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { AppDataProvider } from './state/useAppData'
 import './styles/app.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AppDataProvider>
-      <App />
-    </AppDataProvider>
+    <ErrorBoundary>
+      <AppDataProvider>
+        <App />
+      </AppDataProvider>
+    </ErrorBoundary>
   </StrictMode>,
 )

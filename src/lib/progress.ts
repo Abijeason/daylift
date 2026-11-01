@@ -12,7 +12,8 @@ const DAYS_IN_A_ROW: Record<number, number> = { 2: 1, 3: 1, 4: 2, 5: 3 }
 
 export function parseWeight(text: string): number | null {
   const clean = text.trim().replace(',', '.')
-  if (!/^\d+(\.\d+)?$/.test(clean)) return null
+  // Two decimal places at most, so "1,000" is never read as 1.
+  if (!/^\d+(\.\d{1,2})?$/.test(clean)) return null
   const value = Number(clean)
   return value > 0 && value < MAX_WEIGHT ? value : null
 }
@@ -24,10 +25,10 @@ export function parseReps(text: string): number | null {
   return value >= 1 && value <= MAX_REPS ? value : null
 }
 
-function convert(weight: number, from: Units, to: Units): number {
+export function convert(weight: number, from: Units, to: Units): number {
   if (from === to) return weight
   const value = to === 'lb' ? weight * LB_PER_KG : weight / LB_PER_KG
-  return Math.round(value / STEP[to]) * STEP[to]
+  return Math.max(STEP[to], Math.round(value / STEP[to]) * STEP[to])
 }
 
 const heaviest = (entry: LoggedExercise): number => Math.max(0, ...entry.sets.map(s => s.weight))
@@ -89,16 +90,23 @@ function weekStart(date: Date): Date {
   return shiftDays(date, -((date.getDay() + 6) % 7))
 }
 
-const workoutsInWeek = (history: WorkoutLog[], start: Date): number => {
+const logsInWeek = (history: WorkoutLog[], start: Date): WorkoutLog[] => {
   const end = shiftDays(start, 7)
   return history.filter(l => {
     const t = new Date(l.finishedAt)
     return t >= start && t < end
-  }).length
+  })
+}
+
+// A week is judged by the plan it was trained under, so changing plans can't erase a streak.
+function metTarget(history: WorkoutLog[], start: Date, daysPerWeek: number): boolean {
+  const logs = logsInWeek(history, start)
+  return logs.length >= (logs[logs.length - 1]?.targetDays ?? daysPerWeek)
+    && logs.length > 0
 }
 
 export function isRestDay(history: WorkoutLog[], daysPerWeek: number, now: Date): boolean {
-  if (workoutsInWeek(history, weekStart(now)) >= daysPerWeek) return true
+  if (logsInWeek(history, weekStart(now)).length >= daysPerWeek) return true
   const trained = new Set(history.map(l => dayKey(new Date(l.finishedAt))))
   let day = trained.has(dayKey(now)) ? now : shiftDays(now, -1)
   let inARow = 0
@@ -111,9 +119,9 @@ export function isRestDay(history: WorkoutLog[], daysPerWeek: number, now: Date)
 
 export function weeklyStreak(history: WorkoutLog[], daysPerWeek: number, now: Date): number {
   let week = weekStart(now)
-  let streak = workoutsInWeek(history, week) >= daysPerWeek ? 1 : 0
+  let streak = metTarget(history, week, daysPerWeek) ? 1 : 0
   week = shiftDays(week, -7)
-  while (workoutsInWeek(history, week) >= daysPerWeek) {
+  while (metTarget(history, week, daysPerWeek)) {
     streak++
     week = shiftDays(week, -7)
   }

@@ -262,7 +262,7 @@
       "bench"
     ],
     "region": "upper",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Bench_Press_-_With_Bands/0.jpg",
       "Bench_Press_-_With_Bands/1.jpg"
@@ -566,7 +566,7 @@
       "bands"
     ],
     "region": "upper",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Back_Flyes_-_With_Bands/0.jpg",
       "Back_Flyes_-_With_Bands/1.jpg"
@@ -864,7 +864,7 @@
       "bands"
     ],
     "region": "upper",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Shoulder_Press_-_With_Bands/0.jpg",
       "Shoulder_Press_-_With_Bands/1.jpg"
@@ -891,7 +891,7 @@
       "bands"
     ],
     "region": "upper",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Lateral_Raise_-_With_Bands/0.jpg",
       "Lateral_Raise_-_With_Bands/1.jpg"
@@ -918,7 +918,7 @@
       "bands"
     ],
     "region": "upper",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Band_Pull_Apart/0.jpg",
       "Band_Pull_Apart/1.jpg"
@@ -1245,7 +1245,7 @@
       "bands"
     ],
     "region": "upper",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Band_Skull_Crusher/0.jpg",
       "Band_Skull_Crusher/1.jpg"
@@ -1547,7 +1547,7 @@
       "bands"
     ],
     "region": "lower",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Squats_-_With_Bands/0.jpg",
       "Squats_-_With_Bands/1.jpg"
@@ -1684,7 +1684,7 @@
       "bands"
     ],
     "region": "lower",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Band_Good_Morning/0.jpg",
       "Band_Good_Morning/1.jpg"
@@ -1822,7 +1822,7 @@
       "bands"
     ],
     "region": "lower",
-    "bodyweight": false,
+    "bodyweight": true,
     "images": [
       "Hip_Lift_with_Band/0.jpg",
       "Hip_Lift_with_Band/1.jpg"
@@ -1996,7 +1996,8 @@
       "Letting your hips sag",
       "Holding your breath"
     ],
-    "easierIds": []
+    "easierIds": [],
+    "timed": true
   },
   {
     "id": "Crunches",

@@ -57,6 +57,7 @@ export function Exercises() {
       {!query && <BodyMap selected={muscle} onSelect={setMuscle} />}
       {!query && !muscle && <p className="muted center">Tap a muscle to see its exercises.</p>}
       {query && results.length === 0 && <p className="muted">No exercises found. Try another name.</p>}
+      {!query && muscle && results.length === 0 && <p className="muted center">No exercises for this muscle yet.</p>}
       <div className="list">
         {results.map(e => (
           <button key={e.id} className="option" onClick={() => setOpen(e)}>

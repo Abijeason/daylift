@@ -13,13 +13,13 @@ const toEntry = (e: Exercise, plan: PlannedWorkout): LoggedExercise => ({
 })
 
 // exerciseIndex -1 is the warm-up. An index past the last exercise is the cardio finisher.
-export function newSession(plan: PlannedWorkout, units: Units, now: Date): InProgress {
+export function newSession(plan: PlannedWorkout, units: Units, now: Date, targetDays?: number): InProgress {
   const at = now.toISOString()
   return {
     plan,
     exerciseIndex: -1,
     restEndsAt: null,
-    log: { id: at, type: plan.type, units, startedAt: at, finishedAt: at, entries: plan.exercises.map(e => toEntry(e, plan)) },
+    log: { id: at, type: plan.type, units, targetDays, startedAt: at, finishedAt: at, entries: plan.exercises.map(e => toEntry(e, plan)) },
   }
 }
 

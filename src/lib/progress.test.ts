@@ -17,7 +17,7 @@ const days = (...d: string[]) => d.map(x => log([entry()], x))
 test.each([['20', 20], ['22.5', 22.5], ['22,5', 22.5], [' 40 ', 40]])('parse %s', (t, n) => {
   expect(parseWeight(t)).toBe(n)
 })
-test.each(['', 'abc', '-5', '0', '1000', '1e3', '12kg'])('reject weight %s', t => {
+test.each(['', 'abc', '-5', '0', '1000', '1e3', '12kg', '1,000'])('reject weight %s', t => {
   expect(parseWeight(t)).toBeNull()
 })
 test('reps are whole numbers from 1 to 200', () => {
@@ -56,6 +56,10 @@ test('bodyweight exercise gives no number', () => {
 test('history in kg converts when units are lb', () => {
   const short = entry({ sets: [{ weight: 40, reps: 5 }] })
   expect(suggestWeight([log([short])], 'x', 'lb').weight).toBe(90)
+})
+test('a tiny weight never converts to zero', () => {
+  const small = entry({ sets: [{ weight: 1, reps: 5 }] })
+  expect(suggestWeight([log([small])], 'x', 'lb').weight).toBe(5)
 })
 test('uses the most recent log with that exercise', () => {
   const older = log([entry()], '2026-11-01')
@@ -119,6 +123,10 @@ test('the current week counts once met', () => {
 test('a missed full week resets to 0', () => {
   const h = days('2026-10-13', '2026-10-15')
   expect(weeklyStreak(h, 2, now)).toBe(0)
+})
+test('past weeks use the target they were trained under', () => {
+  const h = days('2026-10-20', '2026-10-22', '2026-10-27', '2026-10-29').map(l => ({ ...l, targetDays: 2 }))
+  expect(weeklyStreak(h, 4, now)).toBe(2)
 })
 test('Sunday belongs to the week that started on Monday', () => {
   const h = days('2026-11-02', '2026-11-08')

@@ -14,7 +14,7 @@ Version 1 has no login. That means no passwords to protect, and users can start 
 ## Input checks
 
 - Weight and reps are checked before saving.
-- Backup files are checked for version and shape before they can replace data.
+- Saved data and backup files have every field checked before they're used.
 - React escapes text on screen, and no user text is added as raw HTML.
 
 ## Secrets

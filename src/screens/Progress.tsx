@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { LineChart } from '../components/LineChart'
-import { personalBests } from '../lib/progress'
+import { convert, personalBests } from '../lib/progress'
 import { WORKOUT_NAMES } from '../lib/rules'
 import { useAppData } from '../state/useAppData'
 
 export function Progress() {
   const { data } = useAppData()
   const history = data.history
+  const units = data.profile?.units ?? 'kg'
   const bests = Object.entries(personalBests(history))
   const [chosen, setChosen] = useState<string | null>(null)
   const chartId = chosen ?? bests[0]?.[0]
@@ -22,7 +23,7 @@ export function Progress() {
 
   const points = history.flatMap(log => {
     const entry = log.entries.find(e => e.exerciseId === chartId)
-    return entry ? [Math.max(...entry.sets.map(s => s.weight))] : []
+    return entry ? [convert(Math.max(...entry.sets.map(s => s.weight)), log.units, units)] : []
   })
 
   return (

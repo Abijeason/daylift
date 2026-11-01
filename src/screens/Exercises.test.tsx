@@ -50,3 +50,9 @@ test('every exercise muscle can be reached from the body map', () => {
     expect(screen.getAllByRole('button', { name: new RegExp(`^${m}$`, 'i') }).length).toBeGreaterThan(0)
   }
 })
+
+test('a muscle with no exercises says so', async () => {
+  render(<Exercises />)
+  await userEvent.click(screen.getByRole('button', { name: /^forearms$/i }))
+  expect(screen.getByText(/no exercises for this muscle yet/i)).toBeInTheDocument()
+})

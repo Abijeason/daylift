@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { exportBackup, importBackup, load, save, STORAGE_KEY } from './storage'
+import { clearSaved, exportBackup, importBackup, load, save, STORAGE_KEY } from './storage'
 import type { SavedData } from '../types'
 
 const sample: SavedData = {
@@ -50,6 +50,25 @@ test.each([
   '{"version":1,"profile":{"goal":"fitLean"},"history":[],"inProgress":null}',
 ])('import rejects %s', t => {
   expect(importBackup(t)).toBeNull()
+})
+
+const base = '{"version":1,"profile":null,"history":%s,"inProgress":%s}'
+test.each([
+  base.replace('%s', '[{}]').replace('%s', 'null'),
+  base.replace('%s', '[]').replace('%s', '{}'),
+  '{"version":1,"profile":{"goal":"nope","level":"beginner","daysPerWeek":3,"length":"short","equipment":[],"units":"kg"},"history":[],"inProgress":null}',
+  '{"version":1,"profile":{"goal":"fitLean","level":"beginner","daysPerWeek":7,"length":"short","equipment":[],"units":"kg"},"history":[],"inProgress":null}',
+  '{"version":1,"profile":{"goal":"fitLean","level":"beginner","daysPerWeek":3,"length":"short","equipment":["rocket"],"units":"kg"},"history":[],"inProgress":null}',
+])('rejects malformed content %s', t => {
+  expect(importBackup(t)).toBeNull()
+  localStorage.setItem(STORAGE_KEY, t)
+  expect(load().damaged).toBe(t)
+})
+
+test('clearSaved removes the record', () => {
+  save(sample)
+  clearSaved()
+  expect(load().data.history).toEqual([])
 })
 
 test('a rejected import leaves saved data untouched', () => {

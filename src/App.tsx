@@ -49,7 +49,7 @@ export function App() {
         {tab === 'Today' && (
           <Today
             onStart={plan => {
-              update(d => ({ ...d, inProgress: newSession(plan, d.profile!.units, new Date()) }))
+              update(d => ({ ...d, inProgress: newSession(plan, d.profile!.units, new Date(), d.profile!.daysPerWeek) }))
               setInWorkout(true)
             }}
             onResume={() => setInWorkout(true)}

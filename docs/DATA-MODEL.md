@@ -18,6 +18,7 @@ The data is small, and it needs no account. The trade-off is that data lives on 
 
 ## Protecting data
 
+- An error boundary offers a way to start fresh if a screen ever crashes.
 - Damaged data is copied to `daylift.v1.damaged`, and the user is told.
 - A failed save shows a warning.
 - The app asks the browser for persistent storage.

@@ -4,12 +4,14 @@ import { TimerRing } from '../components/TimerRing'
 import { exercises } from '../data'
 import { FIRST_LIFT_TIP, WARMUPS } from '../data/warmups'
 import { swapOptions } from '../lib/planner'
-import { newBests, parseReps, parseWeight, suggestWeight, totalWeight } from '../lib/progress'
+import { newBests, parseReps, parseWeight, suggestWeight, totalWeight, weeklyStreak } from '../lib/progress'
 import { WORKOUT_NAMES } from '../lib/rules'
 import { addSet, finish, secondsLeft, swapExercise } from '../lib/session'
 import { formVideoLink } from '../lib/video'
 import { useAppData } from '../state/useAppData'
 import type { Exercise, InProgress, Units, WorkoutLog } from '../types'
+
+const HOLD_SECONDS = '20–40 seconds'
 
 function beep() {
   try {
@@ -43,7 +45,9 @@ function useWakeLock() {
 }
 
 function Summary({ log, bests, onExit }: { log: WorkoutLog; bests: string[]; onExit(): void }) {
+  const { data } = useAppData()
   const minutes = Math.max(1, Math.round((Date.parse(log.finishedAt) - Date.parse(log.startedAt)) / 60000))
+  const streak = weeklyStreak(data.history, data.profile?.daysPerWeek ?? 3, new Date())
   return (
     <main className="screen summary">
       <div className="burst" aria-hidden="true" />
@@ -52,6 +56,7 @@ function Summary({ log, bests, onExit }: { log: WorkoutLog; bests: string[]; onE
         <div><strong className="number">{minutes}</strong><span>minutes</span></div>
         <div><strong className="number">{totalWeight(log).toLocaleString()}</strong><span>{log.units} lifted</span></div>
       </div>
+      <p className="card streak"><strong className="number">{streak}</strong><span>week streak</span></p>
       {bests.length > 0 && (
         <section className="card best">
           <h2>New personal best</h2>
@@ -63,9 +68,14 @@ function Summary({ log, bests, onExit }: { log: WorkoutLog; bests: string[]; onE
   )
 }
 
-function SetForm({ exercise, units, onDone }: { exercise: Exercise; units: Units; onDone(weight: number, reps: number): void }) {
+function SetForm({ exercise, units, lastWeight, onDone }: {
+  exercise: Exercise
+  units: Units
+  lastWeight?: number
+  onDone(weight: number, reps: number): void
+}) {
   const { data } = useAppData()
-  const [weight, setWeight] = useState('')
+  const [weight, setWeight] = useState(lastWeight ? String(lastWeight) : '')
   const [reps, setReps] = useState('')
   const [error, setError] = useState('')
   const hint = suggestWeight(data.history, exercise.id, units)
@@ -74,9 +84,8 @@ function SetForm({ exercise, units, onDone }: { exercise: Exercise; units: Units
     const w = exercise.bodyweight ? 0 : parseWeight(weight)
     const r = parseReps(reps)
     if (w === null) return setError('Enter a weight between 0 and 1000, like 22.5.')
-    if (r === null) return setError('Enter your reps as a whole number.')
-    setError('')
-    setReps('')
+    if (r === null) return setError(exercise.timed ? 'Enter your seconds as a whole number.' : 'Enter your reps as a whole number.')
+    navigator.vibrate?.(30)
     onDone(w, r)
   }
 
@@ -95,7 +104,7 @@ function SetForm({ exercise, units, onDone }: { exercise: Exercise; units: Units
             <input inputMode="decimal" value={weight} onChange={e => setWeight(e.target.value)} placeholder={hint.weight?.toString()} />
           </label>
         )}
-        <label>Reps
+        <label>{exercise.timed ? 'Seconds held' : 'Reps'}
           <input inputMode="numeric" value={reps} onChange={e => setReps(e.target.value)} />
         </label>
       </div>
@@ -110,6 +119,7 @@ export function Workout({ onExit }: { onExit(): void }) {
   const session = data.inProgress
   const [done, setDone] = useState<{ log: WorkoutLog; bests: string[] } | null>(null)
   const [swapping, setSwapping] = useState(false)
+  const [confirmEnd, setConfirmEnd] = useState(false)
   const [now, setNow] = useState(Date.now)
   const [showNote] = useState(!data.timerNoteSeen)
   const beeped = useRef<number | null>(null)
@@ -161,7 +171,14 @@ export function Workout({ onExit }: { onExit(): void }) {
   const header = (
     <header className="workout-head">
       <span className="eyebrow">{WORKOUT_NAMES[plan.type]}</span>
-      <button className="link" onClick={end}>End workout</button>
+      <button className="link" onClick={() => setConfirmEnd(true)}>End workout</button>
+      {confirmEnd && (
+        <div className="card end-card" role="dialog" aria-label="End workout">
+          <p>End this workout now? Anything you've logged will be saved.</p>
+          <button className="primary" onClick={end}>Yes, end workout</button>
+          <button className="link" onClick={() => setConfirmEnd(false)}>Keep going</button>
+        </div>
+      )}
     </header>
   )
 
@@ -182,6 +199,7 @@ export function Workout({ onExit }: { onExit(): void }) {
     return (
       <main className="screen rest">
         {header}
+        <div className="tick" aria-hidden="true">✓</div>
         <h1>Rest</h1>
         <TimerRing seconds={rest} total={plan.prescription.restSec} />
         {showNote && <p className="muted">If your phone is locked, the alert may not sound. The timer stays correct when you come back.</p>}
@@ -221,7 +239,7 @@ export function Workout({ onExit }: { onExit(): void }) {
       </div>
       <h1>{exercise.name}</h1>
       <p className="target">
-        Set {entry.sets.length + 1} of {entry.targetSets} · {plan.prescription.repMin}–{plan.prescription.repMax} reps
+        Set {entry.sets.length + 1} of {entry.targetSets} · {exercise.timed ? `hold ${HOLD_SECONDS}` : `${plan.prescription.repMin}–${plan.prescription.repMax} reps`}
       </p>
       <FormDemo exercise={exercise} />
       <div className="demo-actions">
@@ -230,7 +248,7 @@ export function Workout({ onExit }: { onExit(): void }) {
           <button className="chip" onClick={() => setSwapping(v => !v)}>Swap</button>
         )}
       </div>
-      {swapping && (
+      {swapping && entry.sets.length === 0 && (
         <div className="swap-list">
           {options.map(o => (
             <button key={o.id} className="option" aria-label={`Use ${o.name}`} onClick={() => { set(s => swapExercise(s, o)); setSwapping(false) }}>
@@ -249,10 +267,12 @@ export function Workout({ onExit }: { onExit(): void }) {
         key={`${exercise.id}-${entry.sets.length}`}
         exercise={exercise}
         units={log.units}
+        lastWeight={entry.sets[entry.sets.length - 1]?.weight}
         onDone={(weight, reps) => {
           update(d => (d.inProgress
             ? { ...d, timerNoteSeen: true, inProgress: addSet(d.inProgress, { weight, reps }, Date.now()) }
             : d))
+          setSwapping(false)
           setNow(Date.now())
         }}
       />

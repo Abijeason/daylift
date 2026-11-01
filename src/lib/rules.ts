@@ -1,4 +1,4 @@
-import type { Equipment, Exercise, Goal, Level, Prescription, Profile, WorkoutType } from '../types'
+import type { Equipment, Exercise, Goal, Level, Muscle, Prescription, Profile, WorkoutType } from '../types'
 
 export const WARMUP_MINUTES = 8
 
@@ -7,6 +7,13 @@ export const EQUIPMENT_LABELS: Record<Equipment, string> = {
   latPulldown: 'Lat pulldown', seatedRow: 'Seated row', chestPress: 'Chest press', shoulderPress: 'Shoulder press',
   legPress: 'Leg press', legExtension: 'Leg extension', legCurl: 'Leg curl', pullUpBar: 'Pull-up bar',
   kettlebells: 'Kettlebells', bands: 'Resistance bands', cardioMachine: 'Cardio machine',
+}
+
+export const MUSCLE_NAMES: Record<Muscle, string> = {
+  abdominals: 'Core', abductors: 'Outer thighs', adductors: 'Inner thighs', biceps: 'Biceps', calves: 'Calves',
+  chest: 'Chest', forearms: 'Forearms', glutes: 'Glutes', hamstrings: 'Hamstrings', lats: 'Lats',
+  'lower back': 'Lower back', 'middle back': 'Mid back', neck: 'Neck', quadriceps: 'Quads', shoulders: 'Shoulders',
+  traps: 'Traps', triceps: 'Triceps',
 }
 
 export const WORKOUT_NAMES: Record<WorkoutType, string> = {

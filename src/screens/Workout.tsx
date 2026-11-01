@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { FormDemo } from '../components/FormDemo'
+import { PlateRain } from '../components/GymArt'
 import { TimerRing } from '../components/TimerRing'
 import { exercises } from '../data'
 import { FIRST_LIFT_TIP, WARMUPS } from '../data/warmups'
@@ -50,7 +51,7 @@ function Summary({ log, bests, onExit }: { log: WorkoutLog; bests: string[]; onE
   const streak = weeklyStreak(data.history, data.profile?.daysPerWeek ?? 3, new Date())
   return (
     <main className="screen summary">
-      <div className="burst" aria-hidden="true" />
+      <PlateRain />
       <h1>Workout complete</h1>
       <div className="stats">
         <div><strong className="number">{minutes}</strong><span>minutes</span></div>

@@ -54,3 +54,8 @@ test('shows the eating tip only for build muscle and lose weight', () => {
   renderWithData(<Today {...props} />, { profile: { ...testProfile, goal: 'buildMuscle', daysPerWeek: 4 } })
   expect(screen.getByText(/protein/i)).toBeInTheDocument()
 })
+
+test('the barbell shows workouts done this week', () => {
+  renderWithData(<Today {...props} />, { history: [testLog(new Date().toISOString().slice(0, 10))] })
+  expect(screen.getByRole('img', { name: /1 of 3 workouts this week/i })).toBeInTheDocument()
+})

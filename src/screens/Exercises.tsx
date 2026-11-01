@@ -3,7 +3,7 @@ import { BodyMap } from '../components/BodyMap'
 import { FormDemo } from '../components/FormDemo'
 import { exercises } from '../data'
 import { EXERCISE_SAFETY } from '../data/copy'
-import { EQUIPMENT_LABELS } from '../lib/rules'
+import { EQUIPMENT_LABELS, MUSCLE_NAMES } from '../lib/rules'
 import { formVideoLink } from '../lib/video'
 import type { Exercise, Muscle } from '../types'
 
@@ -54,8 +54,19 @@ export function Exercises() {
         type="search" className="search" placeholder="Search exercises" aria-label="Search exercises"
         value={query} onChange={e => setQuery(e.target.value)}
       />
+      {!query && (
+        <div className="muscle-title" key={muscle ?? 'none'} aria-live="polite">
+          {muscle ? (
+            <>
+              <h2>{MUSCLE_NAMES[muscle]}</h2>
+              <span>{results.length} exercises</span>
+            </>
+          ) : (
+            <span>Tap a muscle to see its exercises.</span>
+          )}
+        </div>
+      )}
       {!query && <BodyMap selected={muscle} onSelect={setMuscle} />}
-      {!query && !muscle && <p className="muted center">Tap a muscle to see its exercises.</p>}
       {query && results.length === 0 && <p className="muted">No exercises found. Try another name.</p>}
       {!query && muscle && results.length === 0 && <p className="muted center">No exercises for this muscle yet.</p>}
       <div className="list">

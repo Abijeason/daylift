@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MUSCLE_NAMES } from '../lib/rules'
 import type { Muscle } from '../types'
 
 interface Region {
@@ -29,6 +30,8 @@ const BACK: Region[] = [
   { muscle: 'calves', shapes: ['M76 296h20l-2 72H80z', 'M124 296h-20l2 72h14z'] },
 ]
 
+const ALL_MUSCLES = [...new Set([...FRONT, ...BACK].map(r => r.muscle))]
+
 export function BodyMap({ selected, onSelect }: { selected: Muscle | null; onSelect(m: Muscle): void }) {
   const [side, setSide] = useState<'front' | 'back'>('front')
   const regions = side === 'front' ? FRONT : BACK
@@ -38,23 +41,18 @@ export function BodyMap({ selected, onSelect }: { selected: Muscle | null; onSel
         <button aria-pressed={side === 'front'} onClick={() => setSide('front')}>Front</button>
         <button aria-pressed={side === 'back'} onClick={() => setSide('back')}>Back</button>
       </div>
-      <svg viewBox="0 0 200 400" aria-label={`Body map, ${side}`}>
+      <svg viewBox="0 0 200 400" aria-hidden="true">
         <circle className="body-head" cx="100" cy="36" r="22" />
         {regions.map(r => (
-          <g
-            key={r.muscle} role="button" tabIndex={0} aria-label={r.muscle}
-            className={selected === r.muscle ? 'muscle on' : 'muscle'}
-            onClick={() => onSelect(r.muscle)}
-            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(r.muscle) } }}
-          >
+          <g key={r.muscle} className={selected === r.muscle ? 'muscle on' : 'muscle'} onClick={() => onSelect(r.muscle)}>
             {r.shapes.map(d => <path key={d} d={d} />)}
           </g>
         ))}
       </svg>
-      {/* Both sides stay reachable for screen readers, and for the muscles on the other side. */}
-      <div className="sr-only">
-        {(side === 'front' ? BACK : FRONT).filter(r => !regions.some(o => o.muscle === r.muscle)).map(r => (
-          <button key={r.muscle} onClick={() => onSelect(r.muscle)}>{r.muscle}</button>
+      {/* The named buttons are the accessible way in. The drawing is a shortcut for touch. */}
+      <div className="muscle-chips">
+        {ALL_MUSCLES.map(m => (
+          <button key={m} className="chip" aria-pressed={selected === m} onClick={() => onSelect(m)}>{MUSCLE_NAMES[m]}</button>
         ))}
       </div>
     </div>

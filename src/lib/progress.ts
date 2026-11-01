@@ -105,6 +105,8 @@ function metTarget(history: WorkoutLog[], start: Date, daysPerWeek: number): boo
     && logs.length > 0
 }
 
+export const workoutsThisWeek = (history: WorkoutLog[], now: Date): number => logsInWeek(history, weekStart(now)).length
+
 export function isRestDay(history: WorkoutLog[], daysPerWeek: number, now: Date): boolean {
   if (logsInWeek(history, weekStart(now)).length >= daysPerWeek) return true
   const trained = new Set(history.map(l => dayKey(new Date(l.finishedAt))))

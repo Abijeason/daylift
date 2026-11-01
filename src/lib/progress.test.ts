@@ -1,4 +1,4 @@
-import { isRestDay, newBests, parseReps, parseWeight, personalBests, suggestWeight, totalWeight, weeklyStreak } from './progress'
+import { workoutsThisWeek, isRestDay, newBests, parseReps, parseWeight, personalBests, suggestWeight, totalWeight, weeklyStreak } from './progress'
 import type { LoggedExercise, Units, WorkoutLog } from '../types'
 
 function entry(over: Partial<LoggedExercise> = {}): LoggedExercise {
@@ -131,4 +131,8 @@ test('past weeks use the target they were trained under', () => {
 test('Sunday belongs to the week that started on Monday', () => {
   const h = days('2026-11-02', '2026-11-08')
   expect(weeklyStreak(h, 2, new Date('2026-11-08T20:00:00'))).toBe(1)
+})
+
+test('workouts this week ignores earlier weeks', () => {
+  expect(workoutsThisWeek(days('2026-10-27', '2026-11-03', '2026-11-04'), now)).toBe(2)
 })

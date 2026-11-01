@@ -3,10 +3,11 @@ import userEvent from '@testing-library/user-event'
 import { Exercises } from './Exercises'
 import { BodyMap } from '../components/BodyMap'
 import { exercises } from '../data'
+import { MUSCLE_NAMES } from '../lib/rules'
 
 test('tapping a muscle lists its exercises', async () => {
   render(<Exercises />)
-  await userEvent.click(screen.getAllByRole('button', { name: /^chest$/i })[0])
+  await userEvent.click(screen.getByRole('button', { name: /^chest$/i }))
   expect(screen.getByRole('button', { name: /pushups/i })).toBeInTheDocument()
   expect(screen.queryByRole('button', { name: /leg press/i })).not.toBeInTheDocument()
 })
@@ -33,8 +34,8 @@ test('detail shows steps, mistakes, equipment, alternatives and the safety note'
 
 test('body map muscles are labelled buttons', () => {
   render(<BodyMap selected={null} onSelect={() => {}} />)
-  for (const name of ['chest', 'biceps', 'quadriceps', 'lats', 'hamstrings', 'glutes']) {
-    expect(screen.getAllByRole('button', { name: new RegExp(`^${name}$`, 'i') }).length).toBeGreaterThan(0)
+  for (const name of ['Chest', 'Biceps', 'Triceps', 'Core', 'Quads', 'Lats', 'Hamstrings', 'Glutes']) {
+    expect(screen.getByRole('button', { name })).toBeInTheDocument()
   }
 })
 
@@ -47,7 +48,7 @@ test('no search results shows a friendly message', async () => {
 test('every exercise muscle can be reached from the body map', () => {
   render(<BodyMap selected={null} onSelect={() => {}} />)
   for (const m of new Set(exercises.map(e => e.muscle))) {
-    expect(screen.getAllByRole('button', { name: new RegExp(`^${m}$`, 'i') }).length).toBeGreaterThan(0)
+    expect(screen.getByRole('button', { name: MUSCLE_NAMES[m] })).toBeInTheDocument()
   }
 })
 
@@ -55,4 +56,17 @@ test('a muscle with no exercises says so', async () => {
   render(<Exercises />)
   await userEvent.click(screen.getByRole('button', { name: /^forearms$/i }))
   expect(screen.getByText(/no exercises for this muscle yet/i)).toBeInTheDocument()
+})
+
+test('selecting a muscle names it with an exercise count', async () => {
+  render(<Exercises />)
+  await userEvent.click(screen.getByRole('button', { name: 'Biceps' }))
+  expect(screen.getByRole('heading', { name: 'Biceps' })).toBeInTheDocument()
+  expect(screen.getByText(/6 exercises/i)).toBeInTheDocument()
+})
+
+test('abdominals are called Core', async () => {
+  render(<Exercises />)
+  await userEvent.click(screen.getByRole('button', { name: 'Core' }))
+  expect(screen.getByRole('heading', { name: 'Core' })).toBeInTheDocument()
 })

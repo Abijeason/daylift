@@ -1,18 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { FormDemo } from '../components/FormDemo'
-import { PlateRain } from '../components/GymArt'
 import { TimerRing } from '../components/TimerRing'
 import { exercises } from '../data'
 import { FIRST_LIFT_TIP, WARMUPS } from '../data/warmups'
 import { swapOptions } from '../lib/planner'
 import { newBests, parseReps, parseWeight, suggestWeight, totalWeight, weeklyStreak } from '../lib/progress'
-import { WORKOUT_NAMES } from '../lib/rules'
+import { HOLD_SECONDS, WORKOUT_NAMES } from '../lib/rules'
 import { addSet, finish, secondsLeft, swapExercise } from '../lib/session'
 import { formVideoLink } from '../lib/video'
 import { useAppData } from '../state/useAppData'
 import type { Exercise, InProgress, Units, WorkoutLog } from '../types'
-
-const HOLD_SECONDS = '20–40 seconds'
 
 function beep() {
   try {
@@ -51,7 +48,7 @@ function Summary({ log, bests, onExit }: { log: WorkoutLog; bests: string[]; onE
   const streak = weeklyStreak(data.history, data.profile?.daysPerWeek ?? 3, new Date())
   return (
     <main className="screen summary">
-      <PlateRain />
+      <div className="sweep" aria-hidden="true" />
       <h1>Workout complete</h1>
       <div className="stats">
         <div><strong className="number">{minutes}</strong><span>minutes</span></div>
@@ -200,7 +197,7 @@ export function Workout({ onExit }: { onExit(): void }) {
     return (
       <main className="screen rest">
         {header}
-        <div className="tick" aria-hidden="true">✓</div>
+        <div className="tick" aria-hidden="true" />
         <h1>Rest</h1>
         <TimerRing seconds={rest} total={plan.prescription.restSec} />
         {showNote && <p className="muted">If your phone is locked, the alert may not sound. The timer stays correct when you come back.</p>}

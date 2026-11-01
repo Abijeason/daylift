@@ -107,6 +107,20 @@ function metTarget(history: WorkoutLog[], start: Date, daysPerWeek: number): boo
 
 export const workoutsThisWeek = (history: WorkoutLog[], now: Date): number => logsInWeek(history, weekStart(now)).length
 
+export function weekDays(history: WorkoutLog[], now: Date): { letter: string; trained: boolean; today: boolean }[] {
+  const trained = new Set(history.map(l => dayKey(new Date(l.finishedAt))))
+  const start = weekStart(now)
+  return [...'MTWTFSS'].map((letter, i) => {
+    const key = dayKey(shiftDays(start, i))
+    return { letter, trained: trained.has(key), today: key === dayKey(now) }
+  })
+}
+
+export function lifetime(history: WorkoutLog[], units: Units): { workouts: number; lifted: number } {
+  const kg = history.reduce((sum, log) => sum + toKg(totalWeight(log), log.units), 0)
+  return { workouts: history.length, lifted: Math.round(units === 'kg' ? kg : kg * LB_PER_KG) }
+}
+
 export function isRestDay(history: WorkoutLog[], daysPerWeek: number, now: Date): boolean {
   if (logsInWeek(history, weekStart(now)).length >= daysPerWeek) return true
   const trained = new Set(history.map(l => dayKey(new Date(l.finishedAt))))

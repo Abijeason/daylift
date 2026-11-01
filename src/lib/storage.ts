@@ -69,6 +69,7 @@ function parse(text: string): SavedData | null {
       && (d.profile === null || isProfile(d.profile))
       && Array.isArray(d.history) && d.history.every(isLog)
       && (d.inProgress === null || isSession(d.inProgress))
+      && (d.theme === undefined || oneOf(['auto', 'light', 'dark'], d.theme))
     return valid ? (d as unknown as SavedData) : null
   } catch {
     return null

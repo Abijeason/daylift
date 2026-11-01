@@ -14,6 +14,7 @@ It's a free, installable web app. There's no account to create, and your workout
 - A tappable body map
 - Personal bests, weekly streaks and progress charts
 - Offline use and backup files
+- Light and dark themes
 
 ## Built with
 

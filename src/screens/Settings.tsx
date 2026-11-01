@@ -4,7 +4,7 @@ import { allowedDays, GOALS, LEVELS } from '../lib/rules'
 import { exportBackup, importBackup } from '../lib/storage'
 import { useAppData } from '../state/useAppData'
 import { EquipmentPicker } from './Setup'
-import type { Goal, Level, Profile, SavedData } from '../types'
+import type { Goal, Level, Profile, SavedData, Theme } from '../types'
 
 export function Settings() {
   const { data, update, reset } = useAppData()
@@ -61,6 +61,13 @@ export function Settings() {
           <select value={profile.length} onChange={e => change({ length: e.target.value as Profile['length'] })}>
             <option value="short">Short</option>
             <option value="standard">Standard</option>
+          </select>
+        </label>
+        <label className="field">Theme
+          <select value={data.theme ?? 'auto'} onChange={e => update(d => ({ ...d, theme: e.target.value as Theme }))}>
+            <option value="auto">Match my phone</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
           </select>
         </label>
         <label className="field">Units

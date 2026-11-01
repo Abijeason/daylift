@@ -72,3 +72,9 @@ test('export creates a backup file', async () => {
   await userEvent.click(screen.getByRole('button', { name: /export backup/i }))
   expect(create).toHaveBeenCalled()
 })
+
+test('theme can be chosen and is saved', async () => {
+  renderWithData(<Settings />)
+  await userEvent.selectOptions(screen.getByLabelText(/theme/i), 'light')
+  expect(load().data.theme).toBe('light')
+})

@@ -65,6 +65,10 @@ test.each([
   expect(load().damaged).toBe(t)
 })
 
+test('rejects an unknown theme', () => {
+  expect(importBackup('{"version":1,"profile":null,"history":[],"inProgress":null,"theme":"neon"}')).toBeNull()
+})
+
 test('clearSaved removes the record', () => {
   save(sample)
   clearSaved()

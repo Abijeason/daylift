@@ -4,7 +4,7 @@
 
 - **Readable mid-workout:** large text, high contrast and big tap targets.
 - **One thing at a time:** the workout shows one exercise and one set.
-- **Minimal, with a few moments of delight:** one accent colour, with animation saved for moments that matter.
+- **Minimal, with a few moments of delight:** one red accent, with animation saved for moments that matter.
 
 ## Screens
 
@@ -12,20 +12,22 @@ Setup, Today, Active workout, Exercises, Progress and Settings. The last four ma
 
 ## Theme
 
-A gym poster at night. Headings use Anton, a tall condensed poster font, and body text uses Archivo. Both ship with the app, so they work offline. The base is deep ink blue, with electric lime for actions, coral for energy and streaks, and cyan for small labels.
+Sports editorial, like a training magazine. Headings use Archivo at its condensed, heavy setting, with black, white and one red accent. Lines replace boxes wherever possible. Archivo ships with the app, so it works offline.
 
-## Signature details
+Light and dark themes both exist. The app follows the phone by default, and Settings lets people choose. Colours are variables at the top of `src/styles/app.css`.
 
-- **Weekly barbell:** Today shows a barbell that loads a plate for each workout finished this week.
-- **Moving gym backdrop:** dumbbells, plates and kettlebells drift slowly behind every screen.
-- **Plate timer:** a spinning weight plate sits inside the rest timer, which pulses for the last 5 seconds.
+## Today
+
+Today answers three questions: what do I do now, how is my week going, and what did I do last time. It has the workout title, a looping form preview of the first exercise, a Monday to Sunday strip, lifetime stats, the full exercise list and the last workout.
 
 ## Motion
 
-- Content rises in with a short stagger.
-- Buttons press down, and the main button has a light sheen.
-- Form images loop between the start and end positions.
-- The workout summary drops a shower of small plates.
+Motion is quick and purposeful:
+
+- Headlines and numbers slide up from behind a mask.
+- Red lines draw across the screen, on the headline, the Start button and the summary.
+- Week squares fill in, and form images loop.
+- The tab marker slides between tabs, and the rest timer turns red for the last 5 seconds.
 
 All movement uses transform and opacity to stay smooth, and turns off when reduced motion is enabled.
 

@@ -15,6 +15,7 @@ export type WorkoutType =
   | 'fullA' | 'fullB' | 'fullC' | 'upperA' | 'upperB' | 'lowerA' | 'lowerB'
   | 'push' | 'pull' | 'legs' | 'upper' | 'lower'
 export type Units = 'kg' | 'lb'
+export type Theme = 'auto' | 'light' | 'dark'
 
 export interface Exercise {
   id: string
@@ -93,4 +94,5 @@ export interface SavedData {
   history: WorkoutLog[]
   inProgress: InProgress | null
   timerNoteSeen?: boolean
+  theme?: Theme
 }

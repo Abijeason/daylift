@@ -2,7 +2,9 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import { App } from './App'
 import { load, save } from './lib/storage'
+import { AppDataProvider } from './state/useAppData'
 import { testProfile } from './test-utils'
 
 function Broken(): never {
@@ -16,4 +18,16 @@ test('a crash shows a recovery screen that can clear data', async () => {
   expect(screen.getByRole('heading', { name: /something went wrong/i })).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: /start fresh/i }))
   expect(load().data.profile).toBeNull()
+})
+
+test('the saved theme is applied to the page', () => {
+  save({ version: 1, profile: testProfile, history: [], inProgress: null, theme: 'dark' })
+  render(<AppDataProvider><App /></AppDataProvider>)
+  expect(document.documentElement.dataset.theme).toBe('dark')
+})
+
+test('the theme follows the phone by default', () => {
+  save({ version: 1, profile: testProfile, history: [], inProgress: null })
+  render(<AppDataProvider><App /></AppDataProvider>)
+  expect(document.documentElement.dataset.theme).toBe('auto')
 })

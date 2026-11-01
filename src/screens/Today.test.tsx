@@ -55,7 +55,33 @@ test('shows the eating tip only for build muscle and lose weight', () => {
   expect(screen.getByText(/protein/i)).toBeInTheDocument()
 })
 
-test('the barbell shows workouts done this week', () => {
+test('the week strip shows workouts done this week', () => {
   renderWithData(<Today {...props} />, { history: [testLog(new Date().toISOString().slice(0, 10))] })
   expect(screen.getByRole('img', { name: /1 of 3 workouts this week/i })).toBeInTheDocument()
+})
+
+test('lists every exercise in the workout with its target', () => {
+  renderWithData(<Today {...props} />)
+  const plan = buildWorkout(testProfile, 'fullA', exercises)
+  plan.exercises.forEach(e => expect(screen.getByText(e.name)).toBeInTheDocument())
+  expect(screen.getAllByText('3 × 8–12').length).toBeGreaterThan(0)
+})
+
+test('shows lifetime stats', () => {
+  renderWithData(<Today {...props} />, { history: [testLog()] })
+  expect(screen.getByText('Workouts')).toBeInTheDocument()
+  expect(screen.getByText('200')).toBeInTheDocument()
+})
+
+test('shows the last workout once there is one', () => {
+  const { unmount } = renderWithData(<Today {...props} />)
+  expect(screen.queryByText(/last workout/i)).not.toBeInTheDocument()
+  unmount()
+  renderWithData(<Today {...props} />, { history: [testLog()] })
+  expect(screen.getByRole('heading', { name: /last workout/i })).toBeInTheDocument()
+})
+
+test('a rest day still previews the next workout', () => {
+  renderWithData(<Today {...props} />, { history: [yesterday()] })
+  expect(screen.getByRole('heading', { name: /up next/i })).toBeInTheDocument()
 })

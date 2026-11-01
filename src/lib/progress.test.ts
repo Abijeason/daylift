@@ -1,4 +1,4 @@
-import { workoutsThisWeek, isRestDay, newBests, parseReps, parseWeight, personalBests, suggestWeight, totalWeight, weeklyStreak } from './progress'
+import { lifetime, weekDays, workoutsThisWeek, isRestDay, newBests, parseReps, parseWeight, personalBests, suggestWeight, totalWeight, weeklyStreak } from './progress'
 import type { LoggedExercise, Units, WorkoutLog } from '../types'
 
 function entry(over: Partial<LoggedExercise> = {}): LoggedExercise {
@@ -135,4 +135,16 @@ test('Sunday belongs to the week that started on Monday', () => {
 
 test('workouts this week ignores earlier weeks', () => {
   expect(workoutsThisWeek(days('2026-10-27', '2026-11-03', '2026-11-04'), now)).toBe(2)
+})
+
+test('week days run Monday to Sunday and mark training and today', () => {
+  const week = weekDays(days('2026-11-03'), now)
+  expect(week.map(d => d.letter).join('')).toBe('MTWTFSS')
+  expect(week[1].trained).toBe(true)
+  expect(week[3].today).toBe(true)
+  expect(week.filter(d => d.trained)).toHaveLength(1)
+})
+test('lifetime totals workouts and weight in the chosen units', () => {
+  expect(lifetime([log([entry()])], 'kg')).toEqual({ workouts: 1, lifted: 1440 })
+  expect(lifetime([log([entry()], '2026-11-02', 'lb')], 'kg').lifted).toBe(653)
 })

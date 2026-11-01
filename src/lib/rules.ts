@@ -1,6 +1,7 @@
 import type { Equipment, Exercise, Goal, Level, Muscle, Prescription, Profile, WorkoutType } from '../types'
 
 export const WARMUP_MINUTES = 8
+export const HOLD_SECONDS = '20–40 sec'
 
 export const EQUIPMENT_LABELS: Record<Equipment, string> = {
   dumbbells: 'Dumbbells', barbellRack: 'Barbell and rack', bench: 'Adjustable bench', cable: 'Cable machine',

@@ -270,7 +270,7 @@ svg text { font-family: var(--display); font-size: 11px; fill: var(--bg); }
 .primary { position: relative; overflow: hidden; font-family: var(--display); font-weight: 400; font-size: 1.4rem; letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 0 8px 28px rgb(200 255 46 / 0.28); }
 .primary::after { content: ''; position: absolute; inset: 0 auto 0 -40%; width: 30%; background: rgb(255 255 255 / 0.55); transform: skewX(-20deg); animation: sheen 3.6s ease-in-out infinite; }
 
-.hero-plate { position: absolute; top: -46px; right: -62px; width: 170px; color: var(--coral); opacity: 0.9; animation: spin 18s linear infinite; }
+.hero-plate { position: absolute; top: -70px; right: -70px; width: 170px; color: var(--coral); opacity: 0.9; animation: spin 18s linear infinite; }
 .hero-plate svg { display: block; fill: currentColor; }
 
 .week-row { display: flex; align-items: center; gap: 16px; }

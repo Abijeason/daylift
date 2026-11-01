@@ -1,0 +1,26 @@
+# Security and privacy
+
+## Authentication
+
+Version 1 has no login. That means no passwords to protect, and users can start in seconds. Optional login is the first upgrade to consider if testers want their data on several devices.
+
+## Privacy
+
+- Workout data stays on the user's device and isn't sent anywhere.
+- The app has no analytics or third-party scripts.
+- Opening a form video takes the user to YouTube, where YouTube's own privacy terms apply.
+- The feedback form, once added, is a separate Google Form.
+
+## Input checks
+
+- Weight and reps are checked before saving.
+- Backup files are checked for version and shape before they can replace data.
+- React escapes text on screen, and no user text is added as raw HTML.
+
+## Secrets
+
+The app has no API keys. Keys for any future AI feature must stay on a server and never in this code, because everything here is public.
+
+## Reporting a problem
+
+Open an issue on the GitHub repository.

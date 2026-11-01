@@ -85,3 +85,9 @@ test('a rest day still previews the next workout', () => {
   renderWithData(<Today {...props} />, { history: [yesterday()] })
   expect(screen.getByRole('heading', { name: /up next/i })).toBeInTheDocument()
 })
+
+test('home has no looping photo at the top', () => {
+  const { container } = renderWithData(<Today {...props} />)
+  expect(container.querySelector('.form-demo')).not.toBeInTheDocument()
+  expect(container.querySelector('.home-head .logo-mark')).toBeInTheDocument()
+})

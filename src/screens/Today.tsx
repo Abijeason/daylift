@@ -1,4 +1,4 @@
-import { FormDemo } from '../components/FormDemo'
+import { Logo } from '../components/Logo'
 import { exercises } from '../data'
 import { EATING_TIPS } from '../data/copy'
 import { nextWorkout } from '../lib/planner'
@@ -48,7 +48,7 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
   return (
     <main className="screen">
       <header className="home-head">
-        <strong>Daylift</strong>
+        <div className="home-brand"><Logo /><strong>Daylift</strong></div>
         <p className="eyebrow">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</p>
       </header>
 
@@ -67,13 +67,7 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
           </>
         ) : (
           <>
-            <p className="muted">{plan.exercises.length} exercises · about {plan.estMinutes} min</p>
-            {lead && (
-              <figure className="hero-demo" style={{ margin: 0 }}>
-                <FormDemo exercise={lead} />
-                <figcaption>First up: {lead.name}</figcaption>
-              </figure>
-            )}
+            <p className="muted">{plan.exercises.length} exercises · about {plan.estMinutes} min{lead ? ` · First up: ${lead.name}` : ''}</p>
             <button className="primary" onClick={() => onStart(plan)}>Start workout</button>
           </>
         )}

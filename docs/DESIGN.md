@@ -18,7 +18,11 @@ Light and dark themes both exist. The app follows the phone by default, and Sett
 
 ## Home
 
-Home answers three questions: what do I do now, how is my week going, and what did I do last time. It has the workout title, a looping form preview of the first exercise, a Monday to Sunday strip, lifetime stats, the full exercise list and the last workout.
+Home answers three questions: what do I do now, how is my week going, and what did I do last time. It has the workout title, a Monday to Sunday strip, lifetime stats, the full exercise list and the last workout.
+
+## Logo
+
+A weight plate rises over a barbell like the sun, joining "day" and "lift" in one mark. On the welcome page the bar draws in, the plate rises and spins, rings pulse outward and the giant letters stamp up, then a wave runs through them every few seconds. There are no photos or videos on the welcome page or at the top of Home.
 
 ## Motion
 
@@ -27,7 +31,6 @@ Motion is quick and purposeful:
 - Headlines and numbers slide up from behind a mask.
 - Red lines draw across the screen, on the headline, the Start button and the summary.
 - Week squares fill in, and form images loop.
-- The welcome page shows a code-built barbell that loads its plates and lifts for two reps.
 - The tab marker slides between tabs, and the rest timer turns red for the last 5 seconds.
 
 All movement uses transform and opacity to stay smooth, and turns off when reduced motion is enabled.

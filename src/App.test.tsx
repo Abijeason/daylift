@@ -47,8 +47,9 @@ test('returning users go straight to Home', () => {
   expect(screen.getByText('Daylift')).toBeInTheDocument()
 })
 
-test('the welcome page uses the barbell animation, not a photo', () => {
+test('the welcome page leads with the animated logo, not a photo', () => {
   const { container } = render(<AppDataProvider><App /></AppDataProvider>)
-  expect(container.querySelector('.barbell-loop')).toBeInTheDocument()
+  expect(container.querySelector('.logo-mark')).toBeInTheDocument()
+  expect(container.querySelectorAll('.welcome-word span')).toHaveLength(7)
   expect(container.querySelectorAll('.welcome img')).toHaveLength(0)
 })

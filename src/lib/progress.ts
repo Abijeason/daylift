@@ -1,0 +1,121 @@
+import type { LoggedExercise, Units, WorkoutLog } from '../types'
+
+const LB_PER_KG = 2.20462
+const MAX_WEIGHT = 1000
+const MAX_REPS = 200
+const STEP: Record<Units, number> = { kg: 2.5, lb: 5 }
+const INCREASE: Record<Units, Record<'upper' | 'lower', number>> = {
+  kg: { upper: 2.5, lower: 5 },
+  lb: { upper: 5, lower: 10 },
+}
+const DAYS_IN_A_ROW: Record<number, number> = { 2: 1, 3: 1, 4: 2, 5: 3 }
+
+export function parseWeight(text: string): number | null {
+  const clean = text.trim().replace(',', '.')
+  if (!/^\d+(\.\d+)?$/.test(clean)) return null
+  const value = Number(clean)
+  return value > 0 && value < MAX_WEIGHT ? value : null
+}
+
+export function parseReps(text: string): number | null {
+  const clean = text.trim()
+  if (!/^\d+$/.test(clean)) return null
+  const value = Number(clean)
+  return value >= 1 && value <= MAX_REPS ? value : null
+}
+
+function convert(weight: number, from: Units, to: Units): number {
+  if (from === to) return weight
+  const value = to === 'lb' ? weight * LB_PER_KG : weight / LB_PER_KG
+  return Math.round(value / STEP[to]) * STEP[to]
+}
+
+const heaviest = (entry: LoggedExercise): number => Math.max(0, ...entry.sets.map(s => s.weight))
+
+const toKg = (weight: number, units: Units): number => (units === 'kg' ? weight : weight / LB_PER_KG)
+
+export function suggestWeight(history: WorkoutLog[], exerciseId: string, units: Units): { weight: number | null; increase: boolean } {
+  for (let i = history.length - 1; i >= 0; i--) {
+    const entry = history[i].entries.find(e => e.exerciseId === exerciseId && e.sets.length > 0)
+    if (!entry) continue
+    const last = heaviest(entry)
+    if (last === 0) break
+    const weight = convert(last, history[i].units, units)
+    const increase = entry.sets.length >= entry.targetSets && entry.sets.every(s => s.reps >= entry.repMax)
+    return { weight: increase ? weight + INCREASE[units][entry.region] : weight, increase }
+  }
+  return { weight: null, increase: false }
+}
+
+type Best = { name: string; weight: number; units: Units; reps: number }
+
+export function personalBests(history: WorkoutLog[]): Record<string, Best> {
+  const bests: Record<string, Best> = {}
+  for (const log of history) {
+    for (const entry of log.entries) {
+      for (const set of entry.sets) {
+        const current = bests[entry.exerciseId]
+        if (set.weight > 0 && (!current || toKg(set.weight, log.units) > toKg(current.weight, current.units))) {
+          bests[entry.exerciseId] = { name: entry.name, weight: set.weight, units: log.units, reps: set.reps }
+        }
+      }
+    }
+  }
+  return bests
+}
+
+export function newBests(log: WorkoutLog, priorHistory: WorkoutLog[]): string[] {
+  const prior = personalBests(priorHistory)
+  return log.entries
+    .filter(e => {
+      const best = prior[e.exerciseId]
+      return best && toKg(heaviest(e), log.units) > toKg(best.weight, best.units)
+    })
+    .map(e => e.name)
+}
+
+export const totalWeight = (log: WorkoutLog): number =>
+  log.entries.reduce((sum, e) => sum + e.sets.reduce((s, set) => s + set.weight * set.reps, 0), 0)
+
+function dayKey(date: Date): string {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
+
+function shiftDays(date: Date, days: number): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days)
+}
+
+function weekStart(date: Date): Date {
+  return shiftDays(date, -((date.getDay() + 6) % 7))
+}
+
+const workoutsInWeek = (history: WorkoutLog[], start: Date): number => {
+  const end = shiftDays(start, 7)
+  return history.filter(l => {
+    const t = new Date(l.finishedAt)
+    return t >= start && t < end
+  }).length
+}
+
+export function isRestDay(history: WorkoutLog[], daysPerWeek: number, now: Date): boolean {
+  if (workoutsInWeek(history, weekStart(now)) >= daysPerWeek) return true
+  const trained = new Set(history.map(l => dayKey(new Date(l.finishedAt))))
+  let day = trained.has(dayKey(now)) ? now : shiftDays(now, -1)
+  let inARow = 0
+  while (trained.has(dayKey(day))) {
+    inARow++
+    day = shiftDays(day, -1)
+  }
+  return inARow >= DAYS_IN_A_ROW[daysPerWeek]
+}
+
+export function weeklyStreak(history: WorkoutLog[], daysPerWeek: number, now: Date): number {
+  let week = weekStart(now)
+  let streak = workoutsInWeek(history, week) >= daysPerWeek ? 1 : 0
+  week = shiftDays(week, -7)
+  while (workoutsInWeek(history, week) >= daysPerWeek) {
+    streak++
+    week = shiftDays(week, -7)
+  }
+  return streak
+}

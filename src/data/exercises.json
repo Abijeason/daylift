@@ -1,0 +1,2271 @@
+[
+  {
+    "id": "Pushups",
+    "name": "Pushups",
+    "muscle": "chest",
+    "level": "beginner",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Pushups/0.jpg",
+      "Pushups/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set your hands just wider than your shoulders.",
+      "Keep your body in one straight line and squeeze your stomach.",
+      "Lower your chest towards the floor with control.",
+      "Press back up until your arms are straight."
+    ],
+    "mistakes": [
+      "Letting your hips sag",
+      "Flaring your elbows straight out to the sides"
+    ],
+    "easierIds": [
+      "Incline_Push-Up"
+    ]
+  },
+  {
+    "id": "Incline_Push-Up",
+    "name": "Incline Push-Up",
+    "muscle": "chest",
+    "level": "beginner",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Incline_Push-Up/0.jpg",
+      "Incline_Push-Up/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Put your hands on a bench or sturdy raised surface.",
+      "Step your feet back so your body forms a straight line.",
+      "Lower your chest to the edge with control.",
+      "Push back up without moving your hips."
+    ],
+    "mistakes": [
+      "Bending at the hips",
+      "Dropping too quickly"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Dumbbell_Bench_Press",
+    "name": "Dumbbell Bench Press",
+    "muscle": "chest",
+    "level": "beginner",
+    "needs": [
+      "dumbbells",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Bench_Press/0.jpg",
+      "Dumbbell_Bench_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie on the bench with your feet flat and a dumbbell in each hand.",
+      "Start with the weights above your chest.",
+      "Lower them slowly until your elbows are just below the bench.",
+      "Press up and slightly together."
+    ],
+    "mistakes": [
+      "Bouncing the weights at the bottom",
+      "Lifting your hips off the bench"
+    ],
+    "easierIds": [
+      "Pushups"
+    ]
+  },
+  {
+    "id": "Incline_Dumbbell_Press",
+    "name": "Incline Dumbbell Press",
+    "muscle": "chest",
+    "level": "beginner",
+    "needs": [
+      "dumbbells",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Incline_Dumbbell_Press/0.jpg",
+      "Incline_Dumbbell_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set the bench to a low incline.",
+      "Hold the dumbbells at upper-chest height.",
+      "Press up until your arms are nearly straight.",
+      "Lower slowly back to the start."
+    ],
+    "mistakes": [
+      "Setting the bench too steep",
+      "Arching your lower back"
+    ],
+    "easierIds": [
+      "Dumbbell_Bench_Press"
+    ]
+  },
+  {
+    "id": "Dumbbell_Flyes",
+    "name": "Dumbbell Flyes",
+    "muscle": "chest",
+    "level": "beginner",
+    "needs": [
+      "dumbbells",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Flyes/0.jpg",
+      "Dumbbell_Flyes/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie back with the dumbbells above your chest, palms facing in.",
+      "Keep a slight bend in your elbows.",
+      "Open your arms wide until you feel a gentle stretch.",
+      "Bring the weights back together in the same arc."
+    ],
+    "mistakes": [
+      "Going too heavy",
+      "Straightening your arms fully"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Barbell_Bench_Press_-_Medium_Grip",
+    "name": "Barbell Bench Press - Medium Grip",
+    "muscle": "chest",
+    "level": "intermediate",
+    "needs": [
+      "barbellRack",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Barbell_Bench_Press_-_Medium_Grip/0.jpg",
+      "Barbell_Bench_Press_-_Medium_Grip/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie with your eyes under the bar and feet flat.",
+      "Grip just wider than your shoulders and unrack the bar.",
+      "Lower it to your mid-chest with control.",
+      "Press it back over your shoulders."
+    ],
+    "mistakes": [
+      "Bouncing the bar off your chest",
+      "Lifting heavy without a spotter"
+    ],
+    "easierIds": [
+      "Dumbbell_Bench_Press"
+    ]
+  },
+  {
+    "id": "Machine_Bench_Press",
+    "name": "Machine Bench Press",
+    "muscle": "chest",
+    "level": "beginner",
+    "needs": [
+      "chestPress"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Machine_Bench_Press/0.jpg",
+      "Machine_Bench_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set the seat so the handles line up with your mid-chest.",
+      "Sit tall with your back against the pad.",
+      "Press forward without locking your elbows hard.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Setting the seat too low",
+      "Letting the weight stack crash"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Cable_Crossover",
+    "name": "Cable Crossover",
+    "muscle": "chest",
+    "level": "intermediate",
+    "needs": [
+      "cable"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Cable_Crossover/0.jpg",
+      "Cable_Crossover/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set both pulleys high and hold a handle in each hand.",
+      "Step forward with a slight lean.",
+      "Bring your hands together in a wide arc.",
+      "Open back up slowly."
+    ],
+    "mistakes": [
+      "Bending your elbows too much",
+      "Using body swing"
+    ],
+    "easierIds": [
+      "Standing_Cable_Chest_Press"
+    ]
+  },
+  {
+    "id": "Standing_Cable_Chest_Press",
+    "name": "Standing Cable Chest Press",
+    "muscle": "chest",
+    "level": "beginner",
+    "needs": [
+      "cable"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Standing_Cable_Chest_Press/0.jpg",
+      "Standing_Cable_Chest_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set the handles at chest height and step forward.",
+      "Stand in a split stance with your stomach tight.",
+      "Press your hands forward.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Leaning too far forward",
+      "Letting your shoulders roll up"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Bench_Press_-_With_Bands",
+    "name": "Bench Press - With Bands",
+    "muscle": "chest",
+    "level": "beginner",
+    "needs": [
+      "bands",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Bench_Press_-_With_Bands/0.jpg",
+      "Bench_Press_-_With_Bands/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Anchor the band under the bench or around your back.",
+      "Lie down holding the band at chest height.",
+      "Press up until your arms are straight.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Letting the band snap back",
+      "Using a loose band"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Wide-Grip_Lat_Pulldown",
+    "name": "Wide-Grip Lat Pulldown",
+    "muscle": "lats",
+    "level": "beginner",
+    "needs": [
+      "latPulldown"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Wide-Grip_Lat_Pulldown/0.jpg",
+      "Wide-Grip_Lat_Pulldown/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit with your thighs under the pad and grip wide.",
+      "Lean back slightly and lift your chest.",
+      "Pull the bar to your upper chest.",
+      "Let it rise slowly until your arms are straight."
+    ],
+    "mistakes": [
+      "Pulling the bar behind your neck",
+      "Swinging your body"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Close-Grip_Front_Lat_Pulldown",
+    "name": "Close-Grip Front Lat Pulldown",
+    "muscle": "lats",
+    "level": "beginner",
+    "needs": [
+      "latPulldown"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Close-Grip_Front_Lat_Pulldown/0.jpg",
+      "Close-Grip_Front_Lat_Pulldown/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit with your thighs under the pad and grip the bar just inside your shoulders.",
+      "Lift your chest.",
+      "Pull to your upper chest, leading with your elbows.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Rounding your shoulders",
+      "Leaning far back"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Underhand_Cable_Pulldowns",
+    "name": "Underhand Cable Pulldowns",
+    "muscle": "lats",
+    "level": "beginner",
+    "needs": [
+      "latPulldown"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Underhand_Cable_Pulldowns/0.jpg",
+      "Underhand_Cable_Pulldowns/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the bar with palms facing you at shoulder width.",
+      "Lift your chest and tighten your stomach.",
+      "Pull the bar to your upper chest.",
+      "Straighten your arms slowly."
+    ],
+    "mistakes": [
+      "Using momentum",
+      "Stopping halfway up"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Straight-Arm_Pulldown",
+    "name": "Straight-Arm Pulldown",
+    "muscle": "lats",
+    "level": "beginner",
+    "needs": [
+      "cable"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Straight-Arm_Pulldown/0.jpg",
+      "Straight-Arm_Pulldown/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand facing a high pulley and hold the bar at arm's length.",
+      "Hinge forward slightly.",
+      "Keep your arms long and press the bar to your thighs.",
+      "Raise it slowly."
+    ],
+    "mistakes": [
+      "Bending your elbows",
+      "Shrugging your shoulders"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Pullups",
+    "name": "Pullups",
+    "muscle": "lats",
+    "level": "intermediate",
+    "needs": [
+      "pullUpBar"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Pullups/0.jpg",
+      "Pullups/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hang from the bar with hands just wider than your shoulders.",
+      "Pull your shoulders down.",
+      "Pull up until your chin clears the bar.",
+      "Lower all the way with control."
+    ],
+    "mistakes": [
+      "Swinging or kicking",
+      "Dropping quickly"
+    ],
+    "easierIds": [
+      "Wide-Grip_Lat_Pulldown"
+    ]
+  },
+  {
+    "id": "Chin-Up",
+    "name": "Chin-Up",
+    "muscle": "lats",
+    "level": "intermediate",
+    "needs": [
+      "pullUpBar"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Chin-Up/0.jpg",
+      "Chin-Up/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hang with your palms facing you.",
+      "Tighten your stomach.",
+      "Pull up until your chin clears the bar.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Half reps",
+      "Swinging your legs"
+    ],
+    "easierIds": [
+      "Underhand_Cable_Pulldowns"
+    ]
+  },
+  {
+    "id": "Seated_Cable_Rows",
+    "name": "Seated Cable Rows",
+    "muscle": "middle back",
+    "level": "beginner",
+    "needs": [
+      "seatedRow"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Seated_Cable_Rows/0.jpg",
+      "Seated_Cable_Rows/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit tall with your knees slightly bent.",
+      "Pull the handle to your stomach.",
+      "Squeeze your shoulder blades together.",
+      "Reach forward slowly."
+    ],
+    "mistakes": [
+      "Rocking back and forth",
+      "Rounding your lower back"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "One-Arm_Dumbbell_Row",
+    "name": "One-Arm Dumbbell Row",
+    "muscle": "middle back",
+    "level": "beginner",
+    "needs": [
+      "dumbbells",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "One-Arm_Dumbbell_Row/0.jpg",
+      "One-Arm_Dumbbell_Row/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Put one hand and knee on the bench.",
+      "Keep your back flat and hold the dumbbell below your shoulder.",
+      "Pull it towards your hip.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Twisting your body",
+      "Pulling with your arm only"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Bent_Over_Two-Dumbbell_Row",
+    "name": "Bent Over Two-Dumbbell Row",
+    "muscle": "middle back",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Bent_Over_Two-Dumbbell_Row/0.jpg",
+      "Bent_Over_Two-Dumbbell_Row/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold two dumbbells and hinge at your hips.",
+      "Keep your back flat.",
+      "Pull the weights towards your ribs.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Rounding your back",
+      "Standing up during the rep"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Bent_Over_Barbell_Row",
+    "name": "Bent Over Barbell Row",
+    "muscle": "middle back",
+    "level": "intermediate",
+    "needs": [
+      "barbellRack"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Bent_Over_Barbell_Row/0.jpg",
+      "Bent_Over_Barbell_Row/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the bar and hinge at your hips with a flat back.",
+      "Keep your knees slightly bent.",
+      "Pull the bar to your lower ribs.",
+      "Lower it with control."
+    ],
+    "mistakes": [
+      "Using your hips to swing the bar",
+      "Rounding your lower back"
+    ],
+    "easierIds": [
+      "Bent_Over_Two-Dumbbell_Row"
+    ]
+  },
+  {
+    "id": "Back_Flyes_-_With_Bands",
+    "name": "Back Flyes - With Bands",
+    "muscle": "middle back",
+    "level": "beginner",
+    "needs": [
+      "bands"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Back_Flyes_-_With_Bands/0.jpg",
+      "Back_Flyes_-_With_Bands/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the band with both hands in front of your chest.",
+      "Keep your arms nearly straight.",
+      "Pull your hands apart.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Shrugging your shoulders",
+      "Letting the band snap back"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Superman",
+    "name": "Superman",
+    "muscle": "lower back",
+    "level": "beginner",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Superman/0.jpg",
+      "Superman/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie face down with your arms overhead.",
+      "Lift your arms and legs a little off the floor.",
+      "Hold for a moment and squeeze your glutes.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Lifting too high",
+      "Holding your breath"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Dumbbell_Incline_Row",
+    "name": "Dumbbell Incline Row",
+    "muscle": "middle back",
+    "level": "beginner",
+    "needs": [
+      "dumbbells",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Incline_Row/0.jpg",
+      "Dumbbell_Incline_Row/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie chest-down on an incline bench.",
+      "Let the dumbbells hang.",
+      "Pull them towards your ribs.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Lifting your chest off the pad",
+      "Shrugging"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Dumbbell_Shoulder_Press",
+    "name": "Dumbbell Shoulder Press",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Shoulder_Press/0.jpg",
+      "Dumbbell_Shoulder_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the dumbbells at shoulder height, palms forward.",
+      "Tighten your stomach.",
+      "Press up until your arms are nearly straight.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Arching your lower back",
+      "Bringing the weights too low too fast"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Standing_Military_Press",
+    "name": "Standing Military Press",
+    "muscle": "shoulders",
+    "level": "intermediate",
+    "needs": [
+      "barbellRack"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Standing_Military_Press/0.jpg",
+      "Standing_Military_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the bar at your upper chest.",
+      "Squeeze your stomach and glutes.",
+      "Press straight up, moving your head back slightly.",
+      "Lower with control."
+    ],
+    "mistakes": [
+      "Leaning back",
+      "Using your legs to push"
+    ],
+    "easierIds": [
+      "Dumbbell_Shoulder_Press"
+    ]
+  },
+  {
+    "id": "Leverage_Shoulder_Press",
+    "name": "Leverage Shoulder Press",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "shoulderPress"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Leverage_Shoulder_Press/0.jpg",
+      "Leverage_Shoulder_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set the seat so the handles are at shoulder height.",
+      "Sit tall against the pad.",
+      "Press up without locking hard.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Seat set too low",
+      "Arching off the pad"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Side_Lateral_Raise",
+    "name": "Side Lateral Raise",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Side_Lateral_Raise/0.jpg",
+      "Side_Lateral_Raise/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand with light dumbbells at your sides.",
+      "Keep a slight bend in your elbows.",
+      "Raise your arms to shoulder height.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Swinging the weights",
+      "Going too heavy"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Front_Dumbbell_Raise",
+    "name": "Front Dumbbell Raise",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Front_Dumbbell_Raise/0.jpg",
+      "Front_Dumbbell_Raise/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold light dumbbells in front of your thighs.",
+      "Raise them to shoulder height.",
+      "Pause briefly.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Leaning back",
+      "Lifting above your shoulders"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Reverse_Flyes",
+    "name": "Reverse Flyes",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Reverse_Flyes/0.jpg",
+      "Reverse_Flyes/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hinge forward with a flat back.",
+      "Let light dumbbells hang.",
+      "Open your arms out to the sides.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Using momentum",
+      "Rounding your back"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Face_Pull",
+    "name": "Face Pull",
+    "muscle": "shoulders",
+    "level": "intermediate",
+    "needs": [
+      "cable"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Face_Pull/0.jpg",
+      "Face_Pull/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set a rope at face height.",
+      "Step back and hold the ends.",
+      "Pull towards your forehead with elbows high.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Leaning back",
+      "Letting your elbows drop"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Cable_Seated_Lateral_Raise",
+    "name": "Cable Seated Lateral Raise",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "cable"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Cable_Seated_Lateral_Raise/0.jpg",
+      "Cable_Seated_Lateral_Raise/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand side-on to a low pulley.",
+      "Hold the handle across your body.",
+      "Raise your arm to shoulder height.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Twisting your body",
+      "Using too much weight"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Shoulder_Press_-_With_Bands",
+    "name": "Shoulder Press - With Bands",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "bands"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Shoulder_Press_-_With_Bands/0.jpg",
+      "Shoulder_Press_-_With_Bands/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand on the band with your feet shoulder-width apart.",
+      "Hold it at shoulder height.",
+      "Press up.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Arching your back",
+      "Letting the band pull you forward"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Lateral_Raise_-_With_Bands",
+    "name": "Lateral Raise - With Bands",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "bands"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Lateral_Raise_-_With_Bands/0.jpg",
+      "Lateral_Raise_-_With_Bands/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand on the band and hold the ends.",
+      "Raise your arms to the sides.",
+      "Stop at shoulder height.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Shrugging",
+      "Using a band that is too heavy"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Band_Pull_Apart",
+    "name": "Band Pull Apart",
+    "muscle": "shoulders",
+    "level": "beginner",
+    "needs": [
+      "bands"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Band_Pull_Apart/0.jpg",
+      "Band_Pull_Apart/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the band at chest height.",
+      "Keep your arms straight.",
+      "Pull your hands out to the sides.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Shrugging your shoulders",
+      "Bending your elbows"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Dumbbell_Bicep_Curl",
+    "name": "Dumbbell Bicep Curl",
+    "muscle": "biceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Bicep_Curl/0.jpg",
+      "Dumbbell_Bicep_Curl/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand with dumbbells at your sides, palms forward.",
+      "Keep your elbows by your ribs.",
+      "Curl the weights up.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Swinging your body",
+      "Dropping the weights fast"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Hammer_Curls",
+    "name": "Hammer Curls",
+    "muscle": "biceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Hammer_Curls/0.jpg",
+      "Hammer_Curls/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the dumbbells with palms facing in.",
+      "Keep your elbows still.",
+      "Curl up.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Moving your elbows forward",
+      "Using momentum"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Barbell_Curl",
+    "name": "Barbell Curl",
+    "muscle": "biceps",
+    "level": "beginner",
+    "needs": [
+      "barbellRack"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Barbell_Curl/0.jpg",
+      "Barbell_Curl/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the bar at shoulder width, palms forward.",
+      "Keep your elbows at your sides.",
+      "Curl the bar up.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Leaning back",
+      "Half reps"
+    ],
+    "easierIds": [
+      "Dumbbell_Bicep_Curl"
+    ]
+  },
+  {
+    "id": "Standing_Biceps_Cable_Curl",
+    "name": "Standing Biceps Cable Curl",
+    "muscle": "biceps",
+    "level": "beginner",
+    "needs": [
+      "cable"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Standing_Biceps_Cable_Curl/0.jpg",
+      "Standing_Biceps_Cable_Curl/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand facing a low pulley.",
+      "Hold the bar with palms up.",
+      "Curl up without moving your elbows.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Leaning back",
+      "Letting the weight pull your arms straight fast"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Incline_Dumbbell_Curl",
+    "name": "Incline Dumbbell Curl",
+    "muscle": "biceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Incline_Dumbbell_Curl/0.jpg",
+      "Incline_Dumbbell_Curl/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit back on an incline bench.",
+      "Let your arms hang.",
+      "Curl the weights up.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Lifting your shoulders",
+      "Swinging"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Concentration_Curls",
+    "name": "Concentration Curls",
+    "muscle": "biceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Concentration_Curls/0.jpg",
+      "Concentration_Curls/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit with your elbow against your inner thigh.",
+      "Let the dumbbell hang.",
+      "Curl it up.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Using your shoulder",
+      "Rushing"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Triceps_Pushdown",
+    "name": "Triceps Pushdown",
+    "muscle": "triceps",
+    "level": "beginner",
+    "needs": [
+      "cable"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Triceps_Pushdown/0.jpg",
+      "Triceps_Pushdown/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand facing a high pulley and hold the bar.",
+      "Keep your elbows by your sides.",
+      "Push down until your arms are straight.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Letting your elbows drift",
+      "Leaning over the bar"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Bench_Dips",
+    "name": "Bench Dips",
+    "muscle": "triceps",
+    "level": "beginner",
+    "needs": [
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Bench_Dips/0.jpg",
+      "Bench_Dips/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Put your hands on the edge of a bench behind you.",
+      "Walk your feet forward.",
+      "Bend your elbows to lower your body.",
+      "Press back up."
+    ],
+    "mistakes": [
+      "Going too low",
+      "Shrugging your shoulders"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Seated_Triceps_Press",
+    "name": "Seated Triceps Press",
+    "muscle": "triceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Seated_Triceps_Press/0.jpg",
+      "Seated_Triceps_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit tall and hold one dumbbell overhead with both hands.",
+      "Lower it behind your head.",
+      "Straighten your arms.",
+      "Keep your elbows pointing forward."
+    ],
+    "mistakes": [
+      "Flaring your elbows",
+      "Arching your back"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Close-Grip_Barbell_Bench_Press",
+    "name": "Close-Grip Barbell Bench Press",
+    "muscle": "triceps",
+    "level": "intermediate",
+    "needs": [
+      "barbellRack",
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Close-Grip_Barbell_Bench_Press/0.jpg",
+      "Close-Grip_Barbell_Bench_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Grip the bar at shoulder width.",
+      "Keep your elbows near your sides.",
+      "Lower to your lower chest.",
+      "Press up."
+    ],
+    "mistakes": [
+      "Gripping too narrow",
+      "Flaring your elbows"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Incline_Push-Up_Close-Grip",
+    "name": "Incline Push-Up Close-Grip",
+    "muscle": "triceps",
+    "level": "beginner",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Incline_Push-Up_Close-Grip/0.jpg",
+      "Incline_Push-Up_Close-Grip/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Put your hands close together on a raised surface.",
+      "Keep your body straight.",
+      "Lower your chest with elbows close.",
+      "Press back up."
+    ],
+    "mistakes": [
+      "Hips sagging",
+      "Elbows flaring out"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Band_Skull_Crusher",
+    "name": "Band Skull Crusher",
+    "muscle": "triceps",
+    "level": "beginner",
+    "needs": [
+      "bands"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Band_Skull_Crusher/0.jpg",
+      "Band_Skull_Crusher/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie down with the band anchored behind your head.",
+      "Hold your hands above your chest.",
+      "Bend at the elbows.",
+      "Straighten your arms."
+    ],
+    "mistakes": [
+      "Moving your upper arms",
+      "Rushing"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Bodyweight_Squat",
+    "name": "Bodyweight Squat",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [],
+    "region": "lower",
+    "bodyweight": true,
+    "images": [
+      "Bodyweight_Squat/0.jpg",
+      "Bodyweight_Squat/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand with feet shoulder-width apart.",
+      "Push your hips back and bend your knees.",
+      "Keep your chest up and heels down.",
+      "Stand up tall."
+    ],
+    "mistakes": [
+      "Lifting your heels",
+      "Letting your knees cave in"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Goblet_Squat",
+    "name": "Goblet Squat",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Goblet_Squat/0.jpg",
+      "Goblet_Squat/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold one dumbbell at your chest.",
+      "Sit down between your hips with your chest up.",
+      "Keep your knees in line with your toes.",
+      "Stand up through your whole foot."
+    ],
+    "mistakes": [
+      "Rounding your back",
+      "Letting your knees cave in"
+    ],
+    "easierIds": [
+      "Bodyweight_Squat"
+    ]
+  },
+  {
+    "id": "Dumbbell_Squat",
+    "name": "Dumbbell Squat",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Squat/0.jpg",
+      "Dumbbell_Squat/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold dumbbells at your sides.",
+      "Sit your hips down and back.",
+      "Keep your chest up.",
+      "Stand up."
+    ],
+    "mistakes": [
+      "Leaning far forward",
+      "Lifting your heels"
+    ],
+    "easierIds": [
+      "Goblet_Squat"
+    ]
+  },
+  {
+    "id": "Barbell_Squat",
+    "name": "Barbell Squat",
+    "muscle": "quadriceps",
+    "level": "intermediate",
+    "needs": [
+      "barbellRack"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Barbell_Squat/0.jpg",
+      "Barbell_Squat/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Use a squat rack and rest the bar on your upper back.",
+      "Brace your stomach and step back.",
+      "Squat with your knees following your toes.",
+      "Drive up through your whole foot."
+    ],
+    "mistakes": [
+      "Rounding your back",
+      "Letting your knees cave in"
+    ],
+    "easierIds": [
+      "Goblet_Squat"
+    ]
+  },
+  {
+    "id": "Leg_Press",
+    "name": "Leg Press",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "legPress"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Leg_Press/0.jpg",
+      "Leg_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit with your back flat on the pad and feet shoulder-width apart.",
+      "Release the safety handles.",
+      "Lower until your knees are around 90 degrees.",
+      "Press up without locking your knees hard."
+    ],
+    "mistakes": [
+      "Letting your lower back lift off the pad",
+      "Locking your knees hard"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Leg_Extensions",
+    "name": "Leg Extensions",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "legExtension"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Leg_Extensions/0.jpg",
+      "Leg_Extensions/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Line your knees up with the machine's pivot.",
+      "Sit tall and hold the handles.",
+      "Straighten your legs.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Swinging the weight",
+      "Lifting your hips"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Dumbbell_Lunges",
+    "name": "Dumbbell Lunges",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Lunges/0.jpg",
+      "Dumbbell_Lunges/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold dumbbells at your sides.",
+      "Take a long step forward.",
+      "Lower your back knee towards the floor.",
+      "Push through your front foot to return."
+    ],
+    "mistakes": [
+      "Stepping too short",
+      "Letting your front knee cave in"
+    ],
+    "easierIds": [
+      "Bodyweight_Walking_Lunge"
+    ]
+  },
+  {
+    "id": "Bodyweight_Walking_Lunge",
+    "name": "Bodyweight Walking Lunge",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [],
+    "region": "lower",
+    "bodyweight": true,
+    "images": [
+      "Bodyweight_Walking_Lunge/0.jpg",
+      "Bodyweight_Walking_Lunge/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand tall with your hands on your hips.",
+      "Step forward and lower your back knee.",
+      "Push through your front foot.",
+      "Step into the next lunge."
+    ],
+    "mistakes": [
+      "Leaning forward",
+      "Taking very short steps"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Dumbbell_Step_Ups",
+    "name": "Dumbbell Step Ups",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells",
+      "bench"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Step_Ups/0.jpg",
+      "Dumbbell_Step_Ups/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand facing a bench with dumbbells at your sides.",
+      "Put your whole foot on the bench.",
+      "Step up by pushing through that foot.",
+      "Step down slowly."
+    ],
+    "mistakes": [
+      "Pushing off your back foot",
+      "Using a very high bench"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Split_Squat_with_Dumbbells",
+    "name": "Split Squat with Dumbbells",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Split_Squat_with_Dumbbells/0.jpg",
+      "Split_Squat_with_Dumbbells/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand in a long split stance.",
+      "Lower straight down.",
+      "Keep your chest up.",
+      "Push up through your front foot."
+    ],
+    "mistakes": [
+      "Feet too close",
+      "Leaning forward"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Squats_-_With_Bands",
+    "name": "Squats - With Bands",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "bands"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Squats_-_With_Bands/0.jpg",
+      "Squats_-_With_Bands/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand on the band and hold it at your shoulders.",
+      "Sit your hips back.",
+      "Keep your chest up.",
+      "Stand up."
+    ],
+    "mistakes": [
+      "Knees caving in",
+      "Rushing"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Romanian_Deadlift",
+    "name": "Romanian Deadlift",
+    "muscle": "hamstrings",
+    "level": "intermediate",
+    "needs": [
+      "barbellRack"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Romanian_Deadlift/0.jpg",
+      "Romanian_Deadlift/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the bar at your thighs with a slight knee bend.",
+      "Push your hips back.",
+      "Lower the bar along your legs with a flat back.",
+      "Stand up by driving your hips forward."
+    ],
+    "mistakes": [
+      "Rounding your back",
+      "Squatting instead of hinging"
+    ],
+    "easierIds": [
+      "Stiff-Legged_Dumbbell_Deadlift"
+    ]
+  },
+  {
+    "id": "Stiff-Legged_Dumbbell_Deadlift",
+    "name": "Stiff-Legged Dumbbell Deadlift",
+    "muscle": "hamstrings",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Stiff-Legged_Dumbbell_Deadlift/0.jpg",
+      "Stiff-Legged_Dumbbell_Deadlift/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold dumbbells in front of your thighs.",
+      "Push your hips back with a slight knee bend.",
+      "Stop when you feel a stretch in your hamstrings.",
+      "Stand up tall."
+    ],
+    "mistakes": [
+      "Rounding your back",
+      "Bending your knees too much"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Lying_Leg_Curls",
+    "name": "Lying Leg Curls",
+    "muscle": "hamstrings",
+    "level": "beginner",
+    "needs": [
+      "legCurl"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Lying_Leg_Curls/0.jpg",
+      "Lying_Leg_Curls/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie face down with the pad above your heels.",
+      "Keep your hips down.",
+      "Curl your heels towards you.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Lifting your hips",
+      "Rushing the way down"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Seated_Leg_Curl",
+    "name": "Seated Leg Curl",
+    "muscle": "hamstrings",
+    "level": "beginner",
+    "needs": [
+      "legCurl"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Seated_Leg_Curl/0.jpg",
+      "Seated_Leg_Curl/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit with the pad behind your lower legs.",
+      "Secure the thigh pad.",
+      "Curl your heels under you.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Arching your back",
+      "Letting the weight drop"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Band_Good_Morning",
+    "name": "Band Good Morning",
+    "muscle": "hamstrings",
+    "level": "beginner",
+    "needs": [
+      "bands"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Band_Good_Morning/0.jpg",
+      "Band_Good_Morning/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand on the band with it over your shoulders.",
+      "Push your hips back with a flat back.",
+      "Stop when you feel a stretch.",
+      "Stand up tall."
+    ],
+    "mistakes": [
+      "Rounding your back",
+      "Going too low"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Barbell_Deadlift",
+    "name": "Barbell Deadlift",
+    "muscle": "hamstrings",
+    "level": "intermediate",
+    "needs": [
+      "barbellRack"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Barbell_Deadlift/0.jpg",
+      "Barbell_Deadlift/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand with the bar over your mid-foot.",
+      "Grip it and brace with a flat back.",
+      "Stand up by pushing the floor away.",
+      "Lower it with control."
+    ],
+    "mistakes": [
+      "Rounding your back",
+      "Pulling with your arms"
+    ],
+    "easierIds": [
+      "Stiff-Legged_Dumbbell_Deadlift"
+    ]
+  },
+  {
+    "id": "Butt_Lift_Bridge",
+    "name": "Butt Lift (Bridge)",
+    "muscle": "glutes",
+    "level": "beginner",
+    "needs": [],
+    "region": "lower",
+    "bodyweight": true,
+    "images": [
+      "Butt_Lift_Bridge/0.jpg",
+      "Butt_Lift_Bridge/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie on your back with knees bent.",
+      "Push through your heels.",
+      "Lift your hips and squeeze your glutes.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Arching your lower back",
+      "Pushing through your toes"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Single_Leg_Glute_Bridge",
+    "name": "Single Leg Glute Bridge",
+    "muscle": "glutes",
+    "level": "beginner",
+    "needs": [],
+    "region": "lower",
+    "bodyweight": true,
+    "images": [
+      "Single_Leg_Glute_Bridge/0.jpg",
+      "Single_Leg_Glute_Bridge/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie on your back with one foot on the floor.",
+      "Lift the other leg.",
+      "Raise your hips.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Letting your hips tilt",
+      "Rushing"
+    ],
+    "easierIds": [
+      "Butt_Lift_Bridge"
+    ]
+  },
+  {
+    "id": "Barbell_Hip_Thrust",
+    "name": "Barbell Hip Thrust",
+    "muscle": "glutes",
+    "level": "intermediate",
+    "needs": [
+      "barbellRack",
+      "bench"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Barbell_Hip_Thrust/0.jpg",
+      "Barbell_Hip_Thrust/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Rest your upper back on a bench with the bar over your hips.",
+      "Plant your feet.",
+      "Drive your hips up.",
+      "Lower with control."
+    ],
+    "mistakes": [
+      "Overarching your lower back",
+      "Feet too far away"
+    ],
+    "easierIds": [
+      "Butt_Lift_Bridge"
+    ]
+  },
+  {
+    "id": "Hip_Lift_with_Band",
+    "name": "Hip Lift with Band",
+    "muscle": "glutes",
+    "level": "beginner",
+    "needs": [
+      "bands"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Hip_Lift_with_Band/0.jpg",
+      "Hip_Lift_with_Band/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie on your back with a band across your hips.",
+      "Push through your heels.",
+      "Lift your hips.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Arching your back",
+      "Letting your knees cave in"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Standing_Calf_Raises",
+    "name": "Standing Calf Raises",
+    "muscle": "calves",
+    "level": "beginner",
+    "needs": [],
+    "region": "lower",
+    "bodyweight": true,
+    "images": [
+      "Standing_Calf_Raises/0.jpg",
+      "Standing_Calf_Raises/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Stand tall, using a wall for balance if needed.",
+      "Rise up onto your toes.",
+      "Pause at the top.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Bouncing",
+      "Rushing the reps"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Calf_Press",
+    "name": "Calf Press",
+    "muscle": "calves",
+    "level": "beginner",
+    "needs": [
+      "legPress"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Calf_Press/0.jpg",
+      "Calf_Press/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set the balls of your feet on the platform.",
+      "Press through your toes.",
+      "Pause.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Bouncing",
+      "Using a short range"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Standing_Dumbbell_Calf_Raise",
+    "name": "Standing Dumbbell Calf Raise",
+    "muscle": "calves",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Standing_Dumbbell_Calf_Raise/0.jpg",
+      "Standing_Dumbbell_Calf_Raise/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold dumbbells at your sides.",
+      "Rise onto your toes.",
+      "Pause.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Bouncing",
+      "Bending your knees"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Dumbbell_Shrug",
+    "name": "Dumbbell Shrug",
+    "muscle": "traps",
+    "level": "beginner",
+    "needs": [
+      "dumbbells"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Dumbbell_Shrug/0.jpg",
+      "Dumbbell_Shrug/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold dumbbells at your sides.",
+      "Lift your shoulders straight up.",
+      "Pause.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Rolling your shoulders",
+      "Bending your elbows"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Barbell_Shrug",
+    "name": "Barbell Shrug",
+    "muscle": "traps",
+    "level": "beginner",
+    "needs": [
+      "barbellRack"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Barbell_Shrug/0.jpg",
+      "Barbell_Shrug/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Hold the bar in front of your thighs.",
+      "Lift your shoulders.",
+      "Pause.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Rolling your shoulders",
+      "Going too heavy"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Plank",
+    "name": "Plank",
+    "muscle": "abdominals",
+    "level": "beginner",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Plank/0.jpg",
+      "Plank/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Rest on your forearms and toes.",
+      "Keep your body in one straight line.",
+      "Squeeze your stomach and glutes.",
+      "Breathe steadily and hold."
+    ],
+    "mistakes": [
+      "Letting your hips sag",
+      "Holding your breath"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Crunches",
+    "name": "Crunches",
+    "muscle": "abdominals",
+    "level": "beginner",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Crunches/0.jpg",
+      "Crunches/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie on your back with knees bent.",
+      "Tighten your stomach.",
+      "Curl your shoulders off the floor.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Pulling on your neck",
+      "Rushing"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Reverse_Crunch",
+    "name": "Reverse Crunch",
+    "muscle": "abdominals",
+    "level": "beginner",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Reverse_Crunch/0.jpg",
+      "Reverse_Crunch/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie on your back with knees bent over your hips.",
+      "Curl your hips off the floor.",
+      "Pause.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Swinging your legs",
+      "Arching your lower back"
+    ],
+    "easierIds": [
+      "Crunches"
+    ]
+  },
+  {
+    "id": "Russian_Twist",
+    "name": "Russian Twist",
+    "muscle": "abdominals",
+    "level": "intermediate",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Russian_Twist/0.jpg",
+      "Russian_Twist/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Sit and lean back slightly.",
+      "Lift your feet if you can.",
+      "Turn your shoulders side to side.",
+      "Keep your stomach tight."
+    ],
+    "mistakes": [
+      "Rounding your back",
+      "Moving only your arms"
+    ],
+    "easierIds": [
+      "Crunches"
+    ]
+  },
+  {
+    "id": "Oblique_Crunches",
+    "name": "Oblique Crunches",
+    "muscle": "abdominals",
+    "level": "beginner",
+    "needs": [],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Oblique_Crunches/0.jpg",
+      "Oblique_Crunches/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie on your back with knees bent to one side.",
+      "Curl your shoulders up.",
+      "Lower slowly.",
+      "Switch sides."
+    ],
+    "mistakes": [
+      "Pulling on your neck",
+      "Rushing"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Cable_Crunch",
+    "name": "Cable Crunch",
+    "muscle": "abdominals",
+    "level": "beginner",
+    "needs": [
+      "cable"
+    ],
+    "region": "upper",
+    "bodyweight": false,
+    "images": [
+      "Cable_Crunch/0.jpg",
+      "Cable_Crunch/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Kneel below a high pulley holding the rope.",
+      "Keep your hips still.",
+      "Curl your ribs towards your hips.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Pulling with your arms",
+      "Moving your hips"
+    ],
+    "easierIds": [
+      "Crunches"
+    ]
+  },
+  {
+    "id": "Flat_Bench_Lying_Leg_Raise",
+    "name": "Flat Bench Lying Leg Raise",
+    "muscle": "abdominals",
+    "level": "beginner",
+    "needs": [
+      "bench"
+    ],
+    "region": "upper",
+    "bodyweight": true,
+    "images": [
+      "Flat_Bench_Lying_Leg_Raise/0.jpg",
+      "Flat_Bench_Lying_Leg_Raise/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Lie on a bench and hold the sides.",
+      "Keep your legs nearly straight.",
+      "Raise them to hip height.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Arching your back",
+      "Swinging"
+    ],
+    "easierIds": [
+      "Reverse_Crunch"
+    ]
+  },
+  {
+    "id": "Walking_Treadmill",
+    "name": "Walking, Treadmill",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "cardioMachine"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Walking_Treadmill/0.jpg",
+      "Walking_Treadmill/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Start at a comfortable speed.",
+      "Stand tall and let go of the rails when you feel steady.",
+      "Build to a pace that makes you breathe harder.",
+      "Slow down for the last minute."
+    ],
+    "mistakes": [
+      "Holding the rails the whole time",
+      "Starting too fast"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Bicycling_Stationary",
+    "name": "Bicycling, Stationary",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "cardioMachine"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Bicycling_Stationary/0.jpg",
+      "Bicycling_Stationary/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Set the seat so your knee stays slightly bent at the bottom.",
+      "Start at an easy resistance.",
+      "Keep a steady pace.",
+      "Ease off for the last minute."
+    ],
+    "mistakes": [
+      "Seat too low",
+      "Bouncing in the seat"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Rowing_Stationary",
+    "name": "Rowing, Stationary",
+    "muscle": "middle back",
+    "level": "beginner",
+    "needs": [
+      "cardioMachine"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Rowing_Stationary/0.jpg",
+      "Rowing_Stationary/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Strap in your feet.",
+      "Push with your legs first.",
+      "Pull the handle to your lower ribs.",
+      "Return in reverse order."
+    ],
+    "mistakes": [
+      "Pulling with your arms first",
+      "Rounding your back"
+    ],
+    "easierIds": []
+  },
+  {
+    "id": "Elliptical_Trainer",
+    "name": "Elliptical Trainer",
+    "muscle": "quadriceps",
+    "level": "beginner",
+    "needs": [
+      "cardioMachine"
+    ],
+    "region": "lower",
+    "bodyweight": false,
+    "images": [
+      "Elliptical_Trainer/0.jpg",
+      "Elliptical_Trainer/1.jpg"
+    ],
+    "videoUrl": null,
+    "steps": [
+      "Step on and hold the handles.",
+      "Start at an easy pace.",
+      "Keep your whole foot on the pedal.",
+      "Slow down for the last minute."
+    ],
+    "mistakes": [
+      "Leaning on the handles",
+      "Starting too fast"
+    ],
+    "easierIds": []
+  }
+]

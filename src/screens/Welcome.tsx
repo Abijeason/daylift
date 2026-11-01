@@ -1,12 +1,9 @@
-const BASE = `${import.meta.env.BASE_URL}exercises/Barbell_Squat`
+import { BarbellLoop } from '../components/BarbellLoop'
 
 export function Welcome({ onStart }: { onStart(): void }) {
   return (
     <main className="welcome">
-      <div className="welcome-photo" aria-hidden="true">
-        <img src={`${BASE}/0.jpg`} alt="" />
-        <img className="form-demo-end" src={`${BASE}/1.jpg`} alt="" />
-      </div>
+      <div className="welcome-photo"><BarbellLoop /></div>
       <div className="welcome-body">
         <h1><span>Daylift</span></h1>
         <div className="rule" aria-hidden="true" />

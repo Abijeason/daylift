@@ -46,3 +46,9 @@ test('returning users go straight to Home', () => {
   expect(screen.getByRole('button', { name: 'Home' })).toHaveAttribute('aria-current', 'page')
   expect(screen.getByText('Daylift')).toBeInTheDocument()
 })
+
+test('the welcome page uses the barbell animation, not a photo', () => {
+  const { container } = render(<AppDataProvider><App /></AppDataProvider>)
+  expect(container.querySelector('.barbell-loop')).toBeInTheDocument()
+  expect(container.querySelectorAll('.welcome img')).toHaveLength(0)
+})

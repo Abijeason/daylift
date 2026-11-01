@@ -27,6 +27,7 @@ Motion is quick and purposeful:
 - Headlines and numbers slide up from behind a mask.
 - Red lines draw across the screen, on the headline, the Start button and the summary.
 - Week squares fill in, and form images loop.
+- The welcome page shows a code-built barbell that loads its plates and lifts for two reps.
 - The tab marker slides between tabs, and the rest timer turns red for the last 5 seconds.
 
 All movement uses transform and opacity to stay smooth, and turns off when reduced motion is enabled.

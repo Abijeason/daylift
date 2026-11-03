@@ -15,6 +15,7 @@ localStorage                   saved through src/lib/storage.ts only
 - **React:** six screens share changing data such as timers, sets and streaks. It's also a step towards React Native for store apps.
 - **TypeScript:** the data has a fixed shape, so type checks catch mistakes early. It adds no cost when the app runs.
 - **Vite and vite-plugin-pwa:** fast builds, plus offline support and installing to the home screen.
+- **GSAP:** screen motion, scroll reveals and count-ups, through one hook. It's free under GSAP's standard licence.
 - **No router or state library:** four tabs and one saved record don't need them.
 
 ## How a workout is planned

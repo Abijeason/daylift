@@ -1,9 +1,11 @@
+import { useRef } from 'react'
 import { Logo } from '../components/Logo'
 import { exercises } from '../data'
 import { EATING_TIPS } from '../data/copy'
 import { nextWorkout } from '../lib/planner'
 import { isRestDay, lifetime, totalWeight, weekDays, weeklyStreak, workoutsThisWeek } from '../lib/progress'
 import { HOLD_SECONDS, MUSCLE_NAMES, WORKOUT_NAMES } from '../lib/rules'
+import { useScreenMotion } from '../lib/motion'
 import { useAppData } from '../state/useAppData'
 import type { PlannedWorkout } from '../types'
 
@@ -16,7 +18,7 @@ function PlanList({ plan }: { plan: PlannedWorkout }) {
   return (
     <ol className="plan-list">
       {plan.exercises.map((e, i) => (
-        <li key={e.id}>
+        <li key={e.id} data-reveal>
           <span className="index">{String(i + 1).padStart(2, '0')}</span>
           <img src={`${import.meta.env.BASE_URL}exercises/${e.images[0]}`} alt="" loading="lazy" />
           <div>
@@ -43,17 +45,19 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
   const last = data.history[data.history.length - 1]
   const tip = EATING_TIPS[profile.goal]
   const lead = plan.exercises[0]
+  const ref = useRef<HTMLElement>(null)
+  useScreenMotion(ref)
   const title = data.inProgress ? WORKOUT_NAMES[data.inProgress.plan.type] : rest ? 'Rest day' : WORKOUT_NAMES[plan.type]
 
   return (
-    <main className="screen">
-      <header className="home-head">
+    <main className="screen" ref={ref}>
+      <header className="home-head" data-sticky>
         <div className="home-brand"><Logo /><strong>Daylift</strong></div>
         <p className="eyebrow">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</p>
       </header>
 
-      <section className="hero">
-        <h1><span>{title}</span></h1>
+      <section className="hero" data-parallax>
+        <h1 data-split>{title}</h1>
         <div className="rule" aria-hidden="true" />
         {data.inProgress ? (
           <>
@@ -86,9 +90,9 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
       </section>
 
       <section className="stat-row">
-        <div><strong className="number">{streak}</strong><span>Week streak</span></div>
-        <div><strong className="number">{workouts}</strong><span>Workouts</span></div>
-        <div><strong className="number">{lifted.toLocaleString()}</strong><span>{profile.units} lifted</span></div>
+        <div><strong className="number" data-count>{streak}</strong><span>Week streak</span></div>
+        <div><strong className="number" data-count>{workouts}</strong><span>Workouts</span></div>
+        <div><strong className="number" data-count>{lifted.toLocaleString()}</strong><span>{profile.units} lifted</span></div>
       </section>
 
       {!data.inProgress && (
@@ -99,7 +103,7 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
       )}
 
       {last && (
-        <section>
+        <section data-reveal>
           <h2>Last workout</h2>
           <div className="row">
             <span>{WORKOUT_NAMES[last.type]}</span>
@@ -111,10 +115,10 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
         </section>
       )}
 
-      {tip && <p className="card muted">{tip}</p>}
+      {tip && <p className="card muted" data-reveal>{tip}</p>}
 
       {!isInstalled() && (
-        <p className="card muted">
+        <p className="card muted" data-reveal>
           Add Daylift to your home screen. It opens like an app, works offline and keeps your history safer.
         </p>
       )}

@@ -1,18 +1,19 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { BodyMap } from '../components/BodyMap'
 import { FormDemo } from '../components/FormDemo'
 import { exercises } from '../data'
 import { EXERCISE_SAFETY } from '../data/copy'
 import { EQUIPMENT_LABELS, MUSCLE_NAMES } from '../lib/rules'
+import { useScreenMotion } from '../lib/motion'
 import { formVideoLink } from '../lib/video'
 import type { Exercise, Muscle } from '../types'
 
 function Detail({ exercise, onOpen, onBack }: { exercise: Exercise; onOpen(e: Exercise): void; onBack(): void }) {
   const easier = exercise.easierIds.flatMap(id => exercises.filter(e => e.id === id))
   return (
-    <main className="screen">
+    <div className="screen">
       <button className="link back" onClick={onBack}>Back</button>
-      <h1>{exercise.name}</h1>
+      <h1 data-split>{exercise.name}</h1>
       <FormDemo exercise={exercise} />
       <a className="chip" href={formVideoLink(exercise)} target="_blank" rel="noreferrer">Watch form</a>
       <h2>How to do it</h2>
@@ -30,7 +31,7 @@ function Detail({ exercise, onOpen, onBack }: { exercise: Exercise; onOpen(e: Ex
         </>
       )}
       <p className="card muted">{EXERCISE_SAFETY}</p>
-    </main>
+    </div>
   )
 }
 
@@ -38,6 +39,8 @@ export function Exercises() {
   const [muscle, setMuscle] = useState<Muscle | null>(null)
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState<Exercise | null>(null)
+  const ref = useRef<HTMLElement>(null)
+  useScreenMotion(ref, [open])
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -45,11 +48,11 @@ export function Exercises() {
     return muscle ? exercises.filter(e => e.muscle === muscle) : []
   }, [query, muscle])
 
-  if (open) return <Detail exercise={open} onOpen={setOpen} onBack={() => setOpen(null)} />
+  if (open) return <main ref={ref}><Detail exercise={open} onOpen={setOpen} onBack={() => setOpen(null)} /></main>
 
   return (
-    <main className="screen">
-      <h1>Exercises</h1>
+    <main className="screen" ref={ref}>
+      <h1 data-split>Exercises</h1>
       <input
         type="search" className="search" placeholder="Search exercises" aria-label="Search exercises"
         value={query} onChange={e => setQuery(e.target.value)}
@@ -69,7 +72,7 @@ export function Exercises() {
       {!query && <BodyMap selected={muscle} onSelect={setMuscle} />}
       {query && results.length === 0 && <p className="muted">No exercises found. Try another name.</p>}
       {!query && muscle && results.length === 0 && <p className="muted center">No exercises for this muscle yet.</p>}
-      <div className="list">
+      <div className="list" key={`${muscle}-${query}`}>
         {results.map(e => (
           <button key={e.id} className="option" onClick={() => setOpen(e)}>
             <strong>{e.name}</strong>

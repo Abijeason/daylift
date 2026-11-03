@@ -18,7 +18,7 @@ It's a free, installable web app. There's no account to create, and your workout
 
 ## Built with
 
-React, TypeScript, Vite, vite-plugin-pwa and Vitest. See [Architecture](docs/ARCHITECTURE.md) for why.
+React, TypeScript, Vite, GSAP, vite-plugin-pwa and Vitest. See [Architecture](docs/ARCHITECTURE.md) for why.
 
 ## Run it
 

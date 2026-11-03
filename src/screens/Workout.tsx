@@ -7,6 +7,7 @@ import { swapOptions } from '../lib/planner'
 import { newBests, parseReps, parseWeight, suggestWeight, totalWeight, weeklyStreak } from '../lib/progress'
 import { HOLD_SECONDS, WORKOUT_NAMES } from '../lib/rules'
 import { addSet, finish, secondsLeft, swapExercise } from '../lib/session'
+import { useScreenMotion } from '../lib/motion'
 import { formVideoLink } from '../lib/video'
 import { useAppData } from '../state/useAppData'
 import type { Exercise, InProgress, Units, WorkoutLog } from '../types'
@@ -46,15 +47,17 @@ function Summary({ log, bests, onExit }: { log: WorkoutLog; bests: string[]; onE
   const { data } = useAppData()
   const minutes = Math.max(1, Math.round((Date.parse(log.finishedAt) - Date.parse(log.startedAt)) / 60000))
   const streak = weeklyStreak(data.history, data.profile?.daysPerWeek ?? 3, new Date())
+  const ref = useRef<HTMLElement>(null)
+  useScreenMotion(ref)
   return (
-    <main className="screen summary">
+    <main className="screen summary" ref={ref}>
       <div className="sweep" aria-hidden="true" />
-      <h1>Workout complete</h1>
+      <h1 data-split>Workout complete</h1>
       <div className="stats">
-        <div><strong className="number">{minutes}</strong><span>minutes</span></div>
-        <div><strong className="number">{totalWeight(log).toLocaleString()}</strong><span>{log.units} lifted</span></div>
+        <div><strong className="number" data-count>{minutes}</strong><span>minutes</span></div>
+        <div><strong className="number" data-count>{totalWeight(log).toLocaleString()}</strong><span>{log.units} lifted</span></div>
       </div>
-      <p className="card streak"><strong className="number">{streak}</strong><span>week streak</span></p>
+      <p className="card streak"><strong className="number" data-count>{streak}</strong><span>week streak</span></p>
       {bests.length > 0 && (
         <section className="card best">
           <h2>New personal best</h2>

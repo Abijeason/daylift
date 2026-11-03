@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { LineChart } from '../components/LineChart'
 import { convert, personalBests } from '../lib/progress'
 import { WORKOUT_NAMES } from '../lib/rules'
+import { useScreenMotion } from '../lib/motion'
 import { useAppData } from '../state/useAppData'
 
 export function Progress() {
@@ -11,11 +12,13 @@ export function Progress() {
   const bests = Object.entries(personalBests(history))
   const [chosen, setChosen] = useState<string | null>(null)
   const chartId = chosen ?? bests[0]?.[0]
+  const ref = useRef<HTMLElement>(null)
+  useScreenMotion(ref, [history.length])
 
   if (history.length === 0) {
     return (
-      <main className="screen">
-        <h1>Progress</h1>
+      <main className="screen" ref={ref}>
+        <h1 data-split>Progress</h1>
         <p className="muted">Finish your first workout and your history will show up here.</p>
       </main>
     )
@@ -27,8 +30,8 @@ export function Progress() {
   })
 
   return (
-    <main className="screen">
-      <h1>Progress</h1>
+    <main className="screen" ref={ref}>
+      <h1 data-split>Progress</h1>
       {bests.length > 0 && (
         <section>
           <h2>Weight over time</h2>
@@ -44,7 +47,7 @@ export function Progress() {
         <section>
           <h2>Personal bests</h2>
           {bests.map(([id, b]) => (
-            <div className="row" key={id}>
+            <div className="row" key={id} data-reveal>
               <span>{b.name}</span>
               <strong>{b.weight} {b.units}</strong>
             </div>
@@ -54,7 +57,7 @@ export function Progress() {
       <section>
         <h2>History</h2>
         {[...history].reverse().map(log => (
-          <div className="row" key={log.id}>
+          <div className="row" key={log.id} data-reveal>
             <span>{WORKOUT_NAMES[log.type]}</span>
             <span className="muted">{new Date(log.finishedAt).toLocaleDateString()}</span>
           </div>

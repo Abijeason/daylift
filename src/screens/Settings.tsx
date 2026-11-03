@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { COMING_SOON, FEEDBACK_URL } from '../data/copy'
 import { allowedDays, GOALS, LEVELS } from '../lib/rules'
 import { exportBackup, importBackup } from '../lib/storage'
+import { useScreenMotion } from '../lib/motion'
 import { useAppData } from '../state/useAppData'
 import { EquipmentPicker } from './Setup'
 import type { Goal, Level, Profile, SavedData, Theme } from '../types'
@@ -12,6 +13,8 @@ export function Settings() {
   const [importError, setImportError] = useState('')
   const [pending, setPending] = useState<SavedData | null>(null)
   const [confirmReset, setConfirmReset] = useState(false)
+  const ref = useRef<HTMLElement>(null)
+  useScreenMotion(ref)
   if (!profile) return null
 
   const change = (next: Partial<Profile>) => update(d => {
@@ -37,8 +40,8 @@ export function Settings() {
   }
 
   return (
-    <main className="screen">
-      <h1>Settings</h1>
+    <main className="screen" ref={ref}>
+      <h1 data-split>Settings</h1>
 
       <section>
         <h2>Your plan</h2>

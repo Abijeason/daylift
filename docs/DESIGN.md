@@ -12,7 +12,7 @@ Welcome, Setup, Home, Active workout, Exercises, Progress and Settings. The last
 
 ## Theme
 
-Sports editorial, like a training magazine. Headings use Archivo at its condensed, heavy setting, with black, white and one red accent. Lines replace boxes wherever possible. Archivo ships with the app, so it works offline.
+Sports editorial, like a training magazine. Headings use Barlow Condensed and body text uses Barlow, a pairing built for sports and fitness, with black, white and one red accent. Lines replace boxes wherever possible. Both fonts ship with the app, so they work offline.
 
 Light and dark themes both exist. The app follows the phone by default, and Settings lets people choose. Colours are variables at the top of `src/styles/app.css`.
 
@@ -26,14 +26,17 @@ A weight plate rises over a barbell like the sun, joining "day" and "lift" in on
 
 ## Motion
 
-Motion is quick and purposeful:
+Motion runs on GSAP through one hook, `useScreenMotion` in `src/lib/motion.ts`. Screens opt in with data attributes:
 
-- Headlines and numbers slide up from behind a mask.
-- Red lines draw across the screen, on the headline, the Start button and the summary.
-- Week squares fill in, and form images loop.
-- The tab marker slides between tabs, and the rest timer turns red for the last 5 seconds.
+| Attribute | Effect |
+|---|---|
+| `data-split` | Headline letters rise from behind a mask |
+| `data-count` | A number counts up when it scrolls into view |
+| `data-reveal` | The element fades up as it scrolls into view |
+| `data-parallax` | The element drifts up and fades as the page scrolls |
+| `data-sticky` | The element gains a solid background once the page scrolls |
 
-All movement uses transform and opacity to stay smooth, and turns off when reduced motion is enabled.
+Screen content staggers in on arrival, and CSS handles small touches such as button presses, the tab marker, week squares and the rest timer. Everything uses transform and opacity. With reduced motion turned on, GSAP skips all of it and the final layout shows straight away.
 
 ## Body map
 

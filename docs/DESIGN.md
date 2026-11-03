@@ -36,8 +36,7 @@ Motion runs on GSAP through one hook, `useScreenMotion` in `src/lib/motion.ts`. 
 | `data-split` | Headline letters rise from behind a mask |
 | `data-count` | A number counts up when it scrolls into view |
 | `data-reveal` | The element fades up as it scrolls into view |
-| `data-parallax` | The element drifts up and fades as the page scrolls |
-| `data-sticky` | The element gains a solid background once the page scrolls |
+| `data-parallax` | The element drifts up a little as the page scrolls |
 
 Screen content staggers in on arrival, and CSS handles small touches such as button presses, the tab marker, week squares and the rest timer. Everything uses transform and opacity. With reduced motion turned on, GSAP skips all of it and the final layout shows straight away.
 

@@ -53,7 +53,7 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
 
   return (
     <main className="screen" ref={ref}>
-      <header className="home-head" data-sticky>
+      <header className="home-head">
         <div className="home-brand"><Logo /><strong>Daylift</strong></div>
         <p className="eyebrow">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</p>
       </header>

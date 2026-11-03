@@ -64,12 +64,9 @@ export function useScreenMotion(scope: RefObject<HTMLElement | null>, dependenci
       })
 
       gsap.utils.toArray<HTMLElement>('[data-parallax]', root).forEach(el => {
-        gsap.to(el, { yPercent: -22, autoAlpha: 0.35, ease: 'none', scrollTrigger: { trigger: el, start: 'top 15%', end: 'bottom top', scrub: true } })
+        gsap.to(el, { yPercent: -10, ease: 'none', scrollTrigger: { trigger: el, start: 'clamp(top top+=80)', end: 'bottom top', scrub: 0.3 } })
       })
 
-      gsap.utils.toArray<HTMLElement>('[data-sticky]', root).forEach(el => {
-        ScrollTrigger.create({ start: 8, end: 'max', toggleClass: { targets: el, className: 'scrolled' } })
-      })
     })
   }, { scope, dependencies, revertOnUpdate: true })
 }

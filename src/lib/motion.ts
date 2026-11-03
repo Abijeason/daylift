@@ -17,7 +17,6 @@ export function countTo(text: string): number | null {
  * Entrance and scroll motion for a screen. Mark elements with:
  * data-split (headline letters rise), data-count (number counts up),
  * data-reveal (fades up on scroll), data-parallax (drifts on scroll),
- * data-sticky (gains a backing once the page scrolls).
  */
 export function useScreenMotion(scope: RefObject<HTMLElement | null>, dependencies: unknown[] = []) {
   useGSAP(() => {

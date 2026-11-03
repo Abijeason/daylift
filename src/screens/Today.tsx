@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Logo } from '../components/Logo'
 import { exercises } from '../data'
 import { EATING_TIPS } from '../data/copy'
-import { nextWorkout } from '../lib/planner'
+import { nextWorkout, rotation } from '../lib/planner'
 import { isRestDay, lifetime, totalWeight, weekDays, weeklyStreak, workoutsThisWeek } from '../lib/progress'
 import { HOLD_SECONDS, MUSCLE_NAMES, WORKOUT_NAMES } from '../lib/rules'
 import { useScreenMotion } from '../lib/motion'
@@ -40,13 +40,15 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
   const rest = isRestDay(data.history, profile.daysPerWeek, now)
   const streak = weeklyStreak(data.history, profile.daysPerWeek, now)
   const done = Math.min(workoutsThisWeek(data.history, now), profile.daysPerWeek)
-  const { workouts, lifted } = lifetime(data.history, profile.units)
+  const { lifted } = lifetime(data.history, profile.units)
   const week = weekDays(data.history, now)
   const last = data.history[data.history.length - 1]
   const tip = EATING_TIPS[profile.goal]
   const lead = plan.exercises[0]
   const ref = useRef<HTMLElement>(null)
   useScreenMotion(ref)
+  const order = rotation(profile.daysPerWeek)
+  const upcoming = [2, 1].map(step => WORKOUT_NAMES[order[(data.history.length + step) % order.length]])
   const title = data.inProgress ? WORKOUT_NAMES[data.inProgress.plan.type] : rest ? 'Rest day' : WORKOUT_NAMES[plan.type]
 
   return (
@@ -56,42 +58,42 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
         <p className="eyebrow">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</p>
       </header>
 
-      <section className="hero" data-parallax>
-        <h1 data-split>{title}</h1>
-        <div className="rule" aria-hidden="true" />
-        {data.inProgress ? (
-          <>
-            <p className="muted">You have a workout in progress.</p>
-            <button className="primary" onClick={onResume}>Resume workout</button>
-          </>
-        ) : rest ? (
-          <>
-            <p className="muted">Muscles grow while you recover.</p>
-            <button className="secondary" onClick={() => onStart(plan)}>Train anyway</button>
-          </>
-        ) : (
-          <>
-            <p className="muted">{plan.exercises.length} exercises · about {plan.estMinutes} min{lead ? ` · First up: ${lead.name}` : ''}</p>
-            <button className="primary" onClick={() => onStart(plan)}>Start workout</button>
-          </>
-        )}
-      </section>
+      <p className="eyebrow">{data.inProgress ? 'In progress' : rest ? 'Recovery day' : `Your next ${Math.min(3, order.length)} workouts`}</p>
 
-      <section>
-        <div className="week-head"><span>This week</span><strong>{done} / {profile.daysPerWeek}</strong></div>
-        <div className="week" role="img" aria-label={`${done} of ${profile.daysPerWeek} workouts this week`} style={{ marginTop: 8 }}>
-          {week.map((d, i) => (
-            <div key={i} className={`day${d.trained ? ' trained' : ''}${d.today ? ' today' : ''}`} style={{ animationDelay: `${i * 50}ms` }}>
-              <i />
-              <span>{d.letter}</span>
-            </div>
-          ))}
+      <section className="deck" data-parallax>
+        {!data.inProgress && order.length > 1 && upcoming.slice(order.length > 2 ? 0 : 1).map((name, i) => (
+          <div key={i} className={`deck-back deck-back-${order.length > 2 ? i : 1}`} aria-hidden="true">
+            <span>{name}</span>
+            <span>{i === 0 && order.length > 2 ? 'Then' : 'Next'}</span>
+          </div>
+        ))}
+        <div className={`deck-front${rest && !data.inProgress ? ' resting' : ''}`}>
+          <div className="deck-meta">
+            <span>{data.inProgress ? 'Resume' : rest ? 'Rest day' : 'Today'}</span>
+            {!rest && !data.inProgress && <span>{plan.estMinutes} min</span>}
+          </div>
+          <h1 data-split>{title}</h1>
+          <div className="deck-foot">
+            <span>
+              {data.inProgress
+                ? 'Pick up where you left off.'
+                : rest ? 'Muscles grow while you recover.' : `${plan.exercises.length} exercises${lead ? ` · ${MUSCLE_NAMES[lead.muscle]} first` : ''}`}
+            </span>
+            {data.inProgress
+              ? <button className="pill" onClick={onResume}>Resume workout</button>
+              : rest
+                ? <button className="pill" onClick={() => onStart(plan)}>Train anyway</button>
+                : <button className="pill" onClick={() => onStart(plan)}>Start workout</button>}
+          </div>
         </div>
       </section>
 
-      <section className="stat-row">
+      <section className="tiles">
         <div><strong className="number" data-count>{streak}</strong><span>Week streak</span></div>
-        <div><strong className="number" data-count>{workouts}</strong><span>Workouts</span></div>
+        <div role="img" aria-label={`${done} of ${profile.daysPerWeek} workouts this week`}>
+          <strong className="number" aria-hidden="true">{done}/{profile.daysPerWeek}</strong>
+          <span className="week-dots" aria-hidden="true">{week.map((d, i) => <i key={i} className={`${d.trained ? 'on' : ''}${d.today ? ' today' : ''}`} />)}</span>
+        </div>
         <div><strong className="number" data-count>{lifted.toLocaleString()}</strong><span>{profile.units} lifted</span></div>
       </section>
 

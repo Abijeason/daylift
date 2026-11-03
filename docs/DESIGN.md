@@ -18,6 +18,9 @@ Light and dark themes both exist. The app follows the phone by default, and Sett
 
 ## Home
 
+Home is a stacked deck: today's workout is a red card in front, with the next two workouts peeking out behind it. Below it are three stat tiles and the exercise list, and the tab bar floats as a rounded pill.
+
+
 Home answers three questions: what do I do now, how is my week going, and what did I do last time. It has the workout title, a Monday to Sunday strip, lifetime stats, the full exercise list and the last workout.
 
 ## Logo

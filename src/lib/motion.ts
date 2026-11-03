@@ -33,7 +33,7 @@ export function useScreenMotion(scope: RefObject<HTMLElement | null>, dependenci
 
       gsap.utils.toArray<HTMLElement>('[data-split]', root).forEach(el => {
         SplitText.create(el, {
-          type: 'chars',
+          type: 'words,chars',
           mask: 'chars',
           autoSplit: true,
           onSplit: self => gsap.from(self.chars, { yPercent: 110, duration: 0.8, ease: EASE, stagger: 0.022, delay: 0.05 }),

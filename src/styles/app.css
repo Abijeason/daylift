@@ -8,7 +8,7 @@
   --ink: #ffffff;
   --on-ink: #0c0c0d;
   --red: #ff4136;
-  --radius: 3px;
+  --radius: 12px;
   --gutter: 18px;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   color-scheme: dark;
@@ -312,6 +312,40 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .option strong, .tile span, .tabs button, .chip, .segmented button { font-family: var(--display); letter-spacing: 0.02em; }
 .option strong { font-size: 1.2rem; font-weight: 700; }
 .tabs button { font-size: 0.92rem; font-weight: 700; text-transform: uppercase; }
+
+/* Stacked deck: today's workout in front, the next ones peeking behind. */
+.deck { position: relative; height: 356px; margin-top: 2px; }
+.deck-back, .deck-front { position: absolute; border-radius: 20px; box-sizing: border-box; }
+.deck-back { display: flex; justify-content: space-between; padding: 9px 18px; font-family: var(--display); font-weight: 700; font-size: 1rem; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.03em; animation: deck-in 640ms var(--ease-out) backwards; }
+.deck-back-0 { left: 32px; right: 32px; top: 0; height: 280px; background: var(--surface); color: var(--muted); animation-delay: 180ms; }
+.deck-back-1 { left: 16px; right: 16px; top: 34px; height: 290px; background: var(--surface-2); color: var(--muted); animation-delay: 90ms; }
+.deck-back-1 span:last-child, .deck-back-0 span:last-child { font-family: inherit; font-size: 0.8rem; font-weight: 600; }
+.deck-front { left: 0; right: 0; top: 68px; bottom: 0; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; background: var(--red); color: #fff; box-shadow: 0 18px 40px rgb(0 0 0 / 0.28); animation: deck-front-in 680ms var(--ease-out) backwards; }
+.deck-front.resting { background: var(--ink); color: var(--on-ink); }
+.deck-front h1 { margin: 0; font-size: 4.2rem; line-height: 0.88; text-wrap: balance; }
+.deck-meta { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.deck-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 0.92rem; font-weight: 500; }
+.pill { flex: none; min-height: 50px; padding: 0 22px; border: 0; border-radius: 999px; background: #0c0c0d; color: #fff; font-family: var(--display); font-weight: 700; font-size: 1.1rem; letter-spacing: 0.04em; text-transform: uppercase; transition: transform 140ms var(--ease-out); }
+.resting .pill { background: var(--red); }
+.pill:active { transform: scale(0.95); }
+
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.tiles > div { display: flex; flex-direction: column; gap: 6px; padding: 14px; background: var(--surface); border-radius: 16px; overflow: hidden; }
+.tiles .number { font-size: 2.1rem; }
+.tiles span { color: var(--muted); font-size: 0.78rem; }
+.week-dots { display: flex; gap: 3px; margin-top: 2px; }
+.week-dots i { flex: 1; height: 6px; border-radius: 3px; background: var(--surface-2); }
+.week-dots i.on { background: var(--red); }
+.week-dots i.today { box-shadow: inset 0 0 0 1.5px var(--text); }
+
+.tabs { left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); max-width: 496px; padding: 6px; gap: 4px; border: 0; border-radius: 22px; background: var(--surface); box-shadow: 0 10px 30px rgb(0 0 0 / 0.22); }
+.tabs button { min-height: 50px; border-radius: 16px; transition: background-color 200ms, color 200ms; }
+.tabs button::before { display: none; }
+.tabs button[aria-current='page'] { background: var(--ink); color: var(--on-ink); }
+.tab-screen { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+
+@keyframes deck-in { from { opacity: 0; transform: translateY(40px) scale(0.92); } }
+@keyframes deck-front-in { from { opacity: 0; transform: translateY(60px); } }
 
 @media (hover: hover) {
   .option:hover { padding-left: 8px; }

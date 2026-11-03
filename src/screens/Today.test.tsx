@@ -69,7 +69,7 @@ test('lists every exercise in the workout with its target', () => {
 
 test('shows lifetime stats', () => {
   renderWithData(<Today {...props} />, { history: [testLog()] })
-  expect(screen.getByText('Workouts')).toBeInTheDocument()
+  expect(screen.getByText('kg lifted')).toBeInTheDocument()
   expect(screen.getByText('200')).toBeInTheDocument()
 })
 
@@ -90,4 +90,10 @@ test('home has no looping photo at the top', () => {
   const { container } = renderWithData(<Today {...props} />)
   expect(container.querySelector('.form-demo')).not.toBeInTheDocument()
   expect(container.querySelector('.home-head .logo-mark')).toBeInTheDocument()
+})
+
+test('the deck shows the next two workouts behind today', () => {
+  const { container } = renderWithData(<Today {...props} />)
+  const behind = [...container.querySelectorAll('.deck-back')].map(c => c.textContent)
+  expect(behind).toEqual([expect.stringContaining('Full Body C'), expect.stringContaining('Full Body B')])
 })

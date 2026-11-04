@@ -1,4 +1,4 @@
-import { addSet, finish, newSession, secondsLeft, swapExercise } from './session'
+import { addSet, finish, newSession, removeSet, secondsLeft, swapExercise } from './session'
 import { formVideoLink } from './video'
 import { buildWorkout } from './planner'
 import { exercises } from '../data'
@@ -54,4 +54,11 @@ test('form video uses the hand-picked link', () => {
 test('form video falls back to a YouTube search', () => {
   expect(formVideoLink({ name: 'Goblet Squat', videoUrl: null }))
     .toBe('https://www.youtube.com/results?search_query=Goblet%20Squat%20proper%20form')
+})
+
+test('removing a set takes it out of the current exercise only', () => {
+  let s = { ...session(), exerciseIndex: 0 }
+  s = addSet(s, { weight: 20, reps: 10 }, 1_000)
+  s = addSet(s, { weight: 22.5, reps: 8 }, 1_000)
+  expect(removeSet(s, 0).log.entries[0].sets).toEqual([{ weight: 22.5, reps: 8 }])
 })

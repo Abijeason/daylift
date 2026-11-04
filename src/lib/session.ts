@@ -35,6 +35,12 @@ export function addSet(s: InProgress, set: LoggedSet, now: number): InProgress {
   }
 }
 
+export function removeSet(s: InProgress, setIndex: number): InProgress {
+  const i = s.exerciseIndex
+  const entries = s.log.entries.map((e, n) => (n === i ? { ...e, sets: e.sets.filter((_, k) => k !== setIndex) } : e))
+  return { ...s, log: { ...s.log, entries } }
+}
+
 export function swapExercise(s: InProgress, next: Exercise): InProgress {
   const i = s.exerciseIndex
   const plan = { ...s.plan, exercises: s.plan.exercises.map((e, n) => (n === i ? next : e)) }

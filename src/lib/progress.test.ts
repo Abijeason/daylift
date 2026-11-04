@@ -1,4 +1,4 @@
-import { lifetime, weekDays, workoutsThisWeek, isRestDay, newBests, parseReps, parseWeight, personalBests, suggestWeight, totalWeight, weeklyStreak } from './progress'
+import { lastPerformance, lifetime, weekDays, workoutsThisWeek, isRestDay, newBests, parseReps, parseWeight, personalBests, suggestWeight, totalWeight, weeklyStreak } from './progress'
 import type { LoggedExercise, Units, WorkoutLog } from '../types'
 
 function entry(over: Partial<LoggedExercise> = {}): LoggedExercise {
@@ -157,4 +157,11 @@ test('bodyweight personal bests count reps', () => {
   const bw = (reps: number, day: string) => log([entry({ exerciseId: 'p', name: 'Pushups', sets: [{ weight: 0, reps }] })], day)
   expect(personalBests([bw(20, '2026-11-01'), bw(25, '2026-11-02')]).p).toEqual({ name: 'Pushups', weight: 0, units: 'kg', reps: 25 })
   expect(newBests(bw(25, '2026-11-03'), [bw(20, '2026-11-01')])).toEqual(['Pushups'])
+})
+
+test('last performance is the best set from the most recent session', () => {
+  const older = log([entry({ sets: [{ weight: 50, reps: 5 }] })], '2026-11-01')
+  const newer = log([entry({ sets: [{ weight: 40, reps: 8 }, { weight: 42.5, reps: 6 }] })], '2026-11-03')
+  expect(lastPerformance([older, newer], 'x')).toEqual({ weight: 42.5, reps: 6, units: 'kg' })
+  expect(lastPerformance([], 'x')).toBeNull()
 })

@@ -121,7 +121,7 @@ test('summary shows the streak', async () => {
   await logSet('20', '10')
   await user.click(screen.getByRole('button', { name: /end workout/i }))
   await user.click(screen.getByRole('button', { name: /yes, end/i }))
-  expect(screen.getByText(/week streak/i)).toBeInTheDocument()
+  expect(screen.getByText(/this week/i)).toBeInTheDocument()
 })
 
 test('swap list closes after a set, so logged sets cannot be wiped', async () => {
@@ -172,4 +172,63 @@ test('no timer note after rest is skipped keeps act clean', async () => {
   await logSet('20', '10')
   await act(async () => { await userEvent.click(screen.getByRole('button', { name: /skip rest/i })) })
   expect(screen.queryByRole('timer')).not.toBeInTheDocument()
+})
+
+test('the set form comes before the exercise photo', () => {
+  const { container } = renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  const form = container.querySelector('.set-form')!
+  const photo = container.querySelector('.form-demo')!
+  expect(form.compareDocumentPosition(photo) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+})
+
+test('logged sets are listed and a mistake can be removed', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  await logSet('125', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
+  expect(screen.getByText('125 kg × 10')).toBeInTheDocument()
+  await user.click(screen.getByRole('button', { name: /remove set 1/i }))
+  expect(load().data.inProgress!.log.entries[0].sets).toEqual([])
+})
+
+test('you can go back to the previous exercise and skip ahead', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: session({ exerciseIndex: 1 }) })
+  await user.click(screen.getByRole('button', { name: /previous exercise/i }))
+  expect(screen.getByRole('heading', { name: plan.exercises[0].name })).toBeInTheDocument()
+  await user.click(screen.getByRole('button', { name: /next exercise/i }))
+  expect(screen.getByRole('heading', { name: plan.exercises[1].name })).toBeInTheDocument()
+})
+
+test('shows what you lifted last time', () => {
+  const first = plan.exercises[0]
+  const past = { id: 'p', type: 'fullA' as const, units: 'kg' as const, startedAt: '2026-10-01T10:00:00.000Z', finishedAt: '2026-10-01T11:00:00.000Z',
+    entries: [{ exerciseId: first.id, name: first.name, region: first.region, targetSets: 3, repMax: 12, sets: [{ weight: 20, reps: 10 }] }] }
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst(), history: [past] })
+  expect(screen.getByText(/last time: 20 kg × 10/i)).toBeInTheDocument()
+})
+
+test('the rest screen says what comes next', async () => {
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  await logSet('20', '10')
+  expect(screen.getByText(new RegExp(`next: ${plan.exercises[0].name}, set 2 of`, 'i'))).toBeInTheDocument()
+})
+
+test('the summary lists what you did and this week, with correct grammar', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: { ...newSession(plan, 'kg', new Date()), exerciseIndex: 0 } })
+  await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
+  await user.click(screen.getByRole('button', { name: /end workout/i }))
+  await user.click(screen.getByRole('button', { name: /yes, end/i }))
+  expect(screen.getByText(plan.exercises[0].name)).toBeInTheDocument()
+  expect(screen.getByText('20 kg × 10')).toBeInTheDocument()
+  expect(screen.getByText(/this week/i)).toBeInTheDocument()
+  expect(screen.getByText('minute')).toBeInTheDocument()
+})
+
+test('a zero weight is explained clearly', async () => {
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  await logSet('0', '10')
+  expect(screen.getByRole('alert')).toHaveTextContent(/more than 0/i)
 })

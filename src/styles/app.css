@@ -394,6 +394,16 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .worked-dot.main { background: var(--red); }
 .worked-dot.helper { background: color-mix(in srgb, var(--red) 40%, var(--surface-2)); }
 
+.logged { list-style: none; margin: 0; padding: 0; }
+.logged li { display: grid; grid-template-columns: 52px 1fr 44px; align-items: center; margin: 0; border-top: 1px solid var(--line); font-weight: 600; }
+.remove { min-height: 44px; border: 0; background: none; color: var(--muted); font-size: 1.3rem; }
+.last-time { margin: 0; font-weight: 600; }
+.step-nav { display: flex; justify-content: space-between; }
+.step-nav .link { align-self: auto; }
+.done-row { display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid var(--line); }
+.done-sets { display: flex; flex-wrap: wrap; gap: 6px; }
+.done-sets span { padding: 4px 10px; border-radius: 999px; background: var(--surface); color: var(--muted); font-size: 0.86rem; font-weight: 600; }
+
 @media (hover: hover) {
   .welcome-start:hover span { transform: translateX(4px); }
   .option:hover { padding-left: 8px; }

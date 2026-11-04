@@ -58,6 +58,21 @@ function beats(weight: number, units: Units, reps: number, best: Best): boolean 
   return kg > bestKg || (kg === bestKg && reps > best.reps)
 }
 
+export function formatSet(weight: number, reps: number, units: Units, timed = false): string {
+  if (weight > 0) return `${weight} ${units} × ${reps}`
+  return timed ? `${reps} sec` : `${reps} reps`
+}
+
+export function lastPerformance(history: WorkoutLog[], exerciseId: string): { weight: number; reps: number; units: Units } | null {
+  for (let i = history.length - 1; i >= 0; i--) {
+    const entry = history[i].entries.find(e => e.exerciseId === exerciseId && e.sets.length > 0)
+    if (!entry) continue
+    const top = entry.sets.reduce((a, b) => (b.weight > a.weight || (b.weight === a.weight && b.reps > a.reps) ? b : a))
+    return { weight: top.weight, reps: top.reps, units: history[i].units }
+  }
+  return null
+}
+
 export function personalBests(history: WorkoutLog[]): Record<string, Best> {
   const bests: Record<string, Best> = {}
   for (const log of history) {

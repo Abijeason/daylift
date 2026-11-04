@@ -1,17 +1,13 @@
 import { useRef, useState } from 'react'
 import { LineChart } from '../components/LineChart'
 import { exercises } from '../data'
-import { convert, personalBests } from '../lib/progress'
+import { convert, formatSet, personalBests } from '../lib/progress'
 import { WORKOUT_NAMES } from '../lib/rules'
 import { useScreenMotion } from '../lib/motion'
 import { useAppData } from '../state/useAppData'
 
 const timed = new Set(exercises.filter(e => e.timed).map(e => e.id))
 
-function formatBest(id: string, b: { weight: number; units: string; reps: number }): string {
-  if (b.weight > 0) return `${b.weight} ${b.units} × ${b.reps}`
-  return timed.has(id) ? `${b.reps} sec` : `${b.reps} reps`
-}
 
 export function Progress() {
   const { data } = useAppData()
@@ -73,7 +69,7 @@ export function Progress() {
           {bests.map(([id, b]) => (
             <div className="row" key={id} data-reveal>
               <span>{b.name}</span>
-              <strong>{formatBest(id, b)}</strong>
+              <strong>{formatSet(b.weight, b.reps, b.units, timed.has(id))}</strong>
             </div>
           ))}
         </section>

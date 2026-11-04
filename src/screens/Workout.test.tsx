@@ -232,3 +232,11 @@ test('a zero weight is explained clearly', async () => {
   await logSet('0', '10')
   expect(screen.getByRole('alert')).toHaveTextContent(/more than 0/i)
 })
+
+test('finishing a set closes the phone keyboard', async () => {
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  const reps = screen.getByLabelText(/reps/i)
+  await logSet('20', '10')
+  expect(document.activeElement).not.toBe(reps)
+  expect(document.activeElement?.tagName).not.toBe('INPUT')
+})

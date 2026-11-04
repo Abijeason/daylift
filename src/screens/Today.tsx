@@ -48,7 +48,8 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
   const ref = useRef<HTMLElement>(null)
   useScreenMotion(ref)
   const order = rotation(profile.daysPerWeek)
-  const upcoming = [2, 1].map(step => WORKOUT_NAMES[order[(data.history.length + step) % order.length]])
+  // On a rest day today's card is the rest, so the next workout is the planned one; otherwise it's the one after.
+  const upcoming = (rest ? [1, 0] : [2, 1]).map(step => WORKOUT_NAMES[order[(data.history.length + step) % order.length]])
   const title = data.inProgress ? WORKOUT_NAMES[data.inProgress.plan.type] : rest ? 'Rest day' : WORKOUT_NAMES[plan.type]
 
   return (
@@ -58,7 +59,7 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
         <p className="eyebrow">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</p>
       </header>
 
-      <p className="eyebrow">{data.inProgress ? 'In progress' : rest ? 'Recovery day' : `Your next ${Math.min(3, order.length)} workouts`}</p>
+      <p className="eyebrow">{data.inProgress ? 'In progress' : rest ? 'Coming up' : `Your next ${Math.min(3, order.length)} workouts`}</p>
 
       <section className="deck" data-parallax>
         {!data.inProgress && order.length > 1 && upcoming.slice(order.length > 2 ? 0 : 1).map((name, i) => (
@@ -69,7 +70,7 @@ export function Today({ onStart, onResume }: { onStart(p: PlannedWorkout): void;
         ))}
         <div className={`deck-front${rest && !data.inProgress ? ' resting' : ''}`}>
           <div className="deck-meta">
-            <span>{data.inProgress ? 'Resume' : rest ? 'Rest day' : 'Today'}</span>
+            <span>{data.inProgress ? 'Resume' : 'Today'}</span>
             {!rest && !data.inProgress && <span>{plan.estMinutes} min</span>}
           </div>
           <h1 data-split>{title}</h1>

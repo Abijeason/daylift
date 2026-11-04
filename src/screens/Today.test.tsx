@@ -97,3 +97,10 @@ test('the deck shows the next two workouts behind today', () => {
   const behind = [...container.querySelectorAll('.deck-back')].map(c => c.textContent)
   expect(behind).toEqual([expect.stringContaining('Full Body C'), expect.stringContaining('Full Body B')])
 })
+
+test('on a rest day the cards behind show the next workouts in order, with no repeated rest labels', () => {
+  const { container } = renderWithData(<Today {...props} />, { history: [yesterday()] })
+  const behind = [...container.querySelectorAll('.deck-back')].map(c => c.textContent)
+  expect(behind).toEqual([expect.stringContaining('Full Body C'), expect.stringContaining('Full Body B')])
+  expect(screen.getAllByText(/rest day/i)).toHaveLength(1)
+})

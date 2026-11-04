@@ -21,9 +21,18 @@ test('history with a removed exercise still shows its name', () => {
   expect(screen.getAllByText('Old Move').length).toBeGreaterThan(0)
 })
 
-test('chart handles a single point', () => {
+test('one session explains how to start a trend instead of drawing a dot', () => {
   renderWithData(<Progress />, { history: [testLog()] })
-  expect(screen.getByRole('img', { name: /Dumbbell Bench Press/ })).toBeInTheDocument()
+  expect(screen.queryByRole('img', { name: /Dumbbell Bench Press/ })).not.toBeInTheDocument()
+  expect(screen.getByText(/do this exercise again/i)).toBeInTheDocument()
+})
+
+test('two sessions show a labelled trend with the change', () => {
+  const later = testLog('2026-10-05', { entries: [{ exerciseId: 'Dumbbell_Bench_Press', name: 'Dumbbell Bench Press', region: 'upper', targetSets: 3, repMax: 12, sets: [{ weight: 25, reps: 10 }] }] })
+  renderWithData(<Progress />, { history: [testLog(), later] })
+  expect(screen.getByRole('img', { name: /from 20 to 25/ })).toBeInTheDocument()
+  expect(screen.getByText('+5 kg')).toBeInTheDocument()
+  expect(screen.getByText(/2 sessions/i)).toBeInTheDocument()
 })
 
 test('chart converts old weights to the current units', () => {

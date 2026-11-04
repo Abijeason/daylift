@@ -28,6 +28,7 @@ export function Progress() {
     const entry = log.entries.find(e => e.exerciseId === chartId)
     return entry ? [convert(Math.max(...entry.sets.map(s => s.weight)), log.units, units)] : []
   })
+  const change = points.length ? Math.round((points[points.length - 1] - points[0]) * 10) / 10 : 0
 
   return (
     <main className="screen" ref={ref}>
@@ -40,7 +41,20 @@ export function Progress() {
               {bests.map(([id, b]) => <option key={id} value={id}>{b.name}</option>)}
             </select>
           </label>
-          <LineChart label={bests.find(([id]) => id === chartId)?.[1].name ?? ''} values={points} />
+          <p className="muted">Your heaviest set each time you did this exercise.</p>
+          {points.length < 2 ? (
+            <p className="card muted">
+              One session logged so far, at {points[0]} {units}. Do this exercise again to start your trend line.
+            </p>
+          ) : (
+            <>
+              <div className="chart-head">
+                <span>{points.length} sessions</span>
+                <strong>{change > 0 ? '+' : ''}{change} {units}</strong>
+              </div>
+              <LineChart label={bests.find(([id]) => id === chartId)?.[1].name ?? ''} values={points} units={units} />
+            </>
+          )}
         </section>
       )}
       {bests.length > 0 && (

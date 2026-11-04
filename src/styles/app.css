@@ -299,6 +299,9 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .chart { width: 100%; background: var(--surface); border-radius: var(--radius); }
 .chart polyline { fill: none; stroke: var(--red); stroke-width: 2.5; stroke-linejoin: round; }
 .chart circle { fill: var(--text); }
+.chart text { fill: var(--muted); font-family: var(--display); font-weight: 700; font-size: 11px; }
+.chart-head { display: flex; justify-content: space-between; align-items: baseline; margin: 4px 0 8px; color: var(--muted); font-size: 0.86rem; }
+.chart-head strong { font-family: var(--display); font-size: 1.4rem; color: var(--text); }
 .soon { color: var(--muted); list-style: none; padding: 0; }
 .save-warning { background: var(--red); color: #fff; padding: 10px 16px; margin: 0; font-weight: 600; }
 

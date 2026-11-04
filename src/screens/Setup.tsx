@@ -5,7 +5,7 @@ import { allowedDays, EQUIPMENT_LABELS, EQUIPMENT_PHOTOS, GOALS, LEVELS } from '
 import { EQUIPMENT } from '../types'
 import type { Equipment, Goal, Level, Profile } from '../types'
 
-const STEPS = 6
+const STEPS = 7
 
 function Option({ title, note, onClick }: { title: string; note?: string; onClick(): void }) {
   return (
@@ -16,15 +16,16 @@ function Option({ title, note, onClick }: { title: string; note?: string; onClic
   )
 }
 
-export function EquipmentPicker({ value, onChange }: { value: Equipment[]; onChange(v: Equipment[]): void }) {
+// onChange takes an updater, so quick taps each build on the latest list instead of a stale one.
+export function EquipmentPicker({ value, onChange }: { value: Equipment[]; onChange(update: (prev: Equipment[]) => Equipment[]): void }) {
   const toggle = (item: Equipment) =>
-    onChange(value.includes(item) ? value.filter(i => i !== item) : [...value, item])
+    onChange(prev => (prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]))
   return (
     <>
       <div className="preset-row">
-        <button className="chip" onClick={() => onChange(PRESETS.full)}>Full gym</button>
-        <button className="chip" onClick={() => onChange(PRESETS.basic)}>Basic gym</button>
-        <button className="chip" onClick={() => onChange(PRESETS.dumbbells)}>Dumbbells only</button>
+        <button className="chip" onClick={() => onChange(() => PRESETS.full)}>Full gym</button>
+        <button className="chip" onClick={() => onChange(() => PRESETS.basic)}>Basic gym</button>
+        <button className="chip" onClick={() => onChange(() => PRESETS.dumbbells)}>Dumbbells only</button>
       </div>
       <div className="equipment-grid">
         {EQUIPMENT.map(item => (
@@ -45,6 +46,7 @@ export function Setup({ onDone }: { onDone(p: Profile): void }) {
   const [days, setDays] = useState(3)
   const [length, setLength] = useState<Profile['length']>('standard')
   const [equipment, setEquipment] = useState<Equipment[]>([])
+  const [units, setUnits] = useState<Profile['units']>('kg')
   const next = () => setStep(s => s + 1)
   const [short, standard] = GOALS[goal].minutes
 
@@ -91,17 +93,24 @@ export function Setup({ onDone }: { onDone(p: Profile): void }) {
         )}
         {step === 4 && (
           <>
+            <h1>Kilograms or pounds?</h1>
+            <Option title="Kilograms" note="kg" onClick={() => { setUnits('kg'); next() }} />
+            <Option title="Pounds" note="lb" onClick={() => { setUnits('lb'); next() }} />
+          </>
+        )}
+        {step === 5 && (
+          <>
             <h1>What does your gym have?</h1>
             <p className="muted">Tap what's there. Workouts only use what you pick.</p>
             <EquipmentPicker value={equipment} onChange={setEquipment} />
             <button className="primary" onClick={next}>Continue</button>
           </>
         )}
-        {step === 5 && (
+        {step === 6 && (
           <>
             <h1>Before you start</h1>
             <p>{SAFETY_NOTE}</p>
-            <button className="primary" onClick={() => onDone({ goal, level, daysPerWeek: days, length, equipment, units: 'kg' })}>
+            <button className="primary" onClick={() => onDone({ goal, level, daysPerWeek: days, length, equipment, units })}>
               I understand
             </button>
           </>

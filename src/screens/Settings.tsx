@@ -83,7 +83,7 @@ export function Settings() {
 
       <section>
         <h2>My Gym</h2>
-        <EquipmentPicker value={profile.equipment} onChange={equipment => change({ equipment })} />
+        <EquipmentPicker value={profile.equipment} onChange={fn => update(d => ({ ...d, profile: { ...d.profile!, equipment: fn(d.profile!.equipment) } }))} />
       </section>
 
       <section>

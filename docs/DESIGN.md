@@ -44,6 +44,10 @@ Motion runs on GSAP through one hook, `useScreenMotion` in `src/lib/motion.ts`. 
 
 Screen content staggers in on arrival, and CSS handles small touches such as button presses, the tab marker, week squares and the rest timer. Everything uses transform and opacity. With reduced motion turned on, GSAP skips all of it and the final layout shows straight away.
 
+## Workout screen
+
+Logging comes first: the set count, the sets already done (each can be removed), last time's best set, the weight and reps boxes and Finish set all sit above the fold. Previous and next exercise links let people go back or skip a busy machine. The form photo, Watch form, Swap, muscles worked and form tips follow below. While resting, the screen says what comes next, and the summary lists every set.
+
 ## Muscles worked
 
 Every exercise page and the live workout screen show a small body figure with the main muscle in red and helper muscles in a lighter red, plus the names of each. Helper muscles come from the exercise library.

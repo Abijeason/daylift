@@ -21,6 +21,7 @@ export interface Exercise {
   id: string
   name: string
   muscle: Muscle
+  secondary: Muscle[]
   level: 'beginner' | 'intermediate' | 'expert'
   needs: Equipment[]
   region: 'upper' | 'lower'

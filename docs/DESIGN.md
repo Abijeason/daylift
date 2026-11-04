@@ -44,6 +44,10 @@ Motion runs on GSAP through one hook, `useScreenMotion` in `src/lib/motion.ts`. 
 
 Screen content staggers in on arrival, and CSS handles small touches such as button presses, the tab marker, week squares and the rest timer. Everything uses transform and opacity. With reduced motion turned on, GSAP skips all of it and the final layout shows straight away.
 
+## Muscles worked
+
+Every exercise page and the live workout screen show a small body figure with the main muscle in red and helper muscles in a lighter red, plus the names of each. Helper muscles come from the exercise library.
+
 ## Body map
 
 Tapping a muscle lights it up and shows its everyday name above the body, like Core or Biceps, with an exercise count. Named buttons below give the same choice, which also makes it work with a keyboard or screen reader.

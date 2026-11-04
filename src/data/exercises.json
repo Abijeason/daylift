@@ -3,6 +3,10 @@
     "id": "Pushups",
     "name": "Pushups",
     "muscle": "chest",
+    "secondary": [
+      "shoulders",
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [],
     "region": "upper",
@@ -30,6 +34,10 @@
     "id": "Incline_Push-Up",
     "name": "Incline Push-Up",
     "muscle": "chest",
+    "secondary": [
+      "shoulders",
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [],
     "region": "upper",
@@ -55,6 +63,10 @@
     "id": "Dumbbell_Bench_Press",
     "name": "Dumbbell Bench Press",
     "muscle": "chest",
+    "secondary": [
+      "shoulders",
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells",
@@ -85,6 +97,10 @@
     "id": "Incline_Dumbbell_Press",
     "name": "Incline Dumbbell Press",
     "muscle": "chest",
+    "secondary": [
+      "shoulders",
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells",
@@ -115,6 +131,7 @@
     "id": "Dumbbell_Flyes",
     "name": "Dumbbell Flyes",
     "muscle": "chest",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells",
@@ -143,6 +160,10 @@
     "id": "Barbell_Bench_Press_-_Medium_Grip",
     "name": "Barbell Bench Press - Medium Grip",
     "muscle": "chest",
+    "secondary": [
+      "shoulders",
+      "triceps"
+    ],
     "level": "intermediate",
     "needs": [
       "barbellRack",
@@ -173,6 +194,10 @@
     "id": "Machine_Bench_Press",
     "name": "Machine Bench Press",
     "muscle": "chest",
+    "secondary": [
+      "shoulders",
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "chestPress"
@@ -200,6 +225,9 @@
     "id": "Cable_Crossover",
     "name": "Cable Crossover",
     "muscle": "chest",
+    "secondary": [
+      "shoulders"
+    ],
     "level": "intermediate",
     "needs": [
       "cable"
@@ -229,6 +257,10 @@
     "id": "Standing_Cable_Chest_Press",
     "name": "Standing Cable Chest Press",
     "muscle": "chest",
+    "secondary": [
+      "shoulders",
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "cable"
@@ -256,6 +288,10 @@
     "id": "Bench_Press_-_With_Bands",
     "name": "Bench Press - With Bands",
     "muscle": "chest",
+    "secondary": [
+      "shoulders",
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "bands",
@@ -284,6 +320,11 @@
     "id": "Wide-Grip_Lat_Pulldown",
     "name": "Wide-Grip Lat Pulldown",
     "muscle": "lats",
+    "secondary": [
+      "biceps",
+      "middle back",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "latPulldown"
@@ -311,6 +352,11 @@
     "id": "Close-Grip_Front_Lat_Pulldown",
     "name": "Close-Grip Front Lat Pulldown",
     "muscle": "lats",
+    "secondary": [
+      "biceps",
+      "middle back",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "latPulldown"
@@ -338,6 +384,11 @@
     "id": "Underhand_Cable_Pulldowns",
     "name": "Underhand Cable Pulldowns",
     "muscle": "lats",
+    "secondary": [
+      "biceps",
+      "middle back",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "latPulldown"
@@ -365,6 +416,7 @@
     "id": "Straight-Arm_Pulldown",
     "name": "Straight-Arm Pulldown",
     "muscle": "lats",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "cable"
@@ -392,6 +444,10 @@
     "id": "Pullups",
     "name": "Pullups",
     "muscle": "lats",
+    "secondary": [
+      "biceps",
+      "middle back"
+    ],
     "level": "intermediate",
     "needs": [
       "pullUpBar"
@@ -421,6 +477,11 @@
     "id": "Chin-Up",
     "name": "Chin-Up",
     "muscle": "lats",
+    "secondary": [
+      "biceps",
+      "forearms",
+      "middle back"
+    ],
     "level": "intermediate",
     "needs": [
       "pullUpBar"
@@ -450,6 +511,11 @@
     "id": "Seated_Cable_Rows",
     "name": "Seated Cable Rows",
     "muscle": "middle back",
+    "secondary": [
+      "biceps",
+      "lats",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "seatedRow"
@@ -477,6 +543,11 @@
     "id": "One-Arm_Dumbbell_Row",
     "name": "One-Arm Dumbbell Row",
     "muscle": "middle back",
+    "secondary": [
+      "biceps",
+      "lats",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells",
@@ -505,6 +576,11 @@
     "id": "Bent_Over_Two-Dumbbell_Row",
     "name": "Bent Over Two-Dumbbell Row",
     "muscle": "middle back",
+    "secondary": [
+      "biceps",
+      "lats",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -532,6 +608,11 @@
     "id": "Bent_Over_Barbell_Row",
     "name": "Bent Over Barbell Row",
     "muscle": "middle back",
+    "secondary": [
+      "biceps",
+      "lats",
+      "shoulders"
+    ],
     "level": "intermediate",
     "needs": [
       "barbellRack"
@@ -561,6 +642,9 @@
     "id": "Back_Flyes_-_With_Bands",
     "name": "Back Flyes - With Bands",
     "muscle": "middle back",
+    "secondary": [
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "bands"
@@ -588,6 +672,10 @@
     "id": "Superman",
     "name": "Superman",
     "muscle": "lower back",
+    "secondary": [
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [],
     "region": "upper",
@@ -613,6 +701,12 @@
     "id": "Dumbbell_Incline_Row",
     "name": "Dumbbell Incline Row",
     "muscle": "middle back",
+    "secondary": [
+      "biceps",
+      "forearms",
+      "lats",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells",
@@ -641,6 +735,9 @@
     "id": "Dumbbell_Shoulder_Press",
     "name": "Dumbbell Shoulder Press",
     "muscle": "shoulders",
+    "secondary": [
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -668,6 +765,9 @@
     "id": "Standing_Military_Press",
     "name": "Standing Military Press",
     "muscle": "shoulders",
+    "secondary": [
+      "triceps"
+    ],
     "level": "intermediate",
     "needs": [
       "barbellRack"
@@ -697,6 +797,9 @@
     "id": "Leverage_Shoulder_Press",
     "name": "Leverage Shoulder Press",
     "muscle": "shoulders",
+    "secondary": [
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "shoulderPress"
@@ -724,6 +827,7 @@
     "id": "Side_Lateral_Raise",
     "name": "Side Lateral Raise",
     "muscle": "shoulders",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -751,6 +855,7 @@
     "id": "Front_Dumbbell_Raise",
     "name": "Front Dumbbell Raise",
     "muscle": "shoulders",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -778,6 +883,7 @@
     "id": "Reverse_Flyes",
     "name": "Reverse Flyes",
     "muscle": "shoulders",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -805,6 +911,9 @@
     "id": "Face_Pull",
     "name": "Face Pull",
     "muscle": "shoulders",
+    "secondary": [
+      "middle back"
+    ],
     "level": "intermediate",
     "needs": [
       "cable"
@@ -832,6 +941,10 @@
     "id": "Cable_Seated_Lateral_Raise",
     "name": "Cable Seated Lateral Raise",
     "muscle": "shoulders",
+    "secondary": [
+      "middle back",
+      "traps"
+    ],
     "level": "beginner",
     "needs": [
       "cable"
@@ -859,6 +972,9 @@
     "id": "Shoulder_Press_-_With_Bands",
     "name": "Shoulder Press - With Bands",
     "muscle": "shoulders",
+    "secondary": [
+      "triceps"
+    ],
     "level": "beginner",
     "needs": [
       "bands"
@@ -886,6 +1002,7 @@
     "id": "Lateral_Raise_-_With_Bands",
     "name": "Lateral Raise - With Bands",
     "muscle": "shoulders",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "bands"
@@ -913,6 +1030,10 @@
     "id": "Band_Pull_Apart",
     "name": "Band Pull Apart",
     "muscle": "shoulders",
+    "secondary": [
+      "middle back",
+      "traps"
+    ],
     "level": "beginner",
     "needs": [
       "bands"
@@ -940,6 +1061,9 @@
     "id": "Dumbbell_Bicep_Curl",
     "name": "Dumbbell Bicep Curl",
     "muscle": "biceps",
+    "secondary": [
+      "forearms"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -967,6 +1091,7 @@
     "id": "Hammer_Curls",
     "name": "Hammer Curls",
     "muscle": "biceps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -994,6 +1119,9 @@
     "id": "Barbell_Curl",
     "name": "Barbell Curl",
     "muscle": "biceps",
+    "secondary": [
+      "forearms"
+    ],
     "level": "beginner",
     "needs": [
       "barbellRack"
@@ -1023,6 +1151,7 @@
     "id": "Standing_Biceps_Cable_Curl",
     "name": "Standing Biceps Cable Curl",
     "muscle": "biceps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "cable"
@@ -1050,6 +1179,7 @@
     "id": "Incline_Dumbbell_Curl",
     "name": "Incline Dumbbell Curl",
     "muscle": "biceps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells",
@@ -1078,6 +1208,9 @@
     "id": "Concentration_Curls",
     "name": "Concentration Curls",
     "muscle": "biceps",
+    "secondary": [
+      "forearms"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells",
@@ -1106,6 +1239,7 @@
     "id": "Triceps_Pushdown",
     "name": "Triceps Pushdown",
     "muscle": "triceps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "cable"
@@ -1133,6 +1267,10 @@
     "id": "Bench_Dips",
     "name": "Bench Dips",
     "muscle": "triceps",
+    "secondary": [
+      "chest",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "bench"
@@ -1160,6 +1298,7 @@
     "id": "Seated_Triceps_Press",
     "name": "Seated Triceps Press",
     "muscle": "triceps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -1187,6 +1326,10 @@
     "id": "Close-Grip_Barbell_Bench_Press",
     "name": "Close-Grip Barbell Bench Press",
     "muscle": "triceps",
+    "secondary": [
+      "chest",
+      "shoulders"
+    ],
     "level": "intermediate",
     "needs": [
       "barbellRack",
@@ -1215,6 +1358,10 @@
     "id": "Incline_Push-Up_Close-Grip",
     "name": "Incline Push-Up Close-Grip",
     "muscle": "triceps",
+    "secondary": [
+      "chest",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [],
     "region": "upper",
@@ -1240,6 +1387,7 @@
     "id": "Band_Skull_Crusher",
     "name": "Band Skull Crusher",
     "muscle": "triceps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "bands"
@@ -1267,6 +1415,10 @@
     "id": "Bodyweight_Squat",
     "name": "Bodyweight Squat",
     "muscle": "quadriceps",
+    "secondary": [
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [],
     "region": "lower",
@@ -1292,6 +1444,12 @@
     "id": "Goblet_Squat",
     "name": "Goblet Squat",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings",
+      "shoulders"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -1321,6 +1479,12 @@
     "id": "Dumbbell_Squat",
     "name": "Dumbbell Squat",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings",
+      "lower back"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -1350,6 +1514,12 @@
     "id": "Barbell_Squat",
     "name": "Barbell Squat",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings",
+      "lower back"
+    ],
     "level": "intermediate",
     "needs": [
       "barbellRack"
@@ -1379,6 +1549,11 @@
     "id": "Leg_Press",
     "name": "Leg Press",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [
       "legPress"
@@ -1406,6 +1581,7 @@
     "id": "Leg_Extensions",
     "name": "Leg Extensions",
     "muscle": "quadriceps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "legExtension"
@@ -1433,6 +1609,11 @@
     "id": "Dumbbell_Lunges",
     "name": "Dumbbell Lunges",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -1462,6 +1643,11 @@
     "id": "Bodyweight_Walking_Lunge",
     "name": "Bodyweight Walking Lunge",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [],
     "region": "lower",
@@ -1487,6 +1673,11 @@
     "id": "Dumbbell_Step_Ups",
     "name": "Dumbbell Step Ups",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells",
@@ -1515,6 +1706,10 @@
     "id": "Split_Squat_with_Dumbbells",
     "name": "Split Squat with Dumbbells",
     "muscle": "quadriceps",
+    "secondary": [
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -1542,6 +1737,12 @@
     "id": "Squats_-_With_Bands",
     "name": "Squats - With Bands",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings",
+      "lower back"
+    ],
     "level": "beginner",
     "needs": [
       "bands"
@@ -1569,6 +1770,11 @@
     "id": "Romanian_Deadlift",
     "name": "Romanian Deadlift",
     "muscle": "hamstrings",
+    "secondary": [
+      "calves",
+      "glutes",
+      "lower back"
+    ],
     "level": "intermediate",
     "needs": [
       "barbellRack"
@@ -1598,6 +1804,10 @@
     "id": "Stiff-Legged_Dumbbell_Deadlift",
     "name": "Stiff-Legged Dumbbell Deadlift",
     "muscle": "hamstrings",
+    "secondary": [
+      "glutes",
+      "lower back"
+    ],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -1625,6 +1835,7 @@
     "id": "Lying_Leg_Curls",
     "name": "Lying Leg Curls",
     "muscle": "hamstrings",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "legCurl"
@@ -1652,6 +1863,7 @@
     "id": "Seated_Leg_Curl",
     "name": "Seated Leg Curl",
     "muscle": "hamstrings",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "legCurl"
@@ -1679,6 +1891,10 @@
     "id": "Band_Good_Morning",
     "name": "Band Good Morning",
     "muscle": "hamstrings",
+    "secondary": [
+      "glutes",
+      "lower back"
+    ],
     "level": "beginner",
     "needs": [
       "bands"
@@ -1706,6 +1922,15 @@
     "id": "Barbell_Deadlift",
     "name": "Barbell Deadlift",
     "muscle": "hamstrings",
+    "secondary": [
+      "calves",
+      "forearms",
+      "glutes",
+      "lats",
+      "middle back",
+      "quadriceps",
+      "traps"
+    ],
     "level": "intermediate",
     "needs": [
       "barbellRack"
@@ -1735,6 +1960,9 @@
     "id": "Butt_Lift_Bridge",
     "name": "Butt Lift (Bridge)",
     "muscle": "glutes",
+    "secondary": [
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [],
     "region": "lower",
@@ -1760,6 +1988,9 @@
     "id": "Single_Leg_Glute_Bridge",
     "name": "Single Leg Glute Bridge",
     "muscle": "glutes",
+    "secondary": [
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [],
     "region": "lower",
@@ -1787,6 +2018,10 @@
     "id": "Barbell_Hip_Thrust",
     "name": "Barbell Hip Thrust",
     "muscle": "glutes",
+    "secondary": [
+      "calves",
+      "hamstrings"
+    ],
     "level": "intermediate",
     "needs": [
       "barbellRack",
@@ -1817,6 +2052,10 @@
     "id": "Hip_Lift_with_Band",
     "name": "Hip Lift with Band",
     "muscle": "glutes",
+    "secondary": [
+      "calves",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [
       "bands"
@@ -1844,6 +2083,7 @@
     "id": "Standing_Calf_Raises",
     "name": "Standing Calf Raises",
     "muscle": "calves",
+    "secondary": [],
     "level": "beginner",
     "needs": [],
     "region": "lower",
@@ -1869,6 +2109,7 @@
     "id": "Calf_Press",
     "name": "Calf Press",
     "muscle": "calves",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "legPress"
@@ -1896,6 +2137,7 @@
     "id": "Standing_Dumbbell_Calf_Raise",
     "name": "Standing Dumbbell Calf Raise",
     "muscle": "calves",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -1923,6 +2165,7 @@
     "id": "Dumbbell_Shrug",
     "name": "Dumbbell Shrug",
     "muscle": "traps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "dumbbells"
@@ -1950,6 +2193,7 @@
     "id": "Barbell_Shrug",
     "name": "Barbell Shrug",
     "muscle": "traps",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "barbellRack"
@@ -1977,6 +2221,7 @@
     "id": "Plank",
     "name": "Plank",
     "muscle": "abdominals",
+    "secondary": [],
     "level": "beginner",
     "needs": [],
     "region": "upper",
@@ -2003,6 +2248,7 @@
     "id": "Crunches",
     "name": "Crunches",
     "muscle": "abdominals",
+    "secondary": [],
     "level": "beginner",
     "needs": [],
     "region": "upper",
@@ -2028,6 +2274,7 @@
     "id": "Reverse_Crunch",
     "name": "Reverse Crunch",
     "muscle": "abdominals",
+    "secondary": [],
     "level": "beginner",
     "needs": [],
     "region": "upper",
@@ -2055,6 +2302,9 @@
     "id": "Russian_Twist",
     "name": "Russian Twist",
     "muscle": "abdominals",
+    "secondary": [
+      "lower back"
+    ],
     "level": "intermediate",
     "needs": [],
     "region": "upper",
@@ -2082,6 +2332,7 @@
     "id": "Oblique_Crunches",
     "name": "Oblique Crunches",
     "muscle": "abdominals",
+    "secondary": [],
     "level": "beginner",
     "needs": [],
     "region": "upper",
@@ -2107,6 +2358,7 @@
     "id": "Cable_Crunch",
     "name": "Cable Crunch",
     "muscle": "abdominals",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "cable"
@@ -2136,6 +2388,7 @@
     "id": "Flat_Bench_Lying_Leg_Raise",
     "name": "Flat Bench Lying Leg Raise",
     "muscle": "abdominals",
+    "secondary": [],
     "level": "beginner",
     "needs": [
       "bench"
@@ -2165,6 +2418,11 @@
     "id": "Walking_Treadmill",
     "name": "Walking, Treadmill",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [
       "cardioMachine"
@@ -2192,6 +2450,11 @@
     "id": "Bicycling_Stationary",
     "name": "Bicycling, Stationary",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [
       "cardioMachine"
@@ -2219,6 +2482,13 @@
     "id": "Rowing_Stationary",
     "name": "Rowing, Stationary",
     "muscle": "middle back",
+    "secondary": [
+      "biceps",
+      "calves",
+      "glutes",
+      "hamstrings",
+      "lower back"
+    ],
     "level": "beginner",
     "needs": [
       "cardioMachine"
@@ -2246,6 +2516,11 @@
     "id": "Elliptical_Trainer",
     "name": "Elliptical Trainer",
     "muscle": "quadriceps",
+    "secondary": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
     "level": "beginner",
     "needs": [
       "cardioMachine"

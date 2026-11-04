@@ -148,3 +148,13 @@ test('lifetime totals workouts and weight in the chosen units', () => {
   expect(lifetime([log([entry()])], 'kg')).toEqual({ workouts: 1, lifted: 1440 })
   expect(lifetime([log([entry()], '2026-11-02', 'lb')], 'kg').lifted).toBe(653)
 })
+
+test('equal weight with more reps is a new best', () => {
+  const more = log([entry({ sets: [{ weight: 40, reps: 14 }] })], '2026-11-03')
+  expect(newBests(more, [log([entry()])])).toEqual(['Row'])
+})
+test('bodyweight personal bests count reps', () => {
+  const bw = (reps: number, day: string) => log([entry({ exerciseId: 'p', name: 'Pushups', sets: [{ weight: 0, reps }] })], day)
+  expect(personalBests([bw(20, '2026-11-01'), bw(25, '2026-11-02')]).p).toEqual({ name: 'Pushups', weight: 0, units: 'kg', reps: 25 })
+  expect(newBests(bw(25, '2026-11-03'), [bw(20, '2026-11-01')])).toEqual(['Pushups'])
+})

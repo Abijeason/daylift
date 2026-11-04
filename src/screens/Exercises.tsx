@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { BodyMap } from '../components/BodyMap'
 import { FormDemo } from '../components/FormDemo'
+import { MusclesWorked } from '../components/MusclesWorked'
 import { exercises } from '../data'
 import { EXERCISE_SAFETY } from '../data/copy'
 import { EQUIPMENT_LABELS, MUSCLE_NAMES } from '../lib/rules'
@@ -16,6 +17,7 @@ function Detail({ exercise, onOpen, onBack }: { exercise: Exercise; onOpen(e: Ex
       <h1 data-split>{exercise.name}</h1>
       <FormDemo exercise={exercise} />
       <a className="chip" href={formVideoLink(exercise)} target="_blank" rel="noreferrer">Watch form</a>
+      <MusclesWorked exercise={exercise} />
       <h2>How to do it</h2>
       <ol className="steps">{exercise.steps.map(s => <li key={s}>{s}</li>)}</ol>
       <h2>Common mistakes</h2>

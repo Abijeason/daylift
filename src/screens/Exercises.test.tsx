@@ -70,3 +70,14 @@ test('abdominals are called Core', async () => {
   await userEvent.click(screen.getByRole('button', { name: 'Core' }))
   expect(screen.getByRole('heading', { name: 'Core' })).toBeInTheDocument()
 })
+
+test('exercise detail shows the main and helper muscles worked', async () => {
+  const user = userEvent.setup()
+  render(<Exercises />)
+  await user.type(screen.getByRole('searchbox'), 'goblet')
+  await user.click(screen.getByRole('button', { name: /goblet squat/i }))
+  const worked = screen.getByRole('region', { name: /muscles worked/i })
+  expect(worked).toHaveTextContent(/main.*quads/i)
+  expect(worked).toHaveTextContent(/glutes/i)
+  expect(worked).toHaveTextContent(/hamstrings/i)
+})

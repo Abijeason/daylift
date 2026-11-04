@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { FormDemo } from '../components/FormDemo'
+import { MusclesWorked } from '../components/MusclesWorked'
 import { TimerRing } from '../components/TimerRing'
 import { exercises } from '../data'
 import { FIRST_LIFT_TIP, WARMUPS } from '../data/warmups'
@@ -258,6 +259,7 @@ export function Workout({ onExit }: { onExit(): void }) {
           ))}
         </div>
       )}
+      <MusclesWorked exercise={exercise} />
       <details className="tips">
         <summary>Form tips</summary>
         <ol>{exercise.steps.map(s => <li key={s}>{s}</li>)}</ol>

@@ -157,6 +157,11 @@ test('band exercises need no weight', () => {
   expect(screen.queryByLabelText(/weight/i)).not.toBeInTheDocument()
 })
 
+test('the workout shows which muscles the exercise works', () => {
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  expect(screen.getByRole('region', { name: /muscles worked/i })).toBeInTheDocument()
+})
+
 test('watch form links to YouTube', () => {
   renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
   expect(screen.getByRole('link', { name: /watch form/i })).toHaveAttribute('href', expect.stringContaining('youtube.com'))

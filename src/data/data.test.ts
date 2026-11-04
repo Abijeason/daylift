@@ -12,6 +12,8 @@ test('ids are unique', () => expect(new Set(ids).size).toBe(ids.length))
 
 test.each(exercises)('$id is complete', e => {
   expect(MUSCLES).toContain(e.muscle)
+  e.secondary.forEach(m => expect(MUSCLES).toContain(m))
+  expect(e.secondary).not.toContain(e.muscle)
   e.needs.forEach(n => expect(EQUIPMENT).toContain(n))
   expect(e.steps.length).toBeGreaterThan(0)
   expect(e.mistakes.length).toBeGreaterThan(0)

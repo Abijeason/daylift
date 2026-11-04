@@ -1,17 +1,27 @@
 import { useRef, useState } from 'react'
 import { LineChart } from '../components/LineChart'
+import { exercises } from '../data'
 import { convert, personalBests } from '../lib/progress'
 import { WORKOUT_NAMES } from '../lib/rules'
 import { useScreenMotion } from '../lib/motion'
 import { useAppData } from '../state/useAppData'
+
+const timed = new Set(exercises.filter(e => e.timed).map(e => e.id))
+
+function formatBest(id: string, b: { weight: number; units: string; reps: number }): string {
+  if (b.weight > 0) return `${b.weight} ${b.units} × ${b.reps}`
+  return timed.has(id) ? `${b.reps} sec` : `${b.reps} reps`
+}
 
 export function Progress() {
   const { data } = useAppData()
   const history = data.history
   const units = data.profile?.units ?? 'kg'
   const bests = Object.entries(personalBests(history))
+  // Only weighted exercises have a weight to chart.
+  const charted = bests.filter(([, b]) => b.weight > 0)
   const [chosen, setChosen] = useState<string | null>(null)
-  const chartId = chosen ?? bests[0]?.[0]
+  const chartId = chosen ?? charted[0]?.[0]
   const ref = useRef<HTMLElement>(null)
   useScreenMotion(ref, [history.length])
 
@@ -33,12 +43,12 @@ export function Progress() {
   return (
     <main className="screen" ref={ref}>
       <h1 data-split>Progress</h1>
-      {bests.length > 0 && (
+      {charted.length > 0 && (
         <section>
           <h2>Weight over time</h2>
           <label className="field">Exercise
             <select value={chartId} onChange={e => setChosen(e.target.value)}>
-              {bests.map(([id, b]) => <option key={id} value={id}>{b.name}</option>)}
+              {charted.map(([id, b]) => <option key={id} value={id}>{b.name}</option>)}
             </select>
           </label>
           <p className="muted">Your heaviest set each time you did this exercise.</p>
@@ -52,7 +62,7 @@ export function Progress() {
                 <span>{points.length} sessions</span>
                 <strong>{change > 0 ? '+' : ''}{change} {units}</strong>
               </div>
-              <LineChart label={bests.find(([id]) => id === chartId)?.[1].name ?? ''} values={points} units={units} />
+              <LineChart label={charted.find(([id]) => id === chartId)?.[1].name ?? ''} values={points} units={units} />
             </>
           )}
         </section>
@@ -63,7 +73,7 @@ export function Progress() {
           {bests.map(([id, b]) => (
             <div className="row" key={id} data-reveal>
               <span>{b.name}</span>
-              <strong>{b.weight} {b.units}</strong>
+              <strong>{formatBest(id, b)}</strong>
             </div>
           ))}
         </section>

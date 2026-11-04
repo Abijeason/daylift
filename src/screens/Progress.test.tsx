@@ -10,7 +10,7 @@ test('empty history shows a friendly start message', () => {
 test('history and bests are listed', () => {
   renderWithData(<Progress />, { history: [testLog()] })
   expect(screen.getAllByText('Full Body A').length).toBeGreaterThan(0)
-  expect(screen.getByText('20 kg')).toBeInTheDocument()
+  expect(screen.getByText('20 kg × 10')).toBeInTheDocument()
 })
 
 test('history with a removed exercise still shows its name', () => {
@@ -41,4 +41,17 @@ test('chart converts old weights to the current units', () => {
     history: [testLog(), testLog('2026-10-02', { units: 'lb', entries: [{ exerciseId: 'Dumbbell_Bench_Press', name: 'Dumbbell Bench Press', region: 'upper', targetSets: 3, repMax: 12, sets: [{ weight: 50, reps: 10 }] }] })],
   })
   expect(screen.getByRole('img', { name: /from 45 to 50/ })).toBeInTheDocument()
+})
+
+test('bodyweight and timed bests show reps and seconds', () => {
+  const log = testLog('2026-10-01', {
+    entries: [
+      { exerciseId: 'Pushups', name: 'Pushups', region: 'upper', targetSets: 3, repMax: 12, sets: [{ weight: 0, reps: 25 }] },
+      { exerciseId: 'Plank', name: 'Plank', region: 'upper', targetSets: 3, repMax: 12, sets: [{ weight: 0, reps: 45 }] },
+    ],
+  })
+  renderWithData(<Progress />, { history: [log] })
+  expect(screen.getByText('25 reps')).toBeInTheDocument()
+  expect(screen.getByText('45 sec')).toBeInTheDocument()
+  expect(screen.queryByRole('heading', { name: /weight over time/i })).not.toBeInTheDocument()
 })

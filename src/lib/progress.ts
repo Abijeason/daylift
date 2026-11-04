@@ -50,13 +50,21 @@ export function suggestWeight(history: WorkoutLog[], exerciseId: string, units: 
 
 type Best = { name: string; weight: number; units: Units; reps: number }
 
+// Heavier wins; at the same weight, more reps wins. Bodyweight sets (weight 0) compete on reps alone.
+// Weights are compared in kg to 2 decimals so kg and lb logs of the same load count as equal.
+function beats(weight: number, units: Units, reps: number, best: Best): boolean {
+  const kg = Math.round(toKg(weight, units) * 100)
+  const bestKg = Math.round(toKg(best.weight, best.units) * 100)
+  return kg > bestKg || (kg === bestKg && reps > best.reps)
+}
+
 export function personalBests(history: WorkoutLog[]): Record<string, Best> {
   const bests: Record<string, Best> = {}
   for (const log of history) {
     for (const entry of log.entries) {
       for (const set of entry.sets) {
         const current = bests[entry.exerciseId]
-        if (set.weight > 0 && (!current || toKg(set.weight, log.units) > toKg(current.weight, current.units))) {
+        if (!current || beats(set.weight, log.units, set.reps, current)) {
           bests[entry.exerciseId] = { name: entry.name, weight: set.weight, units: log.units, reps: set.reps }
         }
       }
@@ -67,10 +75,12 @@ export function personalBests(history: WorkoutLog[]): Record<string, Best> {
 
 export function newBests(log: WorkoutLog, priorHistory: WorkoutLog[]): string[] {
   const prior = personalBests(priorHistory)
+  const today = personalBests([log])
   return log.entries
     .filter(e => {
       const best = prior[e.exerciseId]
-      return best && toKg(heaviest(e), log.units) > toKg(best.weight, best.units)
+      const top = today[e.exerciseId]
+      return best && top && beats(top.weight, top.units, top.reps, best)
     })
     .map(e => e.name)
 }

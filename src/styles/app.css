@@ -381,6 +381,19 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 @keyframes stamp { from { transform: translateY(105%); } }
 @keyframes hop { 0%, 8%, 100% { transform: none; } 4% { transform: translateY(-6%); } }
 
+.worked { display: flex; align-items: center; gap: 16px; padding: 12px 16px; background: var(--surface); border-radius: 16px; }
+.worked svg { flex: none; width: 76px; }
+.worked .body-outline { fill: var(--line); }
+.worked h2 { margin: 0 0 4px; font-size: 1rem; }
+.worked p { margin: 4px 0; font-size: 0.92rem; color: var(--muted); }
+.worked strong { color: var(--text); }
+.worked-part { fill: var(--surface-2); }
+.worked-part.main { fill: var(--red); }
+.worked-part.helper { fill: color-mix(in srgb, var(--red) 40%, var(--surface-2)); }
+.worked-dot { display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 3px; vertical-align: 0; }
+.worked-dot.main { background: var(--red); }
+.worked-dot.helper { background: color-mix(in srgb, var(--red) 40%, var(--surface-2)); }
+
 @media (hover: hover) {
   .welcome-start:hover span { transform: translateX(4px); }
   .option:hover { padding-left: 8px; }

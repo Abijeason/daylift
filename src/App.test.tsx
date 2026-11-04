@@ -47,9 +47,12 @@ test('returning users go straight to Home', () => {
   expect(screen.getByText('Daylift')).toBeInTheDocument()
 })
 
-test('the welcome page leads with the animated logo, not a photo', () => {
+test('the welcome page is giant DAY and LIFT type with the logo, not a photo', () => {
   const { container } = render(<AppDataProvider><App /></AppDataProvider>)
-  expect(container.querySelector('.logo-mark')).toBeInTheDocument()
-  expect(container.querySelectorAll('.welcome-word span')).toHaveLength(7)
+  expect(container.querySelector('.welcome .logo-mark')).toBeInTheDocument()
+  const lines = [...container.querySelectorAll('.welcome-word > span')].map(l => l.textContent)
+  expect(lines).toEqual(['Day', 'lift'])
+  expect(container.querySelectorAll('.welcome-word i')).toHaveLength(7)
+  expect(screen.getByText('Goal')).toBeInTheDocument()
   expect(container.querySelectorAll('.welcome img')).toHaveLength(0)
 })

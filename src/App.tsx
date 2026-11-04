@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Backdrop } from './components/Backdrop'
 import { requestPersistence } from './lib/storage'
 import { newSession } from './lib/session'
 import { Exercises } from './screens/Exercises'
@@ -54,6 +55,7 @@ export function App() {
 
   return (
     <>
+      <Backdrop />
       {warning}
       <div className="tab-screen" key={tab}>
         {tab === 'Home' && (

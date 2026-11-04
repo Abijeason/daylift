@@ -23,9 +23,13 @@ Home is a stacked deck: today's workout is a red card in front, with the next tw
 
 Home answers three questions: what do I do now, how is my week going, and what did I do last time. It has the workout title, a Monday to Sunday strip, lifetime stats, the full exercise list and the last workout.
 
-## Logo
+## Logo and welcome page
 
-A weight plate rises over a barbell like the sun, joining "day" and "lift" in one mark. On the welcome page the bar draws in, the plate rises and spins, rings pulse outward and the giant letters stamp up, then a wave runs through them every few seconds. There are no photos or videos on the welcome page or at the top of Home.
+The logo is a weight plate rising over a barbell like the sun, joining "day" and "lift". The welcome page sets DAYLIFT as giant type, with DAY in white and LIFT in red. The letters stamp up on arrival, a white line draws under them, and a small wave runs through LIFT every few seconds.
+
+## Background
+
+Two large outlined weight plates turn slowly behind everything, half off the screen edge, so the app always feels alive. They're clearly visible on the welcome page and very faint behind the other screens, so they never compete with content. They stop when reduced motion is turned on.
 
 ## Motion
 

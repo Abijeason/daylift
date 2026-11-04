@@ -8,7 +8,7 @@ const fresh = (): SavedData => ({ version: 1, profile: null, history: [], inProg
 
 const GOALS = ['fitLean', 'buildMuscle', 'getStronger', 'loseWeight', 'toneUp', 'buildStamina', 'stayActive']
 const LEVELS = ['brandNew', 'beginner', 'intermediate', 'advanced']
-const WORKOUTS = ['fullA', 'fullB', 'fullC', 'upperA', 'upperB', 'lowerA', 'lowerB', 'push', 'pull', 'legs', 'upper', 'lower']
+const WORKOUTS = ['fullA', 'fullB', 'fullC', 'upperA', 'upperB', 'lowerA', 'lowerB', 'push', 'pull', 'legs', 'upper', 'lower', 'custom']
 const UNITS = ['kg', 'lb']
 
 type Fields = Record<string, unknown>
@@ -43,12 +43,17 @@ const isLog = (l: unknown) => isObject(l)
   && isString(l.id)
   && oneOf(WORKOUTS, l.type)
   && oneOf(UNITS, l.units)
+  && (l.title === undefined || isString(l.title))
   && isDate(l.startedAt) && isDate(l.finishedAt)
   && Array.isArray(l.entries) && l.entries.every(isEntry)
 
 const isExercise = (e: unknown) => isObject(e)
   && isString(e.id) && isString(e.name) && isString(e.muscle)
   && [e.needs, e.images, e.steps, e.mistakes].every(Array.isArray)
+
+const isCustom = (w: unknown) => isObject(w)
+  && isString(w.id) && isString(w.name)
+  && Array.isArray(w.exerciseIds) && w.exerciseIds.every(isString)
 
 function isSession(s: unknown): boolean {
   if (!isObject(s) || !isLog(s.log) || !isObject(s.plan)) return false
@@ -70,6 +75,7 @@ function parse(text: string): SavedData | null {
       && Array.isArray(d.history) && d.history.every(isLog)
       && (d.inProgress === null || isSession(d.inProgress))
       && (d.theme === undefined || oneOf(['auto', 'light', 'dark'], d.theme))
+      && (d.customWorkouts === undefined || (Array.isArray(d.customWorkouts) && d.customWorkouts.every(isCustom)))
     return valid ? (d as unknown as SavedData) : null
   } catch {
     return null

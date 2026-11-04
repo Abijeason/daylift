@@ -19,7 +19,7 @@ export function newSession(plan: PlannedWorkout, units: Units, now: Date, target
     plan,
     exerciseIndex: -1,
     restEndsAt: null,
-    log: { id: at, type: plan.type, units, targetDays, startedAt: at, finishedAt: at, entries: plan.exercises.map(e => toEntry(e, plan)) },
+    log: { id: at, type: plan.type, title: plan.title, units, targetDays, startedAt: at, finishedAt: at, entries: plan.exercises.map(e => toEntry(e, plan)) },
   }
 }
 

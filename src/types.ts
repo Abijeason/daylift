@@ -13,7 +13,7 @@ export type Goal = 'fitLean' | 'buildMuscle' | 'getStronger' | 'loseWeight' | 't
 export type Level = 'brandNew' | 'beginner' | 'intermediate' | 'advanced'
 export type WorkoutType =
   | 'fullA' | 'fullB' | 'fullC' | 'upperA' | 'upperB' | 'lowerA' | 'lowerB'
-  | 'push' | 'pull' | 'legs' | 'upper' | 'lower'
+  | 'push' | 'pull' | 'legs' | 'upper' | 'lower' | 'custom'
 export type Units = 'kg' | 'lb'
 export type Theme = 'auto' | 'light' | 'dark'
 
@@ -32,6 +32,12 @@ export interface Exercise {
   steps: string[]
   mistakes: string[]
   easierIds: string[]
+}
+
+export interface CustomWorkout {
+  id: string
+  name: string
+  exerciseIds: string[]
 }
 
 export interface Profile {
@@ -53,6 +59,7 @@ export interface Prescription {
 
 export interface PlannedWorkout {
   type: WorkoutType
+  title?: string
   prescription: Prescription
   exercises: Exercise[]
   estMinutes: number
@@ -76,6 +83,7 @@ export interface WorkoutLog {
   id: string
   type: WorkoutType
   units: Units
+  title?: string
   targetDays?: number
   startedAt: string
   finishedAt: string
@@ -96,4 +104,5 @@ export interface SavedData {
   inProgress: InProgress | null
   timerNoteSeen?: boolean
   theme?: Theme
+  customWorkouts?: CustomWorkout[]
 }

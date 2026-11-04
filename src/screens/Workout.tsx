@@ -6,9 +6,10 @@ import { exercises } from '../data'
 import { FIRST_LIFT_TIP, WARMUPS } from '../data/warmups'
 import { swapOptions } from '../lib/planner'
 import { formatSet, lastPerformance, newBests, parseReps, parseWeight, suggestWeight, totalWeight, workoutsThisWeek } from '../lib/progress'
-import { HOLD_SECONDS, WORKOUT_NAMES } from '../lib/rules'
+import { HOLD_SECONDS, LEVELS } from '../lib/rules'
 import { addSet, finish, removeSet, secondsLeft, swapExercise } from '../lib/session'
 import { useScreenMotion } from '../lib/motion'
+import { workoutName } from '../lib/custom'
 import { formVideoLink } from '../lib/video'
 import { useAppData } from '../state/useAppData'
 import type { Exercise, InProgress, Units, WorkoutLog } from '../types'
@@ -185,7 +186,7 @@ export function Workout({ onExit }: { onExit(): void }) {
 
   const header = (
     <header className="workout-head">
-      <span className="eyebrow">{WORKOUT_NAMES[plan.type]}</span>
+      <span className="eyebrow">{workoutName(plan)}</span>
       <button className="link" onClick={() => setConfirmEnd(true)}>End workout</button>
       {confirmEnd && (
         <div className="card end-card" role="dialog" aria-label="End workout">
@@ -266,6 +267,12 @@ export function Workout({ onExit }: { onExit(): void }) {
           ? `All ${entry.targetSets} sets done · log an extra set or move on`
           : `Set ${entry.sets.length + 1} of ${entry.targetSets} · ${exercise.timed ? `hold ${HOLD_SECONDS}` : `${plan.prescription.repMin}–${plan.prescription.repMax} reps`}`}
       </p>
+      {!exercise.needs.every(n => profile.equipment.includes(n)) && (
+        <p className="flag">Not on your My Gym list. {options.length > 0 ? 'Swap it if you need to.' : 'Skip it with Next exercise if you need to.'}</p>
+      )}
+      {!LEVELS[profile.level].allowed.includes(exercise.level) && (
+        <p className="flag">This one may be above your level. Swap for an easier option if it feels too hard.</p>
+      )}
       {entry.sets.length > 0 && (
         <ol className="logged">
           {entry.sets.map((s, i) => (

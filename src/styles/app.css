@@ -410,6 +410,25 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .history[open] summary span:first-child::after { content: ' ⌄'; }
 .history .done-row { padding-left: 4px; }
 
+.mine-head { display: flex; justify-content: space-between; align-items: center; }
+.mine-head h2 { margin: 0; }
+.mine { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.mine-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 14px; background: var(--surface); border-radius: 16px; }
+.mine-row strong { display: block; font-family: var(--display); font-size: 1.2rem; text-transform: uppercase; }
+.mine-row small { color: var(--muted); }
+.mine-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.pill.small { min-height: 44px; padding: 0 16px; font-size: 1rem; }
+.import-card { position: sticky; top: 0; z-index: 6; margin: 0 var(--gutter); margin-top: calc(env(safe-area-inset-top) + 12px); padding: 16px; display: flex; flex-direction: column; gap: 8px; background: var(--surface); border: 2px solid var(--red); border-radius: 18px; }
+.import-card strong { font-family: var(--display); font-size: 1.6rem; text-transform: uppercase; }
+.picked { list-style: none; margin: 0; padding: 0; }
+.picked li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; align-items: center; gap: 10px; margin: 0; padding: 8px 0; border-top: 1px solid var(--line); }
+.picked strong { display: block; font-weight: 600; }
+.picked small { color: var(--muted); }
+.picked-actions { display: flex; }
+.picked-actions button { min-width: 40px; min-height: 44px; border: 0; background: none; color: var(--text); font-size: 1.1rem; }
+.picked-actions button:disabled { color: var(--line); }
+.flag { margin: 0; padding: 8px 12px; border-radius: 10px; background: color-mix(in srgb, var(--red) 14%, var(--surface)); font-size: 0.9rem; font-weight: 500; }
+
 @media (hover: hover) {
   .welcome-start:hover span { transform: translateX(4px); }
   .option:hover { padding-left: 8px; }

@@ -19,6 +19,10 @@ All gym-goers, with a focus on beginners. A typical user started a month ago and
 
 Setup, Today, guided workout, warm-ups, rest timer, suggested weights, exercise library, body map, form animations and videos, progress tracking, backups and offline use.
 
+## Added after first feedback
+
+Custom workouts and share links, so friends at different levels can do the same exercises.
+
 ## Coming soon
 
 AI photo scan, AI coach, reminders when the app is closed, cloud backup, store apps and custom form video clips.

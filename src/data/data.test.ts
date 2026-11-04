@@ -26,7 +26,7 @@ test.each(['chest', 'quadriceps', 'glutes', 'abdominals', 'triceps'])('%s has a 
 })
 
 test('every workout type has a warm-up of 3 or more steps', () => {
-  expect(Object.keys(WARMUPS)).toHaveLength(12)
+  expect(Object.keys(WARMUPS)).toHaveLength(13)
   Object.values(WARMUPS).forEach(w => expect(w.length).toBeGreaterThanOrEqual(3))
 })
 

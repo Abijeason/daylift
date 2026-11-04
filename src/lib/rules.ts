@@ -29,7 +29,7 @@ export const MUSCLE_NAMES: Record<Muscle, string> = {
 export const WORKOUT_NAMES: Record<WorkoutType, string> = {
   fullA: 'Full Body A', fullB: 'Full Body B', fullC: 'Full Body C', upperA: 'Upper Body A', upperB: 'Upper Body B',
   lowerA: 'Lower Body A', lowerB: 'Lower Body B', push: 'Push Day', pull: 'Pull Day', legs: 'Leg Day',
-  upper: 'Upper Body', lower: 'Lower Body',
+  upper: 'Upper Body', lower: 'Lower Body', custom: 'Custom workout',
 }
 
 interface GoalRule {

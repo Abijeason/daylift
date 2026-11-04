@@ -12,6 +12,7 @@ export const WARMUPS: Record<WorkoutType, string[]> = {
   upperA: upper, upperB: upper, upper,
   lowerA: lower, lowerB: lower, lower, legs: lower,
   push, pull,
+  custom: full,
 }
 
 export const FIRST_LIFT_TIP = 'Before your first big lift, do 2 lighter sets of 5 to 8 reps. These warm-up sets are not logged.'

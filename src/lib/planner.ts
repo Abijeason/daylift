@@ -1,3 +1,4 @@
+import { planCount } from './custom'
 import { exerciseCount, LEVELS, minutesPerExercise, prescription, WARMUP_MINUTES, workoutMinutes } from './rules'
 import { EQUIPMENT } from '../types'
 import type { Equipment, Exercise, Muscle, PlannedWorkout, Profile, WorkoutLog, WorkoutType } from '../types'
@@ -24,6 +25,7 @@ const SLOTS: Record<WorkoutType, Muscle[]> = {
   push: ['chest', 'shoulders', 'triceps', 'chest', 'shoulders', 'triceps', 'abdominals', 'chest'],
   pull: ['lats', 'middle back', 'biceps', 'shoulders', 'traps', 'lats', 'biceps', 'abdominals'],
   legs: ['quadriceps', 'glutes', 'hamstrings', 'calves', 'abdominals', 'quadriceps', 'hamstrings', 'glutes'],
+  custom: [],
 }
 
 const VARIANT: Partial<Record<WorkoutType, number>> = { fullB: 1, fullC: 2, upperB: 1, lowerB: 1, upper: 2, lower: 2 }
@@ -70,7 +72,7 @@ export function buildWorkout(profile: Profile, type: WorkoutType, all: Exercise[
 
 export function nextWorkout(profile: Profile, history: WorkoutLog[], all: Exercise[]): PlannedWorkout {
   const order = rotation(profile.daysPerWeek)
-  return buildWorkout(profile, order[history.length % order.length], all)
+  return buildWorkout(profile, order[planCount(history) % order.length], all)
 }
 
 export function swapOptions(profile: Profile, current: Exercise, plan: PlannedWorkout, all: Exercise[]): Exercise[] {

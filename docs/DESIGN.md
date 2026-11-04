@@ -44,6 +44,12 @@ Motion runs on GSAP through one hook, `useScreenMotion` in `src/lib/motion.ts`. 
 
 Screen content staggers in on arrival, and CSS handles small touches such as button presses, the tab marker, week squares and the rest timer. Everything uses transform and opacity. With reduced motion turned on, GSAP skips all of it and the final layout shows straight away.
 
+## My workouts
+
+People can build their own workouts alongside the automatic plan. The builder picks exercises and their order, and sets, reps, rest and suggested weights still come from each person's own goal, level and history. Doing a custom workout doesn't move the automatic plan forward.
+
+A Share button creates a link that holds only the workout's name and exercise list. When a friend opens it, their app offers to add the workout. If an exercise isn't on their My Gym list or is above their level, it's flagged with a swap or skip option. Nothing syncs between phones, and each person's history stays on their own phone.
+
 ## Workout screen
 
 Logging comes first: the set count, the sets already done (each can be removed), last time's best set, the weight and reps boxes and Finish set all sit above the fold. Previous and next exercise links let people go back or skip a busy machine. The form photo, Watch form, Swap, muscles worked and form tips follow below. While resting, the screen says what comes next, and the summary lists every set.

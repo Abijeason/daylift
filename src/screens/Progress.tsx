@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { LineChart } from '../components/LineChart'
 import { exercises } from '../data'
 import { convert, formatSet, personalBests } from '../lib/progress'
-import { WORKOUT_NAMES } from '../lib/rules'
+import { workoutName } from '../lib/custom'
 import { useScreenMotion } from '../lib/motion'
 import { useAppData } from '../state/useAppData'
 
@@ -79,7 +79,7 @@ export function Progress() {
         {[...history].reverse().map(log => (
           <details className="history" key={log.id} data-reveal>
             <summary className="row">
-              <span>{WORKOUT_NAMES[log.type]}</span>
+              <span>{workoutName(log)}</span>
               <span className="muted">{new Date(log.finishedAt).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</span>
             </summary>
             {log.entries.map(e => (

@@ -65,6 +65,12 @@ test.each([
   expect(load().damaged).toBe(t)
 })
 
+test('custom workouts are kept, and malformed ones rejected', () => {
+  const good = { ...sample, customWorkouts: [{ id: 'a', name: 'Legs', exerciseIds: ['Pushups'] }] }
+  expect(importBackup(exportBackup(good))).toEqual(good)
+  expect(importBackup(JSON.stringify({ ...sample, customWorkouts: [{ id: 'a' }] }))).toBeNull()
+})
+
 test('rejects an unknown theme', () => {
   expect(importBackup('{"version":1,"profile":null,"history":[],"inProgress":null,"theme":"neon"}')).toBeNull()
 })

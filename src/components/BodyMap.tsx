@@ -9,10 +9,20 @@ const CHIPS: Muscle[] = [
   'lower back', 'traps', 'glutes', 'quadriceps', 'hamstrings', 'calves',
 ]
 
+const onFront = new Set(FRONT.map(r => r.muscle))
+// Mid back has no shape of its own; it sits under the lats on the back view.
+const onBack = new Set<Muscle>([...BACK.map(r => r.muscle), 'middle back'])
+
 export function BodyMap({ selected, onSelect }: { selected: Muscle | null; onSelect(m: Muscle): void }) {
   const [side, setSide] = useState<'front' | 'back'>('front')
   const regions = side === 'front' ? FRONT : BACK
   const outline = side === 'front' ? FRONT_OUTLINE : BACK_OUTLINE
+  // Muscles drawn on only one side flip the figure to that side; shared ones keep the current view.
+  const pick = (m: Muscle) => {
+    if (onBack.has(m) && !onFront.has(m)) setSide('back')
+    if (onFront.has(m) && !onBack.has(m)) setSide('front')
+    onSelect(m)
+  }
   return (
     <div className="body-map">
       <div className="segmented">
@@ -30,7 +40,7 @@ export function BodyMap({ selected, onSelect }: { selected: Muscle | null; onSel
       {/* The named buttons are the accessible way in. The drawing is a shortcut for touch. */}
       <div className="muscle-chips">
         {CHIPS.map(m => (
-          <button key={m} className="chip" aria-pressed={selected === m} onClick={() => onSelect(m)}>{MUSCLE_NAMES[m]}</button>
+          <button key={m} className="chip" aria-pressed={selected === m} onClick={() => pick(m)}>{MUSCLE_NAMES[m]}</button>
         ))}
       </div>
     </div>

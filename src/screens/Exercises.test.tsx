@@ -81,3 +81,18 @@ test('exercise detail shows the main and helper muscles worked', async () => {
   expect(worked).toHaveTextContent(/glutes/i)
   expect(worked).toHaveTextContent(/hamstrings/i)
 })
+
+test('tapping a back muscle flips the body to the back, and a front muscle flips it back', async () => {
+  const user = userEvent.setup()
+  render(<BodyMap selected={null} onSelect={() => {}} />)
+  const back = screen.getByRole('button', { name: 'Back' })
+  const front = screen.getByRole('button', { name: 'Front' })
+  await user.click(screen.getByRole('button', { name: 'Traps' }))
+  expect(back).toHaveAttribute('aria-pressed', 'true')
+  await user.click(screen.getByRole('button', { name: 'Chest' }))
+  expect(front).toHaveAttribute('aria-pressed', 'true')
+  await user.click(screen.getByRole('button', { name: 'Mid back' }))
+  expect(back).toHaveAttribute('aria-pressed', 'true')
+  await user.click(screen.getByRole('button', { name: 'Shoulders' }))
+  expect(back).toHaveAttribute('aria-pressed', 'true')
+})

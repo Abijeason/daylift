@@ -77,10 +77,18 @@ export function Progress() {
       <section>
         <h2>History</h2>
         {[...history].reverse().map(log => (
-          <div className="row" key={log.id} data-reveal>
-            <span>{WORKOUT_NAMES[log.type]}</span>
-            <span className="muted">{new Date(log.finishedAt).toLocaleDateString()}</span>
-          </div>
+          <details className="history" key={log.id} data-reveal>
+            <summary className="row">
+              <span>{WORKOUT_NAMES[log.type]}</span>
+              <span className="muted">{new Date(log.finishedAt).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+            </summary>
+            {log.entries.map(e => (
+              <div className="done-row" key={e.exerciseId}>
+                <strong>{e.name}</strong>
+                <span className="done-sets">{e.sets.map((s, i) => <span key={i}>{formatSet(s.weight, s.reps, log.units, timed.has(e.exerciseId))}</span>)}</span>
+              </div>
+            ))}
+          </details>
         ))}
       </section>
     </main>

@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Progress } from './Progress'
 import { renderWithData, testLog, testProfile } from '../test-utils'
 
@@ -10,7 +11,7 @@ test('empty history shows a friendly start message', () => {
 test('history and bests are listed', () => {
   renderWithData(<Progress />, { history: [testLog()] })
   expect(screen.getAllByText('Full Body A').length).toBeGreaterThan(0)
-  expect(screen.getByText('20 kg × 10')).toBeInTheDocument()
+  expect(screen.getAllByText('20 kg × 10').length).toBeGreaterThan(0)
 })
 
 test('history with a removed exercise still shows its name', () => {
@@ -51,7 +52,15 @@ test('bodyweight and timed bests show reps and seconds', () => {
     ],
   })
   renderWithData(<Progress />, { history: [log] })
-  expect(screen.getByText('25 reps')).toBeInTheDocument()
-  expect(screen.getByText('45 sec')).toBeInTheDocument()
+  expect(screen.getAllByText('25 reps').length).toBeGreaterThan(0)
+  expect(screen.getAllByText('45 sec').length).toBeGreaterThan(0)
   expect(screen.queryByRole('heading', { name: /weight over time/i })).not.toBeInTheDocument()
+})
+
+test('a past workout opens to show what was done, with a readable date', async () => {
+  renderWithData(<Progress />, { history: [testLog()] })
+  const day = new Date('2026-10-01T12:00:00').toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })
+  expect(screen.getByText(day)).toBeInTheDocument()
+  await userEvent.click(screen.getByText('Full Body A', { selector: 'summary *' }))
+  expect(screen.getAllByText('20 kg × 10').length).toBeGreaterThan(1)
 })

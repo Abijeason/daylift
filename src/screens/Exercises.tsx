@@ -78,6 +78,7 @@ export function Exercises() {
         {results.map(e => (
           <button key={e.id} className="option" onClick={() => setOpen(e)}>
             <strong>{e.name}</strong>
+            <span>{e.needs.length ? e.needs.map(n => EQUIPMENT_LABELS[n]).join(', ') : 'No equipment'}</span>
           </button>
         ))}
       </div>

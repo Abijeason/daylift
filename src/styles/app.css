@@ -404,6 +404,12 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .done-sets { display: flex; flex-wrap: wrap; gap: 6px; }
 .done-sets span { padding: 4px 10px; border-radius: 999px; background: var(--surface); color: var(--muted); font-size: 0.86rem; font-weight: 600; }
 
+.history summary { list-style: none; cursor: pointer; }
+.history summary::-webkit-details-marker { display: none; }
+.history summary span:first-child::after { content: ' ›'; color: var(--muted); }
+.history[open] summary span:first-child::after { content: ' ⌄'; }
+.history .done-row { padding-left: 4px; }
+
 @media (hover: hover) {
   .welcome-start:hover span { transform: translateX(4px); }
   .option:hover { padding-left: 8px; }

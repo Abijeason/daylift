@@ -111,3 +111,10 @@ test('a rowing exercise shows mid back on the back of the muscles-worked figure'
   await user.click(screen.getByRole('button', { name: /seated cable rows/i }))
   expect(container.querySelectorAll('.worked-part.main')).toHaveLength(2)
 })
+
+test('the exercise list says what equipment each one needs', async () => {
+  render(<Exercises />)
+  await userEvent.type(screen.getByRole('searchbox'), 'squat')
+  expect(screen.getByRole('button', { name: /barbell squat.*barbell and rack/i })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: /bodyweight squat.*no equipment/i })).toBeInTheDocument()
+})

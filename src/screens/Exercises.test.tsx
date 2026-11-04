@@ -96,3 +96,18 @@ test('tapping a back muscle flips the body to the back, and a front muscle flips
   await user.click(screen.getByRole('button', { name: 'Shoulders' }))
   expect(back).toHaveAttribute('aria-pressed', 'true')
 })
+
+test('mid back lights up on the back view when chosen', () => {
+  const { container } = render(<BodyMap selected="middle back" onSelect={() => {}} />)
+  return userEvent.click(screen.getByRole('button', { name: 'Back' })).then(() => {
+    expect(container.querySelectorAll('.muscle.on polygon')).toHaveLength(2)
+  })
+})
+
+test('a rowing exercise shows mid back on the back of the muscles-worked figure', async () => {
+  const user = userEvent.setup()
+  const { container } = render(<Exercises />)
+  await user.type(screen.getByRole('searchbox'), 'seated cable rows')
+  await user.click(screen.getByRole('button', { name: /seated cable rows/i }))
+  expect(container.querySelectorAll('.worked-part.main')).toHaveLength(2)
+})

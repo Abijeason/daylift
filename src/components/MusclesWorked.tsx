@@ -1,10 +1,10 @@
 import { MUSCLE_NAMES } from '../lib/rules'
 import type { Exercise } from '../types'
-import { BACK, BACK_OUTLINE, FRONT, FRONT_OUTLINE } from './bodyShapes'
+import { BACK, BACK_OUTLINE, FRONT, FRONT_OUTLINE, MID_BACK } from './bodyShapes'
 
 // Shows the side of the body where the main muscle is drawn, with helper muscles in a lighter shade.
 export function MusclesWorked({ exercise }: { exercise: Exercise }) {
-  const onBack = !FRONT.some(r => r.muscle === exercise.muscle) && BACK.some(r => r.muscle === exercise.muscle)
+  const onBack = exercise.muscle === 'middle back' || (!FRONT.some(r => r.muscle === exercise.muscle) && BACK.some(r => r.muscle === exercise.muscle))
   const regions = onBack ? BACK : FRONT
   const outline = onBack ? BACK_OUTLINE : FRONT_OUTLINE
   const shade = (m: string) => (m === exercise.muscle ? 'main' : exercise.secondary.includes(m as Exercise['muscle']) ? 'helper' : '')
@@ -14,6 +14,7 @@ export function MusclesWorked({ exercise }: { exercise: Exercise }) {
       <svg viewBox="0 0 100 200" aria-hidden="true">
         {outline.map(points => <polygon key={points} className="body-outline" points={points} />)}
         {regions.map(r => r.shapes.map(points => <polygon key={points} className={`worked-part ${shade(r.muscle)}`} points={points} />))}
+        {onBack && shade('middle back') && MID_BACK.map(points => <polygon key={points} className={`worked-part ${shade('middle back')}`} points={points} />)}
       </svg>
       <div>
         <h2>Muscles worked</h2>

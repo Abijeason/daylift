@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { MUSCLE_NAMES } from '../lib/rules'
 import type { Muscle } from '../types'
-import { BACK, BACK_OUTLINE, FRONT, FRONT_OUTLINE } from './bodyShapes'
+import { BACK, BACK_OUTLINE, FRONT, FRONT_OUTLINE, MID_BACK } from './bodyShapes'
 
 // Every muscle with exercises gets a named button, including ones the drawing doesn't show.
 const CHIPS: Muscle[] = [
@@ -36,6 +36,9 @@ export function BodyMap({ selected, onSelect }: { selected: Muscle | null; onSel
             {r.shapes.map(points => <polygon key={points} points={points} />)}
           </g>
         ))}
+        {side === 'back' && selected === 'middle back' && (
+          <g className="muscle on">{MID_BACK.map(points => <polygon key={points} points={points} />)}</g>
+        )}
       </svg>
       {/* The named buttons are the accessible way in. The drawing is a shortcut for touch. */}
       <div className="muscle-chips">

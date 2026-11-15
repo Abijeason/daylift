@@ -4,7 +4,6 @@ import type { CustomWorkout, Exercise, PlannedWorkout, Profile, SavedData, Worko
 
 const MAX_NAME = 60
 const MAX_EXERCISES = 30
-const MAX_DAYS = 7
 const known = new Set(library.map(e => e.id))
 
 export const workoutName = (w: { type: WorkoutType; title?: string }): string =>
@@ -50,35 +49,58 @@ export const encodeShare = (w: Pick<CustomWorkout, 'name' | 'exerciseIds'>): str
 
 export const decodeShare = (code: string) => toWorkout(fromCode(code))
 
-// The plan the person picked themselves, in order. Empty means Daylift picks.
-export const myPlan = (d: SavedData): CustomWorkout[] =>
-  d.planMode === 'custom' ? (d.planDays ?? []).flatMap(id => (d.customWorkouts ?? []).filter(w => w.id === id)) : []
+export const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+export const SHORT_DAYS = WEEKDAYS.map(d => d.slice(0, 3))
+export const weekdayIndex = (d: Date): number => (d.getDay() + 6) % 7
+export const emptyWeek = (): (string | null)[] => Array(7).fill(null)
 
-// Days follow in order from the last plan day done, so a missed day waits for the next session.
-export function nextPlanDay(days: number, history: WorkoutLog[]): number {
-  const last = history.findLast(l => l.planDay !== undefined)
-  return last ? (last.planDay! + 1) % days : 0
+// The week the person picked, Monday first. Null while Daylift picks or no day has a workout yet.
+export function myWeek(d: SavedData): (CustomWorkout | null)[] | null {
+  if (d.planMode !== 'custom' || !d.planWeek) return null
+  const week = d.planWeek.map(id => (d.customWorkouts ?? []).find(w => w.id === id) ?? null)
+  return week.some(Boolean) ? week : null
 }
 
-export function encodePlan(days: CustomWorkout[]): string {
-  const unique = days.filter((w, i) => days.indexOf(w) === i)
-  return toCode({ w: unique.map(w => ({ n: w.name, e: w.exerciseIds })), d: days.map(w => unique.indexOf(w)) })
+export const trainingDays = (week: (CustomWorkout | null)[]): number => week.filter(Boolean).length
+
+// The next workout days from today, soonest first. Today counts only if it hasn't been trained yet.
+export function upcomingDays(week: (CustomWorkout | null)[], now: Date, trainedToday: boolean): { day: number; offset: number; workout: CustomWorkout }[] {
+  const today = weekdayIndex(now)
+  const list: { day: number; offset: number; workout: CustomWorkout }[] = []
+  for (let offset = trainedToday ? 1 : 0; offset <= 7; offset++) {
+    const day = (today + offset) % 7
+    const workout = week[day]
+    if (workout) list.push({ day, offset, workout })
+  }
+  return list
 }
 
-export function decodePlan(code: string): { workouts: { name: string; exerciseIds: string[] }[]; days: number[] } | null {
+// Plan workouts no day uses any more are removed, so nothing hidden piles up.
+export function prunePlan(d: SavedData): SavedData {
+  const used = new Set(d.planWeek ?? [])
+  return { ...d, customWorkouts: (d.customWorkouts ?? []).filter(w => !w.plan || used.has(w.id)) }
+}
+
+export function encodePlan(week: (CustomWorkout | null)[]): string {
+  const unique = week.filter((w, i): w is CustomWorkout => !!w && week.indexOf(w) === i)
+  return toCode({ w: unique.map(w => ({ n: w.name, e: w.exerciseIds })), d: week.map(w => (w ? unique.indexOf(w) : -1)) })
+}
+
+export function decodePlan(code: string): { workouts: { name: string; exerciseIds: string[] }[]; week: number[] } | null {
   const data = fromCode(code) as { w?: unknown; d?: unknown } | null
-  if (!Array.isArray(data?.w) || !Array.isArray(data.d) || data.w.length > MAX_DAYS || data.d.length > MAX_DAYS) return null
+  if (!Array.isArray(data?.w) || !Array.isArray(data.d) || data.w.length > 7 || data.d.length !== 7) return null
   const workouts = data.w.map(toWorkout)
-  const days = data.d
-  if (!workouts.length || workouts.some(w => !w) || !days.length) return null
-  if (!days.every((i: unknown) => Number.isInteger(i) && (i as number) >= 0 && (i as number) < workouts.length)) return null
-  return { workouts: workouts as { name: string; exerciseIds: string[] }[], days: days as number[] }
+  if (!workouts.length || workouts.some(w => !w)) return null
+  const week = data.d
+  if (!week.every((i: unknown) => Number.isInteger(i) && (i as number) >= -1 && (i as number) < workouts.length)) return null
+  if (!week.some((i: number) => i >= 0)) return null
+  return { workouts: workouts as { name: string; exerciseIds: string[] }[], week: week as number[] }
 }
 
 export const shareLink = (workout: Pick<CustomWorkout, 'name' | 'exerciseIds'>, base: string): string =>
   `${base}#workout=${encodeShare(workout)}`
 
-export const LIMITS = { name: MAX_NAME, exercises: MAX_EXERCISES, days: MAX_DAYS }
+export const LIMITS = { name: MAX_NAME, exercises: MAX_EXERCISES }
 
 export const appLink = (): string => window.location.origin + import.meta.env.BASE_URL
 
@@ -95,4 +117,10 @@ export async function shareOrCopy(title: string, text: string, url: string): Pro
     // Closing the share sheet is not an error worth showing.
     return null
   }
+}
+
+// The weekly goal for streaks: training days in my week, or the days set up in Setup.
+export function weeklyTarget(d: SavedData): number {
+  const week = myWeek(d)
+  return week ? trainingDays(week) : d.profile!.daysPerWeek
 }

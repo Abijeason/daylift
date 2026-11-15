@@ -65,11 +65,11 @@ People can build their own workouts alongside the automatic plan. The builder pi
 A Share button creates a link that holds only the workout's name and exercise list. When a friend opens it, their app offers to add the workout. If an exercise isn't on their My Gym list or is above their level, it's flagged with a swap or skip option. Nothing syncs between phones, and each person's history stays on their own phone.
 
 
-Workouts that are days in the custom plan show a red **Plan day** label (for example "Plan days 1 & 3"), since templates added on the plan screen are saved here too. **Delete** sits at the top right of the edit screen and asks first.
+My workouts holds only extra sessions people make with **+ Create workout**. Plan days live in the plan and never appear here. **Delete** sits at the top right of the edit screen and asks first.
 
 ## Your plan
 
-Home has a **Customise plan** button above the deck. The plan screen has two choices: *Daylift picks* shows the automatic rotation, and *I pick* lets people build each day themselves with **Create your own day** (name it and pick every exercise), or start from a template (Upper, Lower, Push, Pull, Legs, Full body) or one of their workouts. Each day can be edited (✎), reordered or removed, and **Reset plan** clears the days after a confirmation. A template becomes an editable custom workout. The workout builder's **Reset** puts a workout back the way it was when opened. **Share plan with friends** sends the whole week in one link.
+Home has a **Customise plan** button above the deck. The plan screen has two choices. *Daylift picks* is the default: an automatic rotation for the person's goal, done on whichever days they go. *I pick* is a Monday to Sunday week. Each day is **Rest** or a workout: one already in the plan, **+ Create your own** (name it and pick every exercise), a template (Upper, Lower, Push, Pull, Legs, Full body) or a copy of one of their own workouts. Copies are separate, so changing a plan day never changes the original. Each workout day can be edited (✎), and **Reset plan** sets every day back to Rest after a confirmation. Home then follows the calendar: today's workout, or a rest day with the next workout and its day. The weekly goal becomes the number of training days. The workout builder's **Reset** puts a workout back the way it was when opened. **Share plan with friends** sends the whole week in one link.
 
 ## Friends
 

@@ -55,6 +55,7 @@ const isExercise = (e: unknown) => isObject(e)
 const isCustom = (w: unknown) => isObject(w)
   && isString(w.id) && isString(w.name)
   && Array.isArray(w.exerciseIds) && w.exerciseIds.every(isString)
+  && (w.plan === undefined || typeof w.plan === 'boolean')
 
 function isFriend(f: unknown): boolean {
   return isObject(f)
@@ -88,7 +89,7 @@ function parse(text: string): SavedData | null {
       && (d.theme === undefined || oneOf(['auto', 'light', 'dark'], d.theme))
       && (d.customWorkouts === undefined || (Array.isArray(d.customWorkouts) && d.customWorkouts.every(isCustom)))
       && (d.planMode === undefined || oneOf(['default', 'custom'], d.planMode))
-      && (d.planDays === undefined || (Array.isArray(d.planDays) && d.planDays.every(isString)))
+      && (d.planWeek === undefined || (Array.isArray(d.planWeek) && d.planWeek.length === 7 && d.planWeek.every(id => id === null || isString(id))))
       && (d.me === undefined || (isObject(d.me) && isString(d.me.id) && isString(d.me.name)))
       && (d.friends === undefined || (Array.isArray(d.friends) && d.friends.every(isFriend)))
     return valid ? (d as unknown as SavedData) : null

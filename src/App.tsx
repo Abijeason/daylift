@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { decodePlan, decodeShare } from './lib/custom'
+import { decodePlan, decodeShare, myWeek, prunePlan, SHORT_DAYS, weeklyTarget } from './lib/custom'
 import { decodeFriend } from './lib/friends'
 import { GOALS } from './lib/rules'
 import { Backdrop } from './components/Backdrop'
@@ -30,7 +30,7 @@ export function App() {
   const [fresh, setFresh] = useState(0)
   const [inWorkout, setInWorkout] = useState(false)
   const [started, setStarted] = useState(false)
-  const [building, setBuilding] = useState<{ workout?: CustomWorkout; toPlan?: boolean } | null>(null)
+  const [building, setBuilding] = useState<{ workout?: CustomWorkout; day?: number } | null>(null)
   const [planning, setPlanning] = useState(false)
   // A friend's workout, plan or progress arrives in the link, read when the app opens.
   const readShared = () => {
@@ -88,16 +88,23 @@ export function App() {
   }
 
   if (building) {
-    // A day made from the plan screen joins the plan straight away.
+    const day = building.day
+    // A workout made from the plan screen fills that day straight away.
     const close = (saved?: CustomWorkout) => {
-      if (saved && building.toPlan && !building.workout) update(d => ({ ...d, planDays: [...(d.planDays ?? []), saved.id] }))
+      if (saved && day !== undefined && !building.workout) {
+        update(d => {
+          const planWeek = [...(d.planWeek ?? Array(7).fill(null))]
+          planWeek[day] = saved.id
+          return prunePlan({ ...d, planWeek })
+        })
+      }
       setBuilding(null)
     }
-    return <><Backdrop />{warning}<WorkoutBuilder workout={building.workout} onClose={close} /></>
+    return <><Backdrop />{warning}<WorkoutBuilder workout={building.workout} forPlan={day !== undefined} onClose={close} /></>
   }
 
   if (planning) {
-    return <><Backdrop />{warning}<PlanEditor onClose={() => setPlanning(false)} onBuild={workout => setBuilding({ workout, toPlan: true })} /></>
+    return <><Backdrop />{warning}<PlanEditor onClose={() => setPlanning(false)} onBuild={(workout, day) => setBuilding({ workout, day })} /></>
   }
 
   const closeShared = () => {
@@ -124,18 +131,18 @@ export function App() {
       {shared?.kind === 'plan' && (
         <aside className="import-card" role="dialog" aria-label="Shared plan">
           <p className="eyebrow">A friend shared their plan</p>
-          <strong>{shared.days.map(i => shared.workouts[i].name).join(' → ')}</strong>
+          <strong>{shared.week.map((i, day) => `${SHORT_DAYS[day]} ${i >= 0 ? shared.workouts[i].name : 'Rest'}`).join(' · ')}</strong>
           <span className="muted">
             Same exercises on the same days, with reps and weights for your own goal.
-            {data.planMode === 'custom' && (data.planDays ?? []).length > 0 && ' This replaces your current plan. Your own workouts stay saved.'}
+            {myWeek(data) && ' This replaces your current plan. Your own workouts under My workouts stay saved.'}
           </span>
           <button className="primary" onClick={() => {
             const stamp = Date.now()
-            const added = shared.workouts.map((w, i) => ({ id: `w${stamp}-${i}`, ...w }))
-            update(d => ({
+            const added = shared.workouts.map((w, i) => ({ id: `w${stamp}-${i}`, ...w, plan: true }))
+            update(d => prunePlan({
               ...d,
               customWorkouts: [...(d.customWorkouts ?? []), ...added],
-              planDays: shared.days.map(i => added[i].id),
+              planWeek: shared.week.map(i => (i >= 0 ? added[i].id : null)),
               planMode: 'custom',
             }))
             closeShared()
@@ -170,7 +177,7 @@ export function App() {
         {tab === 'Home' && (
           <Today
             onStart={plan => {
-              update(d => ({ ...d, inProgress: newSession(plan, d.profile!.units, new Date(), d.profile!.daysPerWeek) }))
+              update(d => ({ ...d, inProgress: newSession(plan, d.profile!.units, new Date(), weeklyTarget(d)) }))
               setInWorkout(true)
             }}
             onResume={() => setInWorkout(true)}

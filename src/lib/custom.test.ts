@@ -1,4 +1,4 @@
-import { buildCustom, decodePlan, decodeShare, encodePlan, encodeShare, myPlan, nextPlanDay, planCount, shareLink, toCode, workoutName } from './custom'
+import { buildCustom, decodePlan, decodeShare, encodePlan, encodeShare, myWeek, planCount, prunePlan, shareLink, toCode, upcomingDays, weeklyTarget, workoutName } from './custom'
 import { nextWorkout } from './planner'
 import { exercises } from '../data'
 import { testLog, testProfile } from '../test-utils'
@@ -65,33 +65,48 @@ test('unknown exercises in a link are dropped, known ones kept', () => {
   expect(decodeShare(code)).toEqual({ name: 'Mix', exerciseIds: ['Pushups'] })
 })
 
-const lower: CustomWorkout = { id: 'l1', name: 'Lower', exerciseIds: ['Goblet_Squat'] }
+const lower: CustomWorkout = { id: 'l1', name: 'Lower', exerciseIds: ['Goblet_Squat'], plan: true }
+const upperDay: CustomWorkout = { ...upper, plan: true }
+// Monday Upper, Tuesday Lower, Thursday Upper, Friday Lower; the rest are rest days.
+const planWeek = ['u1', 'l1', null, 'u1', 'l1', null, null]
+const base = { version: 1 as const, profile: testProfile, history: [], inProgress: null, customWorkouts: [upperDay, lower], planWeek }
 
-test('my plan follows my days in order and waits for missed days', () => {
-  expect(nextPlanDay(4, [])).toBe(0)
-  expect(nextPlanDay(4, [testLog('2026-10-01', { type: 'custom', planDay: 0 })])).toBe(1)
-  // An extra workout outside the plan does not skip a day.
-  const history = [testLog('2026-10-01', { type: 'custom', planDay: 3 }), testLog('2026-10-02', { type: 'custom' })]
-  expect(nextPlanDay(4, history)).toBe(0)
+test('my week only counts when I pick and at least one day has a workout', () => {
+  expect(myWeek(base)).toBeNull()
+  expect(myWeek({ ...base, planMode: 'custom' })!.map(w => w?.name ?? 'Rest')).toEqual(['Upper with Sam', 'Lower', 'Rest', 'Upper with Sam', 'Lower', 'Rest', 'Rest'])
+  expect(myWeek({ ...base, planMode: 'custom', planWeek: Array(7).fill(null) })).toBeNull()
+  expect(weeklyTarget({ ...base, planMode: 'custom' })).toBe(4)
+  expect(weeklyTarget(base)).toBe(testProfile.daysPerWeek)
 })
 
-test('my plan only counts when I pick, and skips deleted workouts', () => {
-  const data = { version: 1 as const, profile: testProfile, history: [], inProgress: null, customWorkouts: [upper, lower], planDays: ['u1', 'gone', 'l1', 'u1'] }
-  expect(myPlan(data)).toEqual([])
-  expect(myPlan({ ...data, planMode: 'custom' }).map(w => w.name)).toEqual(['Upper with Sam', 'Lower', 'Upper with Sam'])
+test('the next workout follows the calendar, and today counts until it is trained', () => {
+  const week = myWeek({ ...base, planMode: 'custom' })!
+  const wednesday = new Date('2026-11-18T09:00:00')
+  expect(upcomingDays(week, wednesday, false)[0]).toMatchObject({ day: 3, offset: 1 })
+  const monday = new Date('2026-11-16T09:00:00')
+  expect(upcomingDays(week, monday, false)[0]).toMatchObject({ day: 0, offset: 0 })
+  expect(upcomingDays(week, monday, true)[0]).toMatchObject({ day: 1, offset: 1 })
 })
 
-test('a shared plan keeps its days and repeats workouts once', () => {
-  const code = encodePlan([upper, lower, upper, lower])
-  expect(decodePlan(code)).toEqual({
+test('plan workouts no day uses are removed, my own workouts stay', () => {
+  const mine: CustomWorkout = { id: 'm1', name: 'Arms', exerciseIds: ['Pushups'] }
+  const cleaned = prunePlan({ ...base, customWorkouts: [upperDay, lower, mine], planWeek: ['u1', null, null, null, null, null, null] })
+  expect(cleaned.customWorkouts!.map(w => w.id)).toEqual(['u1', 'm1'])
+})
+
+test('a shared week keeps its days, rest days and repeats workouts once', () => {
+  const week = myWeek({ ...base, planMode: 'custom' })!
+  expect(decodePlan(encodePlan(week))).toEqual({
     workouts: [{ name: 'Upper with Sam', exerciseIds: upper.exerciseIds }, { name: 'Lower', exerciseIds: ['Goblet_Squat'] }],
-    days: [0, 1, 0, 1],
+    week: [0, 1, -1, 0, 1, -1, -1],
   })
 })
 
 test('a broken or crafted plan link is refused', () => {
+  const one = [{ n: 'A', e: ['Pushups'] }]
   expect(decodePlan('nonsense')).toBeNull()
-  expect(decodePlan(toCode({ w: [{ n: 'A', e: ['Pushups'] }], d: [3] }))).toBeNull()
-  expect(decodePlan(toCode({ w: [{ n: 'A', e: ['Pushups'] }], d: Array(8).fill(0) }))).toBeNull()
-  expect(decodePlan(toCode({ w: [{ n: 'A', e: ['Unknown'] }], d: [0] }))).toBeNull()
+  expect(decodePlan(toCode({ w: one, d: [0, -1, -1] }))).toBeNull()
+  expect(decodePlan(toCode({ w: one, d: [3, -1, -1, -1, -1, -1, -1] }))).toBeNull()
+  expect(decodePlan(toCode({ w: one, d: Array(7).fill(-1) }))).toBeNull()
+  expect(decodePlan(toCode({ w: [{ n: 'A', e: ['Unknown'] }], d: [0, -1, -1, -1, -1, -1, -1] }))).toBeNull()
 })

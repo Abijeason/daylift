@@ -23,7 +23,7 @@ Setup, Today, guided workout, warm-ups, rest timer, suggested weights, exercise 
 
 Custom workouts and share links, so friends at different levels can do the same exercises.
 
-A custom weekly plan. *Daylift picks* suits people who train alone. *I pick* lets a person set each day, such as upper body then lower body, and share the plan so a group trains the same exercises on the same days, each with numbers for their own goal.
+A custom weekly plan. *Daylift picks* suits people who train alone. *I pick* is a Monday to Sunday week where each day is a workout or rest, such as upper body Monday and lower body Tuesday, and the week can be shared so a group trains the same exercises on the same days, each with numbers for their own goal.
 
 Friends' progress without accounts. A person sends a progress link (from Progress or right after a workout), and the friend's app saves it as a card. Cards update when a new link arrives. Live updates are Coming soon, since they need accounts and a server.
 

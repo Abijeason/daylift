@@ -500,4 +500,17 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 textarea.search { resize: vertical; min-height: 84px; font: inherit; }
 
 .builder-head { display: flex; justify-content: space-between; align-items: center; }
-.mine-row .plan-tag { display: block; margin-top: 2px; color: var(--red); font-weight: 600; }
+
+/* Monday to Sunday plan */
+.plan-week { list-style: none; margin: 8px 0; padding: 0; }
+.week-day { border-bottom: 1px solid var(--line); }
+.week-row { display: flex; align-items: center; gap: 12px; min-height: 64px; }
+.week-name { flex: none; width: 44px; font-family: var(--display); font-weight: 800; font-size: 1.15rem; text-transform: uppercase; }
+.week-what { flex: 1; min-width: 0; }
+.week-what strong { display: block; }
+.week-what small { color: var(--muted); }
+.week-day.week-rest .week-what strong { color: var(--muted); font-weight: 500; }
+.week-picker { display: flex; flex-direction: column; gap: 10px; padding: 4px 0 16px; }
+.week-picker .muted { margin: 0; }
+.plan-week .picked-actions .chip { border: 1px solid var(--line); border-radius: var(--radius); font-size: 0.9rem; margin-left: 4px; }
+.week-picker .chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }

@@ -7,7 +7,7 @@ import type { CustomWorkout } from '../types'
 
 const byId = new Map(exercises.map(e => [e.id, e]))
 
-export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; onClose(saved?: CustomWorkout): void }) {
+export function WorkoutBuilder({ workout, forPlan, onClose }: { workout?: CustomWorkout; forPlan?: boolean; onClose(saved?: CustomWorkout): void }) {
   const { data, update } = useAppData()
   const [name, setName] = useState(workout?.name ?? '')
   const [ids, setIds] = useState<string[]>(workout?.exerciseIds ?? [])
@@ -34,7 +34,7 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
     const trimmed = name.trim()
     if (!trimmed) return setError('Give your workout a name.')
     if (ids.length === 0) return setError('Add at least one exercise.')
-    const saved: CustomWorkout = { id: workout?.id ?? `w${Date.now()}`, name: trimmed, exerciseIds: ids }
+    const saved: CustomWorkout = { id: workout?.id ?? `w${Date.now()}`, name: trimmed, exerciseIds: ids, ...((workout?.plan || forPlan) && { plan: true }) }
     update(d => {
       const list = d.customWorkouts ?? []
       return { ...d, customWorkouts: workout ? list.map(w => (w.id === workout.id ? saved : w)) : [...list, saved] }
@@ -46,7 +46,7 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
     update(d => ({
       ...d,
       customWorkouts: (d.customWorkouts ?? []).filter(w => w.id !== workout?.id),
-      planDays: d.planDays?.filter(id => id !== workout?.id),
+      planWeek: d.planWeek?.map(id => (id === workout?.id ? null : id)),
     }))
     onClose()
   }
@@ -59,7 +59,7 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
       </div>
       {workout && confirmDelete && (
         <div className="card">
-          <p>Delete "{workout.name}"? Your past workouts stay in your history{data.planDays?.includes(workout.id) ? ', and it leaves your plan' : ''}.</p>
+          <p>Delete "{workout.name}"? Your past workouts stay in your history{data.planWeek?.includes(workout.id) ? ', and its days in your plan become rest days' : ''}.</p>
           <button className="danger" onClick={deleteWorkout}>Yes, delete</button>
           <button className="link" onClick={() => setConfirmDelete(false)}>Cancel</button>
         </div>

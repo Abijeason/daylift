@@ -38,6 +38,8 @@ export interface CustomWorkout {
   id: string
   name: string
   exerciseIds: string[]
+  // Plan days live only in the plan, so they stay out of My workouts.
+  plan?: boolean
 }
 
 export interface Profile {
@@ -60,7 +62,6 @@ export interface Prescription {
 export interface PlannedWorkout {
   type: WorkoutType
   title?: string
-  planDay?: number
   prescription: Prescription
   exercises: Exercise[]
   estMinutes: number
@@ -86,7 +87,6 @@ export interface WorkoutLog {
   units: Units
   title?: string
   targetDays?: number
-  planDay?: number
   startedAt: string
   finishedAt: string
   entries: LoggedExercise[]
@@ -108,7 +108,8 @@ export interface SavedData {
   theme?: Theme
   customWorkouts?: CustomWorkout[]
   planMode?: 'default' | 'custom'
-  planDays?: string[]
+  // Monday to Sunday: a plan workout id, or null for rest.
+  planWeek?: (string | null)[]
   me?: { id: string; name: string }
   friends?: Friend[]
 }

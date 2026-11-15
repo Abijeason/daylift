@@ -8,7 +8,7 @@ import type { CustomWorkout } from '../types'
 const byId = new Map(exercises.map(e => [e.id, e]))
 
 export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; onClose(): void }) {
-  const { update } = useAppData()
+  const { data, update } = useAppData()
   const [name, setName] = useState(workout?.name ?? '')
   const [ids, setIds] = useState<string[]>(workout?.exerciseIds ?? [])
   const [query, setQuery] = useState('')
@@ -39,7 +39,11 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
   }
 
   const deleteWorkout = () => {
-    update(d => ({ ...d, customWorkouts: (d.customWorkouts ?? []).filter(w => w.id !== workout?.id) }))
+    update(d => ({
+      ...d,
+      customWorkouts: (d.customWorkouts ?? []).filter(w => w.id !== workout?.id),
+      planDays: d.planDays?.filter(id => id !== workout?.id),
+    }))
     onClose()
   }
 
@@ -91,7 +95,7 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
 
       {workout && (confirmDelete ? (
         <div className="card">
-          <p>Delete "{workout.name}"? Your past workouts stay in your history.</p>
+          <p>Delete "{workout.name}"? Your past workouts stay in your history{data.planDays?.includes(workout.id) ? ', and it leaves your plan' : ''}.</p>
           <button className="danger" onClick={deleteWorkout}>Yes, delete</button>
           <button className="link" onClick={() => setConfirmDelete(false)}>Cancel</button>
         </div>

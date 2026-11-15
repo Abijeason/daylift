@@ -60,6 +60,7 @@ export interface Prescription {
 export interface PlannedWorkout {
   type: WorkoutType
   title?: string
+  planDay?: number
   prescription: Prescription
   exercises: Exercise[]
   estMinutes: number
@@ -85,6 +86,7 @@ export interface WorkoutLog {
   units: Units
   title?: string
   targetDays?: number
+  planDay?: number
   startedAt: string
   finishedAt: string
   entries: LoggedExercise[]
@@ -105,4 +107,23 @@ export interface SavedData {
   timerNoteSeen?: boolean
   theme?: Theme
   customWorkouts?: CustomWorkout[]
+  planMode?: 'default' | 'custom'
+  planDays?: string[]
+  me?: { id: string; name: string }
+  friends?: Friend[]
+}
+
+// A snapshot a friend sent in a link. It only changes when they send a new one.
+export interface Friend {
+  id: string
+  name: string
+  goal: Goal
+  daysPerWeek: number
+  units: Units
+  sentAt: string
+  streak: number
+  thisWeek: number
+  total: number
+  bests: { exerciseId: string; weight: number; reps: number }[]
+  recent: { name: string; at: string }[]
 }

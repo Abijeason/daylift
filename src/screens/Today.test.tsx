@@ -7,7 +7,7 @@ import { buildWorkout } from '../lib/planner'
 import { newSession } from '../lib/session'
 import { exercises } from '../data'
 
-const props = { onStart: vi.fn(), onResume: vi.fn(), onBuild: vi.fn() }
+const props = { onStart: vi.fn(), onResume: vi.fn(), onBuild: vi.fn(), onPlan: vi.fn() }
 const yesterday = () => {
   const d = new Date()
   d.setDate(d.getDate() - 1)
@@ -23,7 +23,7 @@ test('shows workout, time and streak', () => {
 
 test('start passes the planned workout', async () => {
   const onStart = vi.fn()
-  renderWithData(<Today onStart={onStart} onResume={vi.fn()} onBuild={vi.fn()} />)
+  renderWithData(<Today onStart={onStart} onResume={vi.fn()} onBuild={vi.fn()} onPlan={vi.fn()} />)
   await userEvent.click(screen.getByRole('button', { name: /start workout/i }))
   expect(onStart.mock.calls[0][0].type).toBe('fullA')
 })

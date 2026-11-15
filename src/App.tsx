@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
-import { decodeShare } from './lib/custom'
+import { decodePlan, decodeShare } from './lib/custom'
+import { decodeFriend } from './lib/friends'
+import { GOALS } from './lib/rules'
 import { Backdrop } from './components/Backdrop'
 import type { CustomWorkout } from './types'
 import { requestPersistence } from './lib/storage'
@@ -11,6 +13,7 @@ import { Setup } from './screens/Setup'
 import { Today } from './screens/Today'
 import { Welcome } from './screens/Welcome'
 import { Workout } from './screens/Workout'
+import { PlanEditor } from './screens/PlanEditor'
 import { WorkoutBuilder } from './screens/WorkoutBuilder'
 import { useAppData } from './state/useAppData'
 
@@ -24,8 +27,15 @@ export function App() {
   const [inWorkout, setInWorkout] = useState(false)
   const [started, setStarted] = useState(false)
   const [building, setBuilding] = useState<{ workout?: CustomWorkout } | null>(null)
-  // A friend's shared workout arrives in the link, read once when the app opens.
-  const readShared = () => decodeShare(window.location.hash.match(/^#workout=(.+)$/)?.[1] ?? '')
+  const [planning, setPlanning] = useState(false)
+  // A friend's workout, plan or progress arrives in the link, read when the app opens.
+  const readShared = () => {
+    const [, kind, code] = window.location.hash.match(/^#(workout|plan|friend)=(.+)$/) ?? []
+    if (kind === 'workout') { const w = decodeShare(code); return w && { kind: 'workout' as const, ...w } }
+    if (kind === 'plan') { const p = decodePlan(code); return p && { kind: 'plan' as const, ...p } }
+    if (kind === 'friend') { const f = decodeFriend(code); return f && { kind: 'friend' as const, friend: f } }
+    return null
+  }
   const [shared, setShared] = useState(readShared)
 
   // An already-open app only sees the link change, so listen for it too.
@@ -67,6 +77,10 @@ export function App() {
     return <>{warning}<Workout onExit={() => setInWorkout(false)} /></>
   }
 
+  if (planning) {
+    return <><Backdrop />{warning}<PlanEditor onClose={() => setPlanning(false)} /></>
+  }
+
   if (building) {
     return <><Backdrop />{warning}<WorkoutBuilder workout={building.workout} onClose={() => setBuilding(null)} /></>
   }
@@ -80,16 +94,61 @@ export function App() {
     <>
       <Backdrop />
       {warning}
-      {shared && (
+      {shared?.kind === 'workout' && (
         <aside className="import-card" role="dialog" aria-label="Shared workout">
           <p className="eyebrow">A friend shared a workout</p>
           <strong>{shared.name}</strong>
           <span className="muted">{shared.exerciseIds.length} exercises · your app sets the reps and weights for your level</span>
           <button className="primary" onClick={() => {
-            update(d => ({ ...d, customWorkouts: [...(d.customWorkouts ?? []), { id: `w${Date.now()}`, ...shared }] }))
+            update(d => ({ ...d, customWorkouts: [...(d.customWorkouts ?? []), { id: `w${Date.now()}`, name: shared.name, exerciseIds: shared.exerciseIds }] }))
             closeShared()
           }}>Add workout</button>
           <button className="link" onClick={closeShared}>Not now</button>
+        </aside>
+      )}
+      {shared?.kind === 'plan' && (
+        <aside className="import-card" role="dialog" aria-label="Shared plan">
+          <p className="eyebrow">A friend shared their plan</p>
+          <strong>{shared.days.map(i => shared.workouts[i].name).join(' → ')}</strong>
+          <span className="muted">
+            Same exercises on the same days, with reps and weights for your own goal.
+            {data.planMode === 'custom' && (data.planDays ?? []).length > 0 && ' This replaces your current plan. Your own workouts stay saved.'}
+          </span>
+          <button className="primary" onClick={() => {
+            const stamp = Date.now()
+            const added = shared.workouts.map((w, i) => ({ id: `w${stamp}-${i}`, ...w }))
+            update(d => ({
+              ...d,
+              customWorkouts: [...(d.customWorkouts ?? []), ...added],
+              planDays: shared.days.map(i => added[i].id),
+              planMode: 'custom',
+            }))
+            closeShared()
+          }}>Use this plan</button>
+          <button className="link" onClick={closeShared}>Not now</button>
+        </aside>
+      )}
+      {shared?.kind === 'friend' && (
+        <aside className="import-card" role="dialog" aria-label="Friend's progress">
+          {shared.friend.id === data.me?.id ? (
+            <>
+              <p className="eyebrow">This is your own progress link</p>
+              <span className="muted">Send it to friends so they can see how you're doing.</span>
+              <button className="link" onClick={closeShared}>OK</button>
+            </>
+          ) : (
+            <>
+              <p className="eyebrow">{data.friends?.some(f => f.id === shared.friend.id) ? 'New progress from a friend' : 'A friend shared their progress'}</p>
+              <strong>{shared.friend.name}</strong>
+              <span className="muted">{GOALS[shared.friend.goal].label} · {shared.friend.total} workouts · {shared.friend.streak} week streak</span>
+              <button className="primary" onClick={() => {
+                update(d => ({ ...d, friends: [...(d.friends ?? []).filter(f => f.id !== shared.friend.id), shared.friend] }))
+                closeShared()
+                setTab('Progress')
+              }}>Save to Friends</button>
+              <button className="link" onClick={closeShared}>Not now</button>
+            </>
+          )}
         </aside>
       )}
       <div className="tab-screen" key={tab}>
@@ -101,6 +160,7 @@ export function App() {
             }}
             onResume={() => setInWorkout(true)}
             onBuild={workout => setBuilding({ workout })}
+            onPlan={() => setPlanning(true)}
           />
         )}
         {tab === 'Exercises' && <Exercises />}

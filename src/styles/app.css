@@ -466,3 +466,16 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .home-head { position: sticky; top: 0; z-index: 5; margin: calc(-1 * (env(safe-area-inset-top) + 18px)) calc(-1 * var(--gutter)) 0; padding: calc(env(safe-area-inset-top) + 14px) var(--gutter) 10px; background: var(--bg); display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
 .home-head strong { font-family: var(--display); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.02em; }
 
+
+/* Custom plan and friends */
+.plan-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.plan-head .eyebrow { margin: 0; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.friends { display: flex; flex-direction: column; gap: 10px; }
+.friend { display: flex; flex-direction: column; gap: 8px; padding: 14px; background: var(--surface); border-radius: 16px; }
+.friend header strong { display: block; font-family: var(--display); font-size: 1.4rem; text-transform: uppercase; }
+.friend header small { color: var(--muted); }
+.friend-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.friend-stats span { display: flex; flex-direction: column; font-size: 0.8rem; color: var(--muted); }
+.friend-stats b { font-family: var(--display); font-size: 1.6rem; color: var(--text); }
+.friend .link { align-self: flex-start; }

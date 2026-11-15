@@ -50,6 +50,14 @@ People can build their own workouts alongside the automatic plan. The builder pi
 
 A Share button creates a link that holds only the workout's name and exercise list. When a friend opens it, their app offers to add the workout. If an exercise isn't on their My Gym list or is above their level, it's flagged with a swap or skip option. Nothing syncs between phones, and each person's history stays on their own phone.
 
+## Your plan
+
+Home has a **Customise plan** button above the deck. The plan screen has two choices: *Daylift picks* shows the automatic rotation, and *I pick* lets people add days from templates (Upper, Lower, Push, Pull, Legs, Full body) or their own workouts, and reorder or remove them. A template becomes an editable custom workout. **Share plan with friends** sends the whole week in one link.
+
+## Friends
+
+The Progress tab has a Friends section. People type the name friends will see and tap **Share my progress**. Each friend shows as a card with goal, date sent, streak, workouts that week, total workouts, last workout and three personal bests. The workout summary also offers **Send progress to friends** once a name is set.
+
 ## Workout screen
 
 Logging comes first: the set count, the sets already done (each can be removed), last time's best set, the weight and reps boxes and Finish set all sit above the fold. Previous and next exercise links let people go back or skip a busy machine. The form photo, Watch form, Swap, muscles worked and form tips follow below. While resting, the screen says what comes next, and the summary lists every set.

@@ -44,6 +44,7 @@ const isLog = (l: unknown) => isObject(l)
   && oneOf(WORKOUTS, l.type)
   && oneOf(UNITS, l.units)
   && (l.title === undefined || isString(l.title))
+  && (l.planDay === undefined || (Number.isInteger(l.planDay) && (l.planDay as number) >= 0))
   && isDate(l.startedAt) && isDate(l.finishedAt)
   && Array.isArray(l.entries) && l.entries.every(isEntry)
 
@@ -54,6 +55,16 @@ const isExercise = (e: unknown) => isObject(e)
 const isCustom = (w: unknown) => isObject(w)
   && isString(w.id) && isString(w.name)
   && Array.isArray(w.exerciseIds) && w.exerciseIds.every(isString)
+
+function isFriend(f: unknown): boolean {
+  return isObject(f)
+    && isString(f.id) && isString(f.name) && oneOf(GOALS, f.goal) && oneOf(UNITS, f.units) && isDate(f.sentAt)
+    && [f.daysPerWeek, f.streak, f.thisWeek, f.total].every(isNumber)
+    && Array.isArray(f.bests) && f.bests.every(b => isObject(b) && isString(b.exerciseId) && isNumber(b.weight) && isNumber(b.reps))
+    && Array.isArray(f.recent) && f.recent.every(r => isObject(r) && isString(r.name) && isDate(r.at))
+}
+
+export const isFriendSnapshot = isFriend
 
 function isSession(s: unknown): boolean {
   if (!isObject(s) || !isLog(s.log) || !isObject(s.plan)) return false
@@ -76,6 +87,10 @@ function parse(text: string): SavedData | null {
       && (d.inProgress === null || isSession(d.inProgress))
       && (d.theme === undefined || oneOf(['auto', 'light', 'dark'], d.theme))
       && (d.customWorkouts === undefined || (Array.isArray(d.customWorkouts) && d.customWorkouts.every(isCustom)))
+      && (d.planMode === undefined || oneOf(['default', 'custom'], d.planMode))
+      && (d.planDays === undefined || (Array.isArray(d.planDays) && d.planDays.every(isString)))
+      && (d.me === undefined || (isObject(d.me) && isString(d.me.id) && isString(d.me.name)))
+      && (d.friends === undefined || (Array.isArray(d.friends) && d.friends.every(isFriend)))
     return valid ? (d as unknown as SavedData) : null
   } catch {
     return null

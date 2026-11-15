@@ -240,3 +240,16 @@ test('finishing a set closes the phone keyboard', async () => {
   expect(document.activeElement).not.toBe(reps)
   expect(document.activeElement?.tagName).not.toBe('INPUT')
 })
+
+test('once I have a name for friends, the summary offers to send my progress', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { me: { id: 'f1', name: 'Abi' }, inProgress: { ...newSession(plan, 'kg', new Date()), exerciseIndex: 0 } })
+  await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
+  await user.click(screen.getByRole('button', { name: /end workout/i }))
+  await user.click(screen.getByRole('button', { name: /yes, end/i }))
+  await user.click(screen.getByRole('button', { name: /send progress to friends/i }))
+  expect(await screen.findByRole('status')).toHaveTextContent(/link copied/i)
+  // user-event provides the test clipboard.
+  expect(await navigator.clipboard.readText()).toContain('#friend=')
+})

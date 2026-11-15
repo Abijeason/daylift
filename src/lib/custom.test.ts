@@ -1,4 +1,4 @@
-import { buildCustom, decodeShare, encodeShare, planCount, shareLink, workoutName } from './custom'
+import { buildCustom, decodePlan, decodeShare, encodePlan, encodeShare, myPlan, nextPlanDay, planCount, shareLink, toCode, workoutName } from './custom'
 import { nextWorkout } from './planner'
 import { exercises } from '../data'
 import { testLog, testProfile } from '../test-utils'
@@ -63,4 +63,35 @@ test.each([
 test('unknown exercises in a link are dropped, known ones kept', () => {
   const code = btoa(JSON.stringify({ n: 'Mix', e: ['NotReal', 'Pushups'] }))
   expect(decodeShare(code)).toEqual({ name: 'Mix', exerciseIds: ['Pushups'] })
+})
+
+const lower: CustomWorkout = { id: 'l1', name: 'Lower', exerciseIds: ['Goblet_Squat'] }
+
+test('my plan follows my days in order and waits for missed days', () => {
+  expect(nextPlanDay(4, [])).toBe(0)
+  expect(nextPlanDay(4, [testLog('2026-10-01', { type: 'custom', planDay: 0 })])).toBe(1)
+  // An extra workout outside the plan does not skip a day.
+  const history = [testLog('2026-10-01', { type: 'custom', planDay: 3 }), testLog('2026-10-02', { type: 'custom' })]
+  expect(nextPlanDay(4, history)).toBe(0)
+})
+
+test('my plan only counts when I pick, and skips deleted workouts', () => {
+  const data = { version: 1 as const, profile: testProfile, history: [], inProgress: null, customWorkouts: [upper, lower], planDays: ['u1', 'gone', 'l1', 'u1'] }
+  expect(myPlan(data)).toEqual([])
+  expect(myPlan({ ...data, planMode: 'custom' }).map(w => w.name)).toEqual(['Upper with Sam', 'Lower', 'Upper with Sam'])
+})
+
+test('a shared plan keeps its days and repeats workouts once', () => {
+  const code = encodePlan([upper, lower, upper, lower])
+  expect(decodePlan(code)).toEqual({
+    workouts: [{ name: 'Upper with Sam', exerciseIds: upper.exerciseIds }, { name: 'Lower', exerciseIds: ['Goblet_Squat'] }],
+    days: [0, 1, 0, 1],
+  })
+})
+
+test('a broken or crafted plan link is refused', () => {
+  expect(decodePlan('nonsense')).toBeNull()
+  expect(decodePlan(toCode({ w: [{ n: 'A', e: ['Pushups'] }], d: [3] }))).toBeNull()
+  expect(decodePlan(toCode({ w: [{ n: 'A', e: ['Pushups'] }], d: Array(8).fill(0) }))).toBeNull()
+  expect(decodePlan(toCode({ w: [{ n: 'A', e: ['Unknown'] }], d: [0] }))).toBeNull()
 })

@@ -14,6 +14,7 @@ export const COMING_SOON = [
   'AI coach',
   'Reminders when the app is closed',
   'Cloud backup',
+  'Live friend updates',
   'App Store and Play Store apps',
   'Custom form video clips',
 ]

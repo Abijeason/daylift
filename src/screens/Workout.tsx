@@ -9,7 +9,8 @@ import { formatSet, lastPerformance, newBests, parseReps, parseWeight, suggestWe
 import { HOLD_SECONDS, LEVELS } from '../lib/rules'
 import { addSet, finish, removeSet, secondsLeft, swapExercise } from '../lib/session'
 import { useScreenMotion } from '../lib/motion'
-import { workoutName } from '../lib/custom'
+import { appLink, shareOrCopy, workoutName } from '../lib/custom'
+import { encodeFriend, snapshot } from '../lib/friends'
 import { formVideoLink } from '../lib/video'
 import { useAppData } from '../state/useAppData'
 import type { Exercise, InProgress, Units, WorkoutLog } from '../types'
@@ -52,7 +53,13 @@ function Summary({ log, bests, onExit }: { log: WorkoutLog; bests: string[]; onE
   const thisWeek = Math.min(workoutsThisWeek(data.history, new Date()), target)
   const timed = new Set(exercises.filter(e => e.timed).map(e => e.id))
   const ref = useRef<HTMLElement>(null)
+  const [copied, setCopied] = useState(false)
   useScreenMotion(ref)
+  // Right after training is when the group wants to see it, so the progress link is offered here too.
+  const sendToFriends = async () => {
+    const url = `${appLink()}#friend=${encodeFriend(snapshot(data, data.me!, new Date()))}`
+    if (await shareOrCopy(`${data.me!.name}'s Daylift progress`, `Just finished ${workoutName(log)} on Daylift.`, url) === 'copied') setCopied(true)
+  }
   return (
     <main className="screen summary" ref={ref}>
       <div className="sweep" aria-hidden="true" />
@@ -77,6 +84,8 @@ function Summary({ log, bests, onExit }: { log: WorkoutLog; bests: string[]; onE
           </div>
         ))}
       </section>
+      {data.me && <button className="secondary" onClick={sendToFriends}>Send progress to friends</button>}
+      {copied && <p className="muted" role="status">Link copied. Paste it in your group chat.</p>}
       <button className="primary" onClick={onExit}>Done</button>
     </main>
   )

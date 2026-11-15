@@ -3,7 +3,7 @@ import { Logo } from '../components/Logo'
 import { exercises } from '../data'
 import { EATING_TIPS } from '../data/copy'
 import { nextWorkout, rotation } from '../lib/planner'
-import { buildCustom, planCount, shareLink, workoutName } from '../lib/custom'
+import { appLink, buildCustom, myPlan, nextPlanDay, planCount, shareLink, shareOrCopy, workoutName } from '../lib/custom'
 import { isRestDay, lifetime, totalWeight, weekDays, weeklyStreak, workoutsThisWeek } from '../lib/progress'
 import { HOLD_SECONDS, MUSCLE_NAMES, WORKOUT_NAMES } from '../lib/rules'
 import { useScreenMotion } from '../lib/motion'
@@ -33,11 +33,17 @@ function PlanList({ plan }: { plan: PlannedWorkout }) {
   )
 }
 
-export function Today({ onStart, onResume, onBuild }: { onStart(p: PlannedWorkout): void; onResume(): void; onBuild(w?: CustomWorkout): void }) {
+export function Today({ onStart, onResume, onBuild, onPlan }: {
+  onStart(p: PlannedWorkout): void; onResume(): void; onBuild(w?: CustomWorkout): void; onPlan(): void
+}) {
   const { data } = useAppData()
   const profile = data.profile!
   const now = new Date()
-  const plan = nextWorkout(profile, data.history, exercises)
+  const days = myPlan(data)
+  const dayIndex = nextPlanDay(days.length, data.history)
+  const plan = days.length
+    ? { ...buildCustom(profile, days[dayIndex], exercises), planDay: dayIndex }
+    : nextWorkout(profile, data.history, exercises)
   const rest = isRestDay(data.history, profile.daysPerWeek, now)
   const streak = weeklyStreak(data.history, profile.daysPerWeek, now)
   const done = Math.min(workoutsThisWeek(data.history, now), profile.daysPerWeek)
@@ -50,19 +56,14 @@ export function Today({ onStart, onResume, onBuild }: { onStart(p: PlannedWorkou
   const [copied, setCopied] = useState<string | null>(null)
   const mine = data.customWorkouts ?? []
   const share = async (w: CustomWorkout) => {
-    const url = shareLink(w, window.location.origin + import.meta.env.BASE_URL)
-    try {
-      if (navigator.share) await navigator.share({ title: w.name, text: `Train ${w.name} with me on Daylift`, url })
-      else { await navigator.clipboard.writeText(url); setCopied(w.id) }
-    } catch {
-      // Closing the share sheet is not an error worth showing.
-    }
+    if (await shareOrCopy(w.name, `Train ${w.name} with me on Daylift`, shareLink(w, appLink())) === 'copied') setCopied(w.id)
   }
   useScreenMotion(ref)
-  const order = rotation(profile.daysPerWeek)
+  const order = days.length ? days.map(w => w.name) : rotation(profile.daysPerWeek).map(t => WORKOUT_NAMES[t])
+  const position = days.length ? dayIndex : planCount(data.history)
   // On a rest day today's card is the rest, so the next workout is the planned one; otherwise it's the one after.
-  const upcoming = (rest ? [1, 0] : [2, 1]).map(step => WORKOUT_NAMES[order[(planCount(data.history) + step) % order.length]])
-  const title = data.inProgress ? workoutName(data.inProgress.plan) : rest ? 'Rest day' : WORKOUT_NAMES[plan.type]
+  const upcoming = (rest ? [1, 0] : [2, 1]).map(step => order[(position + step) % order.length])
+  const title = data.inProgress ? workoutName(data.inProgress.plan) : rest ? 'Rest day' : workoutName(plan)
 
   return (
     <main className="screen" ref={ref}>
@@ -71,7 +72,10 @@ export function Today({ onStart, onResume, onBuild }: { onStart(p: PlannedWorkou
         <p className="eyebrow">{now.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</p>
       </header>
 
-      <p className="eyebrow">{data.inProgress ? 'In progress' : rest ? 'Coming up' : `Your next ${Math.min(3, order.length)} workouts`}</p>
+      <div className="plan-head">
+        <p className="eyebrow">{data.inProgress ? 'In progress' : rest ? 'Coming up' : `Your next ${Math.min(3, order.length)} workouts`}</p>
+        <button className="chip" onClick={onPlan}>{days.length ? 'My plan' : 'Customise plan'}</button>
+      </div>
 
       <section className="deck" data-parallax>
         {!data.inProgress && order.length > 1 && upcoming.slice(order.length > 2 ? 0 : 1).map((name, i) => (
@@ -135,7 +139,7 @@ export function Today({ onStart, onResume, onBuild }: { onStart(p: PlannedWorkou
 
       {!data.inProgress && (
         <section>
-          <h2>{rest ? `Up next: ${WORKOUT_NAMES[plan.type]}` : "Today's exercises"}</h2>
+          <h2>{rest ? `Up next: ${workoutName(plan)}` : "Today's exercises"}</h2>
           <PlanList plan={plan} />
         </section>
       )}

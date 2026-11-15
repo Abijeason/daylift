@@ -13,6 +13,10 @@ It's a free, installable web app. There's no account to create, and your workout
 - A library of 83 exercises with form animations, tips, common mistakes and form videos
 - A tappable body map
 - Personal bests, weekly streaks and progress charts
+- Custom workouts and your own weekly plan (Daylift picks, or you pick each day)
+- Training with friends: share a workout or a whole plan, and each person gets sets, reps and weights for their own goal
+- Friends' progress through share links, with no accounts and nothing uploaded
+- In-app feedback form
 - Offline use and backup files
 - Light and dark themes
 
@@ -36,6 +40,13 @@ More detail is in [Setup](docs/SETUP.md).
 ## Credits
 
 Exercise images and base data come from [free-exercise-db](https://github.com/yuhonas/free-exercise-db), released under the Unlicense. Form tips were rewritten for this project. Daylift gives general fitness guidance, not medical advice.
+
+## Author
+
+Built by **Abhishek Yadav**, a Computer Science student at the University of Greenwich.
+
+- GitHub: [@Abijeason](https://github.com/Abijeason)
+- LinkedIn: [abhishek-yv](https://www.linkedin.com/in/abhishek-yv/)
 
 ## Licence
 

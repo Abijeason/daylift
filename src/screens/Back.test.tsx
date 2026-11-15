@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { App } from '../App'
 import { save } from '../lib/storage'
 import { AppDataProvider } from '../state/useAppData'
@@ -59,4 +60,16 @@ test('back during setup goes to the previous question', async () => {
   expect(screen.getByRole('heading', { level: 1 }).textContent).not.toBe(first)
   pressBack()
   await screen.findByRole('heading', { level: 1, name: first! })
+})
+
+test('tapping the tab you are on starts it fresh at the top', async () => {
+  const user = userEvent.setup()
+  start()
+  await user.click(screen.getByRole('button', { name: 'Exercises' }))
+  await user.type(screen.getByRole('searchbox'), 'pushups')
+  await user.click(screen.getAllByRole('button', { name: /pushups/i })[0])
+  vi.mocked(window.scrollTo).mockClear()
+  await user.click(screen.getByRole('button', { name: 'Exercises' }))
+  expect(screen.getByRole('searchbox')).toHaveValue('')
+  expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
 })

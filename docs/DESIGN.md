@@ -16,6 +16,8 @@ Sports editorial, like a training magazine. Headings use Barlow Condensed and bo
 
 Light and dark themes both exist. The app follows the phone by default, and Settings lets people choose. Colours are variables at the top of `src/styles/app.css`.
 
+Light mode has its own, darker values for the body maps (`--body-outline`, `--muscle`, `--helper`), the cards and grey text, because the dark theme's subtle greys almost disappear on white.
+
 ## Home
 
 Home is a stacked deck: today's workout is a red card in front, with the next two workouts peeking out behind it. Below it are three stat tiles and the exercise list, and the tab bar floats as a rounded pill.
@@ -34,6 +36,10 @@ Two large outlined weight plates turn slowly behind everything, half off the scr
 ## Scrolling
 
 Every new screen starts at the top: tabs, the plan and builder screens, exercise details, setup steps and each step of a workout.
+
+## Tabs
+
+Tapping the tab you're already on starts it fresh: it closes anything open inside it, clears searches and scrolls to the top, like most phone apps. It doesn't reload the page.
 
 ## Back button
 

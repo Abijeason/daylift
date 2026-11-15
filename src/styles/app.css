@@ -8,6 +8,10 @@
   --ink: #ffffff;
   --on-ink: #0c0c0d;
   --red: #ff4136;
+  --body-outline: var(--surface);
+  --muscle: var(--surface-2);
+  --helper: color-mix(in srgb, var(--red) 40%, var(--surface-2));
+  --backdrop: 0.05;
   --radius: 12px;
   --gutter: 18px;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -20,11 +24,15 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme='dark']) {
     --bg: #ffffff;
-    --surface: #f4f4f1;
-    --surface-2: #dfdfdb;
-    --line: #dadad6;
+    --surface: #f0f0ec;
+    --surface-2: #d6d6d1;
+    --line: #cfcfca;
     --text: #0c0c0d;
-    --muted: #5c5c5c;
+    --muted: #4a4a4a;
+    --body-outline: #cfcfca;
+    --muscle: #9a9a94;
+    --helper: color-mix(in srgb, var(--red) 58%, #ffffff);
+    --backdrop: 0.035;
     --ink: #0c0c0d;
     --on-ink: #ffffff;
     --red: #d42a1f;
@@ -34,11 +42,15 @@
 
 :root[data-theme='light'] {
   --bg: #ffffff;
-  --surface: #f4f4f1;
-  --surface-2: #dfdfdb;
-  --line: #dadad6;
+  --surface: #f0f0ec;
+  --surface-2: #d6d6d1;
+  --line: #cfcfca;
   --text: #0c0c0d;
-  --muted: #5c5c5c;
+  --muted: #4a4a4a;
+  --body-outline: #cfcfca;
+  --muscle: #9a9a94;
+  --helper: color-mix(in srgb, var(--red) 58%, #ffffff);
+  --backdrop: 0.035;
   --ink: #0c0c0d;
   --on-ink: #ffffff;
   --red: #d42a1f;
@@ -282,8 +294,8 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 
 .body-map { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .body-map svg { width: min(46vw, 200px); animation: rise 360ms var(--ease-out); }
-.body-outline { fill: var(--surface); }
-.muscle polygon { fill: var(--surface-2); stroke: var(--bg); stroke-width: 0.6; cursor: pointer; transition: fill 180ms; }
+.body-outline { fill: var(--body-outline); }
+.muscle polygon { fill: var(--muscle); stroke: var(--bg); stroke-width: 0.6; cursor: pointer; transition: fill 180ms; }
 .muscle.on polygon { fill: var(--red); }
 .segmented { display: inline-flex; gap: 2px; }
 .segmented button { min-height: 44px; min-width: 88px; background: none; border: 0; border-bottom: 2px solid var(--line); color: var(--muted); font-weight: 700; transition: color 160ms, border-color 160ms; }
@@ -336,7 +348,7 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .tiles .number { font-size: 2.1rem; }
 .tiles span { color: var(--muted); font-size: 0.78rem; }
 .week-dots { display: flex; gap: 3px; margin-top: 2px; }
-.week-dots i { flex: 1; height: 6px; border-radius: 3px; background: var(--surface-2); }
+.week-dots i { flex: 1; height: 6px; border-radius: 3px; background: var(--muscle); }
 .week-dots i.on { background: var(--red); }
 .week-dots i.today { box-shadow: inset 0 0 0 1.5px var(--text); }
 
@@ -351,7 +363,7 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 
 /* Slowly turning plates behind the content: faint in the app, stronger on the welcome page. */
 #root { position: relative; isolation: isolate; }
-.backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; color: var(--text); opacity: 0.05; }
+.backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; color: var(--text); opacity: var(--backdrop); }
 .backdrop.strong { opacity: 0.12; }
 .backdrop-ring { position: absolute; will-change: transform; }
 .backdrop-ring svg { display: block; width: 100%; fill: none; stroke: currentColor; stroke-width: 1.2; }
@@ -383,16 +395,16 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 
 .worked { display: flex; align-items: center; gap: 16px; padding: 12px 16px; background: var(--surface); border-radius: 16px; }
 .worked svg { flex: none; width: 76px; }
-.worked .body-outline { fill: var(--line); }
+.worked .body-outline { fill: var(--body-outline); }
 .worked h2 { margin: 0 0 4px; font-size: 1rem; }
 .worked p { margin: 4px 0; font-size: 0.92rem; color: var(--muted); }
 .worked strong { color: var(--text); }
-.worked-part { fill: var(--surface-2); }
+.worked-part { fill: var(--muscle); }
 .worked-part.main { fill: var(--red); }
-.worked-part.helper { fill: color-mix(in srgb, var(--red) 40%, var(--surface-2)); }
+.worked-part.helper { fill: var(--helper); }
 .worked-dot { display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 3px; vertical-align: 0; }
 .worked-dot.main { background: var(--red); }
-.worked-dot.helper { background: color-mix(in srgb, var(--red) 40%, var(--surface-2)); }
+.worked-dot.helper { background: var(--helper); }
 
 .logged { list-style: none; margin: 0; padding: 0; }
 .logged li { display: grid; grid-template-columns: 52px 1fr 44px; align-items: center; margin: 0; border-top: 1px solid var(--line); font-weight: 600; }

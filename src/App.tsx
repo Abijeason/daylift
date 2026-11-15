@@ -26,6 +26,8 @@ type Tab = (typeof TABS)[number]
 export function App() {
   const { data, update, saveFailed, damaged, reset } = useAppData()
   const [tab, setTab] = useState<Tab>('Home')
+  // Tapping the tab you're on starts it fresh, like most phone apps.
+  const [fresh, setFresh] = useState(0)
   const [inWorkout, setInWorkout] = useState(false)
   const [started, setStarted] = useState(false)
   const [building, setBuilding] = useState<{ workout?: CustomWorkout; toPlan?: boolean } | null>(null)
@@ -52,7 +54,7 @@ export function App() {
   useBack(inWorkout, () => setInWorkout(false))
   useBack(planning, () => setPlanning(false))
   useBack(!!building, () => setBuilding(null))
-  useScrollTop(`${tab}|${inWorkout}|${building ? building.workout?.id ?? 'new' : ''}|${planning}|${started}|${!!data.profile}`)
+  useScrollTop(`${tab}|${fresh}|${inWorkout}|${building ? building.workout?.id ?? 'new' : ''}|${planning}|${started}|${!!data.profile}`)
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -164,7 +166,7 @@ export function App() {
           )}
         </aside>
       )}
-      <div className="tab-screen" key={tab}>
+      <div className="tab-screen" key={`${tab}-${fresh}`}>
         {tab === 'Home' && (
           <Today
             onStart={plan => {
@@ -182,7 +184,7 @@ export function App() {
       </div>
       <nav className="tabs" aria-label="Main">
         {TABS.map(t => (
-          <button key={t} aria-current={tab === t ? 'page' : undefined} onClick={() => setTab(t)}>{t}</button>
+          <button key={t} aria-current={tab === t ? 'page' : undefined} onClick={() => (t === tab ? setFresh(n => n + 1) : setTab(t))}>{t}</button>
         ))}
       </nav>
     </>

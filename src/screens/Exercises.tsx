@@ -6,6 +6,7 @@ import { exercises } from '../data'
 import { EXERCISE_SAFETY } from '../data/copy'
 import { EQUIPMENT_LABELS, MUSCLE_NAMES } from '../lib/rules'
 import { useScreenMotion, useScrollTop } from '../lib/motion'
+import { useBack } from '../lib/back'
 import { formVideoLink } from '../lib/video'
 import type { Exercise, Muscle } from '../types'
 
@@ -42,6 +43,7 @@ export function Exercises() {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState<Exercise | null>(null)
   useScrollTop(open?.id)
+  useBack(open !== null, () => setOpen(null))
   const ref = useRef<HTMLElement>(null)
   useScreenMotion(ref, [open])
 

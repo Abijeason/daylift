@@ -35,6 +35,10 @@ Two large outlined weight plates turn slowly behind everything, half off the scr
 
 Every new screen starts at the top: tabs, the plan and builder screens, exercise details, setup steps and each step of a workout.
 
+## Back button
+
+The phone's back gesture, Android's back button and the browser's back button close the open screen, one step at a time: the builder, then the plan screen, an exercise, a setup question, the workout (which stays saved to resume), and any tab other than Home. `src/lib/back.ts` adds a history entry while a screen is open and removes it quietly when an in-app button closes the screen, so the two never get out of step.
+
 ## Motion
 
 Motion runs on GSAP through one hook, `useScreenMotion` in `src/lib/motion.ts`. Screens opt in with data attributes:

@@ -17,6 +17,7 @@ import { PlanEditor } from './screens/PlanEditor'
 import { WorkoutBuilder } from './screens/WorkoutBuilder'
 import { useAppData } from './state/useAppData'
 import { useScrollTop } from './lib/motion'
+import { useBack } from './lib/back'
 
 const TABS = ['Home', 'Exercises', 'Progress', 'Settings'] as const
 type Tab = (typeof TABS)[number]
@@ -46,6 +47,11 @@ export function App() {
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
   const theme = data.theme ?? 'auto'
+  useBack(!data.profile && started, () => setStarted(false))
+  useBack(tab !== 'Home', () => setTab('Home'), tab)
+  useBack(inWorkout, () => setInWorkout(false))
+  useBack(planning, () => setPlanning(false))
+  useBack(!!building, () => setBuilding(null))
   useScrollTop(`${tab}|${inWorkout}|${building ? building.workout?.id ?? 'new' : ''}|${planning}|${started}|${!!data.profile}`)
 
   useEffect(() => {

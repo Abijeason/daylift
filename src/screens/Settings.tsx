@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
-import { COMING_SOON, FEEDBACK_URL } from '../data/copy'
+import { COMING_SOON } from '../data/copy'
+import { Feedback } from './Feedback'
 import { allowedDays, GOALS, LEVELS } from '../lib/rules'
 import { exportBackup, importBackup } from '../lib/storage'
 import { useScreenMotion } from '../lib/motion'
@@ -112,12 +113,10 @@ export function Settings() {
         )}
       </section>
 
-      {FEEDBACK_URL && (
-        <section>
-          <h2>Tell us what you think</h2>
-          <a className="secondary" href={FEEDBACK_URL} target="_blank" rel="noreferrer">Send feedback</a>
-        </section>
-      )}
+      <section>
+        <h2>Tell us what you think</h2>
+        <Feedback />
+      </section>
 
       <section>
         <h2>Coming soon</h2>

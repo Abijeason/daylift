@@ -54,9 +54,9 @@ test('reset needs confirmation', async () => {
   expect(load().data.history).toHaveLength(0)
 })
 
-test('feedback link is hidden while FEEDBACK_URL is empty', () => {
+test('settings offers the feedback form', () => {
   renderWithData(<Settings />)
-  expect(screen.queryByRole('link', { name: /feedback/i })).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: /give feedback/i })).toBeInTheDocument()
 })
 
 test('coming soon lists every item', () => {

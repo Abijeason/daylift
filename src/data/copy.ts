@@ -19,5 +19,18 @@ export const COMING_SOON = [
   'Custom form video clips',
 ]
 
-// Add the Google Form address before launch. The feedback link stays hidden until then.
-export const FEEDBACK_URL = ''
+// Answers go to the owner's Google Form, which emails them. Field ids come from the form's public page.
+export const FEEDBACK_FORM = {
+  action: 'https://docs.google.com/forms/d/e/1FAIpQLSdCwCsKnxYhfcPey37kFyDG7p1OgikzL7jvp1FeGX-Zn5ssTQ/formResponse',
+  fields: {
+    experience: 'entry.1922861483',
+    together: 'entry.1041387749',
+    clarity: 'entry.753220531',
+    used: 'entry.922470283',
+    best: 'entry.1139281202',
+    missing: 'entry.427195843',
+    broken: 'entry.319918400',
+    keepUsing: 'entry.241534032',
+    other: 'entry.473572808',
+  },
+}

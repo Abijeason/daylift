@@ -30,5 +30,5 @@ Workout planning is a simple calculation, and data stays on the phone, so a serv
 
 - **free-exercise-db:** copied in at build time, so there's no runtime dependency.
 - **YouTube:** Watch form buttons open videos on YouTube. Nothing is embedded.
-- **Google Forms:** the feedback link appears once `FEEDBACK_URL` is set in `src/data/copy.ts`.
+- **Google Forms:** the in-app feedback form posts to the owner's Google Form (`FEEDBACK_FORM` in `src/data/copy.ts`), which emails each response. See `docs/FEEDBACK-FORM.md`.
 - **GitHub Pages:** planned hosting for static files.

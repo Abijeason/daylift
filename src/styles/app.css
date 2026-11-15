@@ -479,3 +479,10 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .friend-stats span { display: flex; flex-direction: column; font-size: 0.8rem; color: var(--muted); }
 .friend-stats b { font-family: var(--display); font-size: 1.6rem; color: var(--text); }
 .friend .link { align-self: flex-start; }
+
+/* Feedback */
+.feedback { display: flex; flex-direction: column; gap: 14px; }
+.feedback-q { border: 0; margin: 0; padding: 0; }
+.feedback-q legend { margin-bottom: 8px; color: var(--muted); font-size: 0.86rem; }
+.feedback .chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+textarea.search { resize: vertical; min-height: 84px; font: inherit; }

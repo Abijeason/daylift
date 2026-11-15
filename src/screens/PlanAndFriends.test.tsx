@@ -1,5 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { App } from '../App'
 import { encodePlan } from '../lib/custom'
 import { encodeFriend, snapshot } from '../lib/friends'
@@ -83,4 +84,44 @@ test('sharing my progress needs a name and remembers it', async () => {
   await user.click(screen.getByRole('button', { name: /share my progress/i }))
   expect(load().data.me).toMatchObject({ name: 'Abi' })
   expect(await screen.findByRole('status')).toHaveTextContent(/link copied/i)
+})
+
+test('I can create my own day from the plan screen and it joins the plan', async () => {
+  const user = userEvent.setup()
+  start({ planMode: 'custom' })
+  await user.click(screen.getByRole('button', { name: /my plan|customise plan/i }))
+  await user.click(screen.getByRole('button', { name: /create your own day/i }))
+  await user.type(screen.getByLabelText(/workout name/i), 'Arms with Sam')
+  await user.type(screen.getByRole('searchbox'), 'pushups')
+  await user.click(screen.getByRole('button', { name: /add pushups/i }))
+  await user.click(screen.getByRole('button', { name: /save workout/i }))
+  expect(screen.getByRole('heading', { name: /your plan/i })).toBeInTheDocument()
+  expect(screen.getByText('Arms with Sam')).toBeInTheDocument()
+  const saved = load().data
+  expect(saved.planDays).toEqual([saved.customWorkouts![0].id])
+  await user.click(screen.getByRole('button', { name: /edit day 1/i }))
+  expect(screen.getByLabelText(/workout name/i)).toHaveValue('Arms with Sam')
+})
+
+test('reset plan clears my days but keeps my workouts', async () => {
+  const user = userEvent.setup()
+  const upper = { id: 'u1', name: 'Upper', exerciseIds: ['Pushups'] }
+  start({ customWorkouts: [upper], planDays: ['u1', 'u1'], planMode: 'custom' })
+  await user.click(screen.getByRole('button', { name: /my plan/i }))
+  await user.click(screen.getByRole('button', { name: /reset plan/i }))
+  await user.click(screen.getByRole('button', { name: /yes, reset plan/i }))
+  expect(load().data.planDays).toEqual([])
+  expect(load().data.customWorkouts).toEqual([upper])
+})
+
+test('opening a new screen starts at the top', async () => {
+  const user = userEvent.setup()
+  start()
+  vi.mocked(window.scrollTo).mockClear()
+  await user.click(screen.getByRole('button', { name: 'Exercises' }))
+  expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
+  await user.type(screen.getByRole('searchbox'), 'pushups')
+  vi.mocked(window.scrollTo).mockClear()
+  await user.click(screen.getAllByRole('button', { name: /pushups/i })[0])
+  expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
 })

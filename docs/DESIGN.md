@@ -31,6 +31,10 @@ The logo is a weight plate rising over a barbell like the sun, joining "day" and
 
 Two large outlined weight plates turn slowly behind everything, half off the screen edge, so the app always feels alive. They're clearly visible on the welcome page and very faint behind the other screens, so they never compete with content. They stop when reduced motion is turned on.
 
+## Scrolling
+
+Every new screen starts at the top: tabs, the plan and builder screens, exercise details, setup steps and each step of a workout.
+
 ## Motion
 
 Motion runs on GSAP through one hook, `useScreenMotion` in `src/lib/motion.ts`. Screens opt in with data attributes:
@@ -52,7 +56,7 @@ A Share button creates a link that holds only the workout's name and exercise li
 
 ## Your plan
 
-Home has a **Customise plan** button above the deck. The plan screen has two choices: *Daylift picks* shows the automatic rotation, and *I pick* lets people add days from templates (Upper, Lower, Push, Pull, Legs, Full body) or their own workouts, and reorder or remove them. A template becomes an editable custom workout. **Share plan with friends** sends the whole week in one link.
+Home has a **Customise plan** button above the deck. The plan screen has two choices: *Daylift picks* shows the automatic rotation, and *I pick* lets people build each day themselves with **Create your own day** (name it and pick every exercise), or start from a template (Upper, Lower, Push, Pull, Legs, Full body) or one of their workouts. Each day can be edited (✎), reordered or removed, and **Reset plan** clears the days after a confirmation. A template becomes an editable custom workout. The workout builder's **Reset** puts a workout back the way it was when opened. **Share plan with friends** sends the whole week in one link.
 
 ## Friends
 

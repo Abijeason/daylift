@@ -16,6 +16,7 @@ import { Workout } from './screens/Workout'
 import { PlanEditor } from './screens/PlanEditor'
 import { WorkoutBuilder } from './screens/WorkoutBuilder'
 import { useAppData } from './state/useAppData'
+import { useScrollTop } from './lib/motion'
 
 const TABS = ['Home', 'Exercises', 'Progress', 'Settings'] as const
 type Tab = (typeof TABS)[number]
@@ -26,7 +27,7 @@ export function App() {
   const [tab, setTab] = useState<Tab>('Home')
   const [inWorkout, setInWorkout] = useState(false)
   const [started, setStarted] = useState(false)
-  const [building, setBuilding] = useState<{ workout?: CustomWorkout } | null>(null)
+  const [building, setBuilding] = useState<{ workout?: CustomWorkout; toPlan?: boolean } | null>(null)
   const [planning, setPlanning] = useState(false)
   // A friend's workout, plan or progress arrives in the link, read when the app opens.
   const readShared = () => {
@@ -45,6 +46,7 @@ export function App() {
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
   const theme = data.theme ?? 'auto'
+  useScrollTop(`${tab}|${inWorkout}|${building ? building.workout?.id ?? 'new' : ''}|${planning}|${started}|${!!data.profile}`)
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -77,12 +79,17 @@ export function App() {
     return <>{warning}<Workout onExit={() => setInWorkout(false)} /></>
   }
 
-  if (planning) {
-    return <><Backdrop />{warning}<PlanEditor onClose={() => setPlanning(false)} /></>
+  if (building) {
+    // A day made from the plan screen joins the plan straight away.
+    const close = (saved?: CustomWorkout) => {
+      if (saved && building.toPlan && !building.workout) update(d => ({ ...d, planDays: [...(d.planDays ?? []), saved.id] }))
+      setBuilding(null)
+    }
+    return <><Backdrop />{warning}<WorkoutBuilder workout={building.workout} onClose={close} /></>
   }
 
-  if (building) {
-    return <><Backdrop />{warning}<WorkoutBuilder workout={building.workout} onClose={() => setBuilding(null)} /></>
+  if (planning) {
+    return <><Backdrop />{warning}<PlanEditor onClose={() => setPlanning(false)} onBuild={workout => setBuilding({ workout, toPlan: true })} /></>
   }
 
   const closeShared = () => {

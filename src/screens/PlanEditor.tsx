@@ -12,7 +12,7 @@ const TEMPLATES: { type: WorkoutType; name: string }[] = [
   { type: 'legs', name: 'Leg Day' }, { type: 'fullA', name: 'Full Body' },
 ]
 
-export function PlanEditor({ onClose }: { onClose(): void }) {
+export function PlanEditor({ onClose, onBuild }: { onClose(): void; onBuild(w?: CustomWorkout): void }) {
   const { data, update } = useAppData()
   const profile = data.profile!
   const custom = data.planMode === 'custom'
@@ -20,6 +20,7 @@ export function PlanEditor({ onClose }: { onClose(): void }) {
   const mine = data.customWorkouts ?? []
   const own = mine.filter(w => !TEMPLATES.some(t => t.name === w.name))
   const [copied, setCopied] = useState(false)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   const setDays = (next: CustomWorkout[]) => update(d => ({ ...d, planDays: next.map(w => w.id) }))
   const addDay = (w: CustomWorkout) => setDays([...days, w])
@@ -74,6 +75,7 @@ export function PlanEditor({ onClose }: { onClose(): void }) {
                 <span className="index">{String(i + 1).padStart(2, '0')}</span>
                 <span><strong>{w.name}</strong><small>{w.exerciseIds.length} exercises</small></span>
                 <span className="picked-actions">
+                  <button aria-label={`Edit day ${i + 1}`} onClick={() => onBuild(w)}>✎</button>
                   <button aria-label={`Move day ${i + 1} up`} disabled={i === 0} onClick={() => move(i, -1)}>↑</button>
                   <button aria-label={`Move day ${i + 1} down`} disabled={i === days.length - 1} onClick={() => move(i, 1)}>↓</button>
                   <button aria-label={`Remove day ${i + 1}`} onClick={() => setDays(days.filter((_, k) => k !== i))}>×</button>
@@ -85,6 +87,8 @@ export function PlanEditor({ onClose }: { onClose(): void }) {
           {days.length < LIMITS.days && (
             <section>
               <h2>Add a day</h2>
+              <button className="secondary" onClick={() => onBuild()}>+ Create your own day</button>
+              <p className="muted">Name it and pick every exercise. Or start from one of these and change it after:</p>
               <div className="chip-row">
                 {TEMPLATES.map(t => <button key={t.type} className="chip" onClick={() => addTemplate(t)}>+ {t.name}</button>)}
               </div>
@@ -96,7 +100,6 @@ export function PlanEditor({ onClose }: { onClose(): void }) {
                   </div>
                 </>
               )}
-              <p className="muted">Change a day's exercises with Edit under My workouts on Home.</p>
             </section>
           )}
 
@@ -106,6 +109,15 @@ export function PlanEditor({ onClose }: { onClose(): void }) {
               {copied && <p className="muted" role="status">Link copied. Paste it in your group chat.</p>}
             </>
           )}
+          {days.length > 0 && (confirmReset ? (
+            <div className="card">
+              <p>Clear all {days.length} days from your plan? Your workouts stay saved under My workouts.</p>
+              <button className="danger" onClick={() => { update(d => ({ ...d, planDays: [] })); setConfirmReset(false) }}>Yes, reset plan</button>
+              <button className="link" onClick={() => setConfirmReset(false)}>Cancel</button>
+            </div>
+          ) : (
+            <button className="link danger-text" onClick={() => setConfirmReset(true)}>Reset plan</button>
+          ))}
           {days.length > 0 && days.length !== profile.daysPerWeek && (
             <p className="muted">Your weekly goal is {profile.daysPerWeek} workouts. You can change it in Settings.</p>
           )}

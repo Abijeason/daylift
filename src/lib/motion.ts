@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
+import { useLayoutEffect } from 'react'
 import type { RefObject } from 'react'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText)
@@ -68,4 +69,9 @@ export function useScreenMotion(scope: RefObject<HTMLElement | null>, dependenci
 
     })
   }, { scope, dependencies, revertOnUpdate: true })
+}
+
+// The page keeps its scroll position between screens, so each new screen starts at the top.
+export function useScrollTop(key: unknown): void {
+  useLayoutEffect(() => { window.scrollTo(0, 0) }, [key])
 }

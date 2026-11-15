@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { SAFETY_NOTE } from '../data/copy'
 import { PRESETS } from '../lib/planner'
 import { allowedDays, EQUIPMENT_LABELS, EQUIPMENT_PHOTOS, GOALS, LEVELS } from '../lib/rules'
+import { useScrollTop } from '../lib/motion'
 import { EQUIPMENT } from '../types'
 import type { Equipment, Goal, Level, Profile } from '../types'
 
@@ -41,6 +42,7 @@ export function EquipmentPicker({ value, onChange }: { value: Equipment[]; onCha
 
 export function Setup({ onDone }: { onDone(p: Profile): void }) {
   const [step, setStep] = useState(0)
+  useScrollTop(step)
   const [goal, setGoal] = useState<Goal>('fitLean')
   const [level, setLevel] = useState<Level>('beginner')
   const [days, setDays] = useState(3)

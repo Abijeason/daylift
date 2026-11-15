@@ -96,3 +96,16 @@ test('when nothing can be swapped in, the flag says to skip instead', async () =
   await user.click(screen.getByRole('button', { name: /skip warm-up/i }))
   expect(screen.getByText(/skip it with next exercise/i)).toBeInTheDocument()
 })
+
+test('reset puts an edited workout back the way it was', async () => {
+  const user = userEvent.setup()
+  renderWithData(<WorkoutBuilder workout={upper} onClose={vi.fn()} />, { customWorkouts: [upper] })
+  expect(screen.queryByRole('button', { name: /^reset$/i })).not.toBeInTheDocument()
+  await user.clear(screen.getByLabelText(/workout name/i))
+  await user.type(screen.getByLabelText(/workout name/i), 'Changed')
+  await user.click(screen.getByRole('button', { name: /remove pushups/i }))
+  await user.click(screen.getByRole('button', { name: /^reset$/i }))
+  await user.click(screen.getByRole('button', { name: /yes, reset/i }))
+  expect(screen.getByLabelText(/workout name/i)).toHaveValue('Upper with Sam')
+  expect(screen.getByRole('button', { name: /remove pushups/i })).toBeInTheDocument()
+})

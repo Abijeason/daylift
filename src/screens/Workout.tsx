@@ -8,7 +8,7 @@ import { swapOptions } from '../lib/planner'
 import { formatSet, lastPerformance, newBests, parseReps, parseWeight, suggestWeight, totalWeight, workoutsThisWeek } from '../lib/progress'
 import { HOLD_SECONDS, LEVELS } from '../lib/rules'
 import { addSet, finish, removeSet, secondsLeft, swapExercise } from '../lib/session'
-import { useScreenMotion } from '../lib/motion'
+import { useScreenMotion, useScrollTop } from '../lib/motion'
 import { appLink, shareOrCopy, workoutName } from '../lib/custom'
 import { encodeFriend, snapshot } from '../lib/friends'
 import { formVideoLink } from '../lib/video'
@@ -151,6 +151,7 @@ export function Workout({ onExit }: { onExit(): void }) {
   useWakeLock()
 
   const rest = secondsLeft(session?.restEndsAt ?? null, now)
+  useScrollTop(`${session?.exerciseIndex}|${rest > 0}|${!!done}`)
 
   useEffect(() => {
     if (!rest) return

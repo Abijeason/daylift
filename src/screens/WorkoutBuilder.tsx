@@ -7,13 +7,17 @@ import type { CustomWorkout } from '../types'
 
 const byId = new Map(exercises.map(e => [e.id, e]))
 
-export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; onClose(): void }) {
+export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; onClose(saved?: CustomWorkout): void }) {
   const { data, update } = useAppData()
   const [name, setName] = useState(workout?.name ?? '')
   const [ids, setIds] = useState<string[]>(workout?.exerciseIds ?? [])
   const [query, setQuery] = useState('')
   const [error, setError] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [confirmReset, setConfirmReset] = useState(false)
+  const original = { name: workout?.name ?? '', ids: workout?.exerciseIds ?? [] }
+  const changed = name !== original.name || ids.join() !== original.ids.join()
+  const resetChanges = () => { setName(original.name); setIds(original.ids); setError(''); setConfirmReset(false) }
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -35,7 +39,7 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
       const list = d.customWorkouts ?? []
       return { ...d, customWorkouts: workout ? list.map(w => (w.id === workout.id ? saved : w)) : [...list, saved] }
     })
-    onClose()
+    onClose(saved)
   }
 
   const deleteWorkout = () => {
@@ -49,7 +53,7 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
 
   return (
     <main className="screen builder">
-      <button className="link back" onClick={onClose}>Cancel</button>
+      <button className="link back" onClick={() => onClose()}>Cancel</button>
       <h1>{workout ? 'Edit workout' : 'New workout'}</h1>
       <label className="field">Workout name
         <input className="search" value={name} maxLength={LIMITS.name} placeholder="Upper with Sam" onChange={e => setName(e.target.value)} />
@@ -92,6 +96,16 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
       <p className="muted">Sets, reps and weights come from your own goal and level, so friends can share this workout and each train at their own level.</p>
       {error && <p className="error" role="alert">{error}</p>}
       <button className="primary" onClick={saveWorkout}>Save workout</button>
+
+      {changed && (confirmReset ? (
+        <div className="card">
+          <p>{workout ? `Undo your changes to "${workout.name}"?` : 'Clear the name and all exercises?'}</p>
+          <button className="danger" onClick={resetChanges}>Yes, reset</button>
+          <button className="link" onClick={() => setConfirmReset(false)}>Cancel</button>
+        </div>
+      ) : (
+        <button className="link" onClick={() => setConfirmReset(true)}>Reset</button>
+      ))}
 
       {workout && (confirmDelete ? (
         <div className="card">

@@ -498,3 +498,6 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .feedback-q legend { margin-bottom: 8px; color: var(--muted); font-size: 0.86rem; }
 .feedback .chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
 textarea.search { resize: vertical; min-height: 84px; font: inherit; }
+
+.builder-head { display: flex; justify-content: space-between; align-items: center; }
+.mine-row .plan-tag { display: block; margin-top: 2px; color: var(--red); font-weight: 600; }

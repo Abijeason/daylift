@@ -64,6 +64,9 @@ People can build their own workouts alongside the automatic plan. The builder pi
 
 A Share button creates a link that holds only the workout's name and exercise list. When a friend opens it, their app offers to add the workout. If an exercise isn't on their My Gym list or is above their level, it's flagged with a swap or skip option. Nothing syncs between phones, and each person's history stays on their own phone.
 
+
+Workouts that are days in the custom plan show a red **Plan day** label (for example "Plan days 1 & 3"), since templates added on the plan screen are saved here too. **Delete** sits at the top right of the edit screen and asks first.
+
 ## Your plan
 
 Home has a **Customise plan** button above the deck. The plan screen has two choices: *Daylift picks* shows the automatic rotation, and *I pick* lets people build each day themselves with **Create your own day** (name it and pick every exercise), or start from a template (Upper, Lower, Push, Pull, Legs, Full body) or one of their workouts. Each day can be edited (✎), reordered or removed, and **Reset plan** clears the days after a confirmation. A template becomes an editable custom workout. The workout builder's **Reset** puts a workout back the way it was when opened. **Share plan with friends** sends the whole week in one link.

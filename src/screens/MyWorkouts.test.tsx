@@ -41,7 +41,7 @@ test('an existing workout can be edited and deleted', async () => {
   const user = userEvent.setup()
   renderWithData(<WorkoutBuilder workout={upper} onClose={vi.fn()} />, { customWorkouts: [upper] })
   expect(screen.getByLabelText(/workout name/i)).toHaveValue('Upper with Sam')
-  await user.click(screen.getByRole('button', { name: /delete workout/i }))
+  await user.click(screen.getByRole('button', { name: /^delete$/i }))
   await user.click(screen.getByRole('button', { name: /yes, delete/i }))
   expect(load().data.customWorkouts).toEqual([])
 })

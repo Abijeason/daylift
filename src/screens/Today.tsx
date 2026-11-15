@@ -55,6 +55,7 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
   const ref = useRef<HTMLElement>(null)
   const [copied, setCopied] = useState<string | null>(null)
   const mine = data.customWorkouts ?? []
+  const planDaysOf = (w: CustomWorkout) => days.flatMap((d, i) => (d.id === w.id ? [i + 1] : []))
   const share = async (w: CustomWorkout) => {
     if (await shareOrCopy(w.name, `Train ${w.name} with me on Daylift`, shareLink(w, appLink())) === 'copied') setCopied(w.id)
   }
@@ -119,12 +120,14 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
           <h2>My workouts</h2>
           <button className="chip" onClick={() => onBuild()}>+ Create workout</button>
         </div>
+        {mine.length > 0 && <p className="muted">Start any of these as an extra session; your plan stays where it is. Edit one to change or delete it.</p>}
         {mine.length === 0 && <p className="muted">Build your own workout, or one to share with a friend. Each of you gets sets and reps for your own level.</p>}
         {mine.map(w => (
           <div className="mine-row" key={w.id}>
             <div>
               <strong>{w.name}</strong>
               <small>{w.exerciseIds.length} exercises{copied === w.id ? ' · Link copied' : ''}</small>
+              {planDaysOf(w).length > 0 && <small className="plan-tag">{planDaysOf(w).length > 1 ? 'Plan days' : 'Plan day'} {planDaysOf(w).join(' & ')}</small>}
             </div>
             <div className="mine-actions">
               <button className="chip" aria-label={`Share ${w.name}`} onClick={() => share(w)}>Share</button>

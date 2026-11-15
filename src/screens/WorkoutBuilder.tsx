@@ -53,7 +53,17 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
 
   return (
     <main className="screen builder">
-      <button className="link back" onClick={() => onClose()}>Cancel</button>
+      <div className="builder-head">
+        <button className="link back" onClick={() => onClose()}>Cancel</button>
+        {workout && !confirmDelete && <button className="link danger-text" onClick={() => setConfirmDelete(true)}>Delete</button>}
+      </div>
+      {workout && confirmDelete && (
+        <div className="card">
+          <p>Delete "{workout.name}"? Your past workouts stay in your history{data.planDays?.includes(workout.id) ? ', and it leaves your plan' : ''}.</p>
+          <button className="danger" onClick={deleteWorkout}>Yes, delete</button>
+          <button className="link" onClick={() => setConfirmDelete(false)}>Cancel</button>
+        </div>
+      )}
       <h1>{workout ? 'Edit workout' : 'New workout'}</h1>
       <label className="field">Workout name
         <input className="search" value={name} maxLength={LIMITS.name} placeholder="Upper with Sam" onChange={e => setName(e.target.value)} />
@@ -107,15 +117,6 @@ export function WorkoutBuilder({ workout, onClose }: { workout?: CustomWorkout; 
         <button className="link" onClick={() => setConfirmReset(true)}>Reset</button>
       ))}
 
-      {workout && (confirmDelete ? (
-        <div className="card">
-          <p>Delete "{workout.name}"? Your past workouts stay in your history{data.planDays?.includes(workout.id) ? ', and it leaves your plan' : ''}.</p>
-          <button className="danger" onClick={deleteWorkout}>Yes, delete</button>
-          <button className="link" onClick={() => setConfirmDelete(false)}>Cancel</button>
-        </div>
-      ) : (
-        <button className="link danger-text" onClick={() => setConfirmDelete(true)}>Delete workout</button>
-      ))}
     </main>
   )
 }

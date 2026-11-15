@@ -125,3 +125,11 @@ test('opening a new screen starts at the top', async () => {
   await user.click(screen.getAllByRole('button', { name: /pushups/i })[0])
   expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
 })
+
+test('My workouts shows which plan days each workout fills', () => {
+  const upper = { id: 'u1', name: 'Upper', exerciseIds: ['Pushups'] }
+  const lower = { id: 'l1', name: 'Lower', exerciseIds: ['Goblet_Squat'] }
+  start({ customWorkouts: [upper, lower], planDays: ['u1', 'l1', 'u1'], planMode: 'custom' })
+  expect(screen.getByText('Plan days 1 & 3')).toBeInTheDocument()
+  expect(screen.getByText('Plan day 2')).toBeInTheDocument()
+})

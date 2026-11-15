@@ -112,5 +112,7 @@ test('the exercise list says what equipment each one needs', async () => {
   expect(screen.getByText('Barbell Squat').closest('button')).toHaveTextContent('Barbell and rack')
   expect(screen.getByText('Bodyweight Squat').closest('button')).toHaveTextContent('No equipment')
   // Library equipment outside the My Gym list gets a plain label.
+  await userEvent.clear(screen.getByRole('searchbox'))
+  await userEvent.type(screen.getByRole('searchbox'), 'hack squat')
   expect(screen.getByText('Hack Squat').closest('button')).toHaveTextContent('Machine')
 })

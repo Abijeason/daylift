@@ -41,6 +41,10 @@ Every new screen starts at the top: tabs, the plan and builder screens, exercise
 
 Tapping the tab you're already on starts it fresh: it closes anything open inside it, clears searches and scrolls to the top, like most phone apps. It doesn't reload the page.
 
+## Exercise lists
+
+Lists show the common, checked exercises first. The open library follows under a **More exercises** label, 12 at a time; the next batch loads as the end of the list scrolls into view, with a **Show more** button as a fallback. This keeps a muscle like biceps (53 exercises) from feeling overwhelming.
+
 ## Back button
 
 The phone's back gesture, Android's back button and the browser's back button close the open screen, one step at a time: the builder, then the plan screen, an exercise, a setup question, the workout (which stays saved to resume), and any tab other than Home. `src/lib/back.ts` adds a history entry while a screen is open and removes it quietly when an in-app button closes the screen, so the two never get out of step.

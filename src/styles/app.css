@@ -514,3 +514,4 @@ textarea.search { resize: vertical; min-height: 84px; font: inherit; }
 .week-picker .muted { margin: 0; }
 .plan-week .picked-actions .chip { border: 1px solid var(--line); border-radius: var(--radius); font-size: 0.9rem; margin-left: 4px; }
 .week-picker .chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.list-divider { margin: 18px 0 4px; }

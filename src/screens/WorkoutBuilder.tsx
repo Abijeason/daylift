@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
+import { useMore } from '../lib/more'
 import { exercises } from '../data'
 import { LIMITS } from '../lib/custom'
 import { equipmentLabel, MUSCLE_NAMES, searchExercises } from '../lib/rules'
@@ -22,6 +23,7 @@ export function WorkoutBuilder({ workout, forPlan, onClose }: { workout?: Custom
   const results = useMemo(() => {
     return searchExercises(exercises, query).filter(e => !ids.includes(e.id))
   }, [query, ids])
+  const shown = useMore(results)
 
   const move = (i: number, by: number) => setIds(list => {
     const next = [...list]
@@ -91,17 +93,21 @@ export function WorkoutBuilder({ workout, forPlan, onClose }: { workout?: Custom
       <input type="search" className="search" placeholder="Search a name or muscle, like biceps" aria-label="Search exercises to add" value={query} onChange={e => setQuery(e.target.value)} />
       {query.trim() && results.length === 0 && <p className="muted">No exercises found. Try a name or a muscle, like biceps.</p>}
       <div className="list">
-        {results.map(e => (
-          <button
-            key={e.id} className="option" aria-label={`Add ${e.name}`}
-            disabled={ids.length >= LIMITS.exercises}
-            onClick={() => { setIds(list => [...list, e.id]); setQuery('') }}
-          >
-            <strong>+ {e.name}</strong>
-            <span>{MUSCLE_NAMES[e.muscle]} · {equipmentLabel(e)}</span>
-          </button>
+        {shown.visible.map((e, i) => (
+          <Fragment key={e.id}>
+            {e.library && !shown.visible[i - 1]?.library && <p className="eyebrow list-divider">More exercises</p>}
+            <button
+              className="option" aria-label={`Add ${e.name}`}
+              disabled={ids.length >= LIMITS.exercises}
+              onClick={() => { setIds(list => [...list, e.id]); setQuery('') }}
+            >
+              <strong>+ {e.name}</strong>
+              <span>{MUSCLE_NAMES[e.muscle]} · {equipmentLabel(e)}</span>
+            </button>
+          </Fragment>
         ))}
       </div>
+      {shown.hasMore && <div ref={shown.end}><button className="link" onClick={shown.more}>Show more</button></div>}
 
       <p className="muted">Sets, reps and weights come from your own goal and level, so friends can share this workout and each train at their own level.</p>
       {error && <p className="error" role="alert">{error}</p>}

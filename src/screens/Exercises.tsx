@@ -1,4 +1,5 @@
-import { useMemo, useRef, useState } from 'react'
+import { Fragment, useMemo, useRef, useState } from 'react'
+import { useMore } from '../lib/more'
 import { BodyMap } from '../components/BodyMap'
 import { FormDemo } from '../components/FormDemo'
 import { MusclesWorked } from '../components/MusclesWorked'
@@ -55,6 +56,8 @@ export function Exercises() {
     return muscle ? exercises.filter(e => e.muscle === muscle) : []
   }, [query, muscle])
 
+  const list = useMore(results)
+
   if (open) return <main ref={ref}><Detail exercise={open} onOpen={setOpen} onBack={() => setOpen(null)} /></main>
 
   return (
@@ -80,13 +83,17 @@ export function Exercises() {
       {query && results.length === 0 && <p className="muted">No exercises found. Try a name or a muscle, like biceps.</p>}
       {!query && muscle && results.length === 0 && <p className="muted center">No exercises for this muscle yet.</p>}
       <div className="list" key={`${muscle}-${query}`}>
-        {results.map(e => (
-          <button key={e.id} className="option" onClick={() => setOpen(e)}>
-            <strong>{e.name}</strong>
-            <span>{equipmentLabel(e)}</span>
-          </button>
+        {list.visible.map((e, i) => (
+          <Fragment key={e.id}>
+            {e.library && !list.visible[i - 1]?.library && <p className="eyebrow list-divider">More exercises</p>}
+            <button className="option" onClick={() => setOpen(e)}>
+              <strong>{e.name}</strong>
+              <span>{equipmentLabel(e)}</span>
+            </button>
+          </Fragment>
         ))}
       </div>
+      {list.hasMore && <div ref={list.end}><button className="link" onClick={list.more}>Show more</button></div>}
     </main>
   )
 }

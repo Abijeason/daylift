@@ -4,6 +4,8 @@ Daylift tells gym-goers exactly what to do today and shows them how to do it saf
 
 It's a free, installable web app. There's no account to create, and your workout history stays on your phone.
 
+**Try it:** [abijeason.github.io/daylift](https://abijeason.github.io/daylift/)
+
 ## Features
 
 - Seven goals, from Fit & Lean Muscle to Build Stamina, across four experience levels
@@ -35,7 +37,7 @@ More detail is in [Setup](docs/SETUP.md).
 
 ## Documents
 
-[PRD](docs/PRD.md) · [Design](docs/DESIGN.md) · [Architecture](docs/ARCHITECTURE.md) · [Data model](docs/DATA-MODEL.md) · [Security](docs/SECURITY.md) · [Implementation](docs/IMPLEMENTATION.md) · [Testing](docs/TESTING.md) · [Debugging](docs/DEBUGGING.md) · [Contributing](CONTRIBUTING.md)
+[PRD](docs/PRD.md) · [Design](docs/DESIGN.md) · [Architecture](docs/ARCHITECTURE.md) · [Data model](docs/DATA-MODEL.md) · [Security](docs/SECURITY.md) · [Implementation](docs/IMPLEMENTATION.md) · [Testing](docs/TESTING.md) · [Debugging](docs/DEBUGGING.md) · [Setup and deploying](docs/SETUP.md) · [Feedback form](docs/FEEDBACK-FORM.md) · [Video review](docs/VIDEO-REVIEW.md) · [Contributing](CONTRIBUTING.md)
 
 ## Credits
 

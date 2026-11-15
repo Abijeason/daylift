@@ -27,6 +27,10 @@ export interface Exercise {
   region: 'upper' | 'lower'
   bodyweight: boolean
   timed?: boolean
+  // Equipment that isn't on the My Gym list, such as "Medicine ball".
+  gear?: string
+  // From the full open library: searchable and usable in your own workouts, but not auto-planned.
+  library?: boolean
   images: string[]
   videoUrl: string | null
   steps: string[]

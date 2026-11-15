@@ -8,7 +8,7 @@ import { MUSCLE_NAMES } from '../lib/rules'
 test('tapping a muscle lists its exercises', async () => {
   render(<Exercises />)
   await userEvent.click(screen.getByRole('button', { name: /^chest$/i }))
-  expect(screen.getByRole('button', { name: /pushups/i })).toBeInTheDocument()
+  expect(screen.getAllByRole('button', { name: /pushups/i }).length).toBeGreaterThan(0)
   expect(screen.queryByRole('button', { name: /leg press/i })).not.toBeInTheDocument()
 })
 
@@ -22,7 +22,7 @@ test('detail shows steps, mistakes, equipment, alternatives and the safety note'
   const user = userEvent.setup()
   render(<Exercises />)
   await user.type(screen.getByRole('searchbox'), 'goblet')
-  await user.click(screen.getByRole('button', { name: /goblet squat/i }))
+  await user.click(screen.getAllByRole('button', { name: /goblet squat/i })[0])
   expect(screen.getByRole('heading', { name: /goblet squat/i })).toBeInTheDocument()
   expect(screen.getByText(/hold one dumbbell at your chest/i)).toBeInTheDocument()
   expect(screen.getByText(/rounding your back/i)).toBeInTheDocument()
@@ -52,17 +52,11 @@ test('every exercise muscle can be reached from the body map', () => {
   }
 })
 
-test('a muscle with no exercises says so', async () => {
-  render(<Exercises />)
-  await userEvent.click(screen.getByRole('button', { name: /^forearms$/i }))
-  expect(screen.getByText(/no exercises for this muscle yet/i)).toBeInTheDocument()
-})
-
 test('selecting a muscle names it with an exercise count', async () => {
   render(<Exercises />)
   await userEvent.click(screen.getByRole('button', { name: 'Biceps' }))
   expect(screen.getByRole('heading', { name: 'Biceps' })).toBeInTheDocument()
-  expect(screen.getByText(/6 exercises/i)).toBeInTheDocument()
+  expect(screen.getByText(/53 exercises/i)).toBeInTheDocument()
 })
 
 test('abdominals are called Core', async () => {
@@ -75,7 +69,7 @@ test('exercise detail shows the main and helper muscles worked', async () => {
   const user = userEvent.setup()
   render(<Exercises />)
   await user.type(screen.getByRole('searchbox'), 'goblet')
-  await user.click(screen.getByRole('button', { name: /goblet squat/i }))
+  await user.click(screen.getAllByRole('button', { name: /goblet squat/i })[0])
   const worked = screen.getByRole('region', { name: /muscles worked/i })
   expect(worked).toHaveTextContent(/main.*quads/i)
   expect(worked).toHaveTextContent(/glutes/i)
@@ -115,6 +109,8 @@ test('a rowing exercise shows mid back on the back of the muscles-worked figure'
 test('the exercise list says what equipment each one needs', async () => {
   render(<Exercises />)
   await userEvent.type(screen.getByRole('searchbox'), 'squat')
-  expect(screen.getByRole('button', { name: /barbell squat.*barbell and rack/i })).toBeInTheDocument()
-  expect(screen.getByRole('button', { name: /bodyweight squat.*no equipment/i })).toBeInTheDocument()
+  expect(screen.getByText('Barbell Squat').closest('button')).toHaveTextContent('Barbell and rack')
+  expect(screen.getByText('Bodyweight Squat').closest('button')).toHaveTextContent('No equipment')
+  // Library equipment outside the My Gym list gets a plain label.
+  expect(screen.getByText('Hack Squat').closest('button')).toHaveTextContent('Machine')
 })

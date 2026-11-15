@@ -1,5 +1,9 @@
 # Product requirements
 
+## Why Daylift is different
+
+Most workout apps are built for one person training alone, need an account and charge for their smarter features. Daylift's angle is **friends at different levels training together**: one shared plan, the same exercises on the same days, and each person's own sets, reps and weights. It's also free, private (no account, data stays on the phone), works offline, and is aimed at beginners who don't yet know what to do. Known gaps compared with big apps: no live friend sync, no App Store version and no health-app connection.
+
 ## Problem
 
 New gym-goers often stand in the gym unsure what to do, how to do it, or what to use when a machine isn't available.
@@ -24,6 +28,8 @@ Setup, Today, guided workout, warm-ups, rest timer, suggested weights, exercise 
 Custom workouts and share links, so friends at different levels can do the same exercises.
 
 A custom weekly plan. *Daylift picks* suits people who train alone. *I pick* is a Monday to Sunday week where each day is a workout or rest, such as upper body Monday and lower body Tuesday, and the week can be shared so a group trains the same exercises on the same days, each with numbers for their own goal.
+
+The full exercise library. Alongside the 83 checked exercises the automatic plan uses, all of free-exercise-db (about 770 more, without strongman events) can be searched, browsed on the body map and added to people's own workouts and plan days. Feedback can ask for specific exercises to be checked and promoted.
 
 Friends' progress without accounts. A person sends a progress link (from Progress or right after a workout), and the friend's app saves it as a card. Cards update when a new link arrives. Live updates are Coming soon, since they need accounts and a server.
 

@@ -26,8 +26,16 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Exercise images are precached so workouts work with no signal.
+        // Curated exercise images are precached so planned workouts work with no signal.
         globPatterns: ['**/*.{js,css,html,jpg,png,txt}'],
+        // The full library's photos are too many to install; each is saved the first time it's viewed.
+        globIgnores: ['library/**'],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        runtimeCaching: [{
+          urlPattern: ({ url }) => url.pathname.includes('/library/'),
+          handler: 'CacheFirst',
+          options: { cacheName: 'library-images', expiration: { maxEntries: 2000 } },
+        }],
       },
     }),
   ],

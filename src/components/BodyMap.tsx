@@ -6,7 +6,7 @@ import { BACK, BACK_OUTLINE, FRONT, FRONT_OUTLINE, MID_BACK } from './bodyShapes
 // Every muscle with exercises gets a named button, including ones the drawing doesn't show.
 const CHIPS: Muscle[] = [
   'shoulders', 'chest', 'biceps', 'triceps', 'forearms', 'abdominals', 'lats', 'middle back',
-  'lower back', 'traps', 'glutes', 'quadriceps', 'hamstrings', 'calves',
+  'lower back', 'traps', 'neck', 'glutes', 'quadriceps', 'hamstrings', 'adductors', 'abductors', 'calves',
 ]
 
 const onFront = new Set(FRONT.map(r => r.muscle))

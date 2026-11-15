@@ -103,3 +103,6 @@ export function searchExercises(list: Exercise[], query: string): Exercise[] {
   const byMuscle = list.filter(e => !byName.includes(e) && [e.muscle, MUSCLE_NAMES[e.muscle].toLowerCase()].some(m => m.includes(q)))
   return [...byName, ...byMuscle]
 }
+
+export const equipmentLabel = (e: Pick<Exercise, 'needs' | 'gear'>): string =>
+  [...e.needs.map(n => EQUIPMENT_LABELS[n]), ...(e.gear ? [e.gear] : [])].join(', ') || 'No equipment'

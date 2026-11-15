@@ -40,8 +40,10 @@ const ROTATIONS: Record<number, WorkoutType[]> = {
 export const rotation = (daysPerWeek: number): WorkoutType[] => ROTATIONS[daysPerWeek]
 
 function candidates(profile: Profile, all: Exercise[]): Exercise[] {
+  // Only the checked exercises are planned automatically; the open library is for people to pick themselves.
   const usable = all.filter(e =>
-    !e.needs.includes('cardioMachine')
+    !e.library
+    && !e.needs.includes('cardioMachine')
     && e.needs.every(n => profile.equipment.includes(n))
     && LEVELS[profile.level].allowed.includes(e.level))
   // Equipment moves come first, so bodyweight moves are the fallback at a full gym.

@@ -28,7 +28,7 @@ Workout planning is a simple calculation, and data stays on the phone, so a serv
 
 ## Integrations
 
-- **free-exercise-db:** copied in at build time, so there's no runtime dependency.
+- **free-exercise-db:** copied in at build time, so there's no runtime dependency. `src/data/exercises.json` holds the 83 checked exercises the planner uses; `src/data/library.json` holds the rest, made by `scripts/build-library.mjs`. `scripts/fetch-images.mjs` downloads photos: checked ones into `public/exercises` (installed for offline use) and library ones into `public/library` (saved by the service worker the first time each is viewed).
 - **YouTube:** Watch form buttons open videos on YouTube. Nothing is embedded.
 - **Google Forms:** the in-app feedback form posts to the owner's Google Form (`FEEDBACK_FORM` in `src/data/copy.ts`), which emails each response. See `docs/FEEDBACK-FORM.md`.
 - **GitHub Pages:** planned hosting for static files.

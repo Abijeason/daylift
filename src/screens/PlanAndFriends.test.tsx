@@ -103,7 +103,7 @@ test('I can create my own workout for a day, and it stays out of My workouts', a
   await user.click(screen.getByRole('button', { name: /create your own/i }))
   await user.type(screen.getByLabelText(/workout name/i), 'Arms with Sam')
   await user.type(screen.getByRole('searchbox'), 'pushups')
-  await user.click(screen.getByRole('button', { name: /add pushups/i }))
+  await user.click(screen.getByRole('button', { name: 'Add Pushups' }))
   await user.click(screen.getByRole('button', { name: /save workout/i }))
   expect(screen.getByRole('heading', { name: /your plan/i })).toBeInTheDocument()
   expect(screen.getByText('Arms with Sam')).toBeInTheDocument()

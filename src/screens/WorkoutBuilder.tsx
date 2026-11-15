@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { exercises } from '../data'
 import { LIMITS } from '../lib/custom'
-import { EQUIPMENT_LABELS, MUSCLE_NAMES, searchExercises } from '../lib/rules'
+import { equipmentLabel, MUSCLE_NAMES, searchExercises } from '../lib/rules'
 import { useAppData } from '../state/useAppData'
 import type { CustomWorkout } from '../types'
 
@@ -98,7 +98,7 @@ export function WorkoutBuilder({ workout, forPlan, onClose }: { workout?: Custom
             onClick={() => { setIds(list => [...list, e.id]); setQuery('') }}
           >
             <strong>+ {e.name}</strong>
-            <span>{MUSCLE_NAMES[e.muscle]} · {e.needs.length ? e.needs.map(n => EQUIPMENT_LABELS[n]).join(', ') : 'No equipment'}</span>
+            <span>{MUSCLE_NAMES[e.muscle]} · {equipmentLabel(e)}</span>
           </button>
         ))}
       </div>

@@ -6,13 +6,24 @@ It's a free, installable web app. There's no account to create, and your workout
 
 **Try it:** [abijeason.github.io/daylift](https://abijeason.github.io/daylift/)
 
+## Why Daylift?
+
+There are plenty of gym apps. Most are built for one person training alone, ask you to create an account, and keep their smarter features behind a subscription. Daylift is built around three things they don't do together:
+
+- **Friends at different levels can train together.** One person shares a plan, and everyone gets the same exercises on the same days. Each phone then sets its own sets, reps, rest and weights for that person's goal and level, and flags anything their gym doesn't have. A beginner who wants to tone up and a friend who's bulking can follow one plan. Progress links let friends see how each other are doing.
+- **It's free, private and works offline.** There's no account, no ads and no subscription. Workout history stays on the phone, and the app works with no signal once it's installed.
+- **It's made for people who don't know what to do yet.** It plans around the equipment your gym actually has, explains warm-ups, shows which muscles each exercise works, and links to form videos.
+
+It doesn't try to win on everything. Friends' progress updates when someone sends a link rather than live, and there's no App Store version or Apple Health connection yet.
+
 ## Features
 
 - Seven goals, from Fit & Lean Muscle to Build Stamina, across four experience levels
 - A My Gym equipment list, so workouts only use what's available
 - Warm-ups matched to each workout
 - Guided sets with suggested weights and an automatic rest timer
-- A library of 83 exercises with form animations, tips, common mistakes and form videos
+- 850 exercises: 83 checked ones with tips, common mistakes and easier options that the automatic plan uses, plus the full open library for search and your own workouts
+- Form photos, form videos and the muscles each exercise works
 - A tappable body map
 - Personal bests, weekly streaks and progress charts
 - Custom workouts and your own weekly plan (Daylift picks, or you pick each day)
@@ -41,7 +52,7 @@ More detail is in [Setup](docs/SETUP.md).
 
 ## Credits
 
-Exercise images and base data come from [free-exercise-db](https://github.com/yuhonas/free-exercise-db), released under the Unlicense. Form tips were rewritten for this project. Daylift gives general fitness guidance, not medical advice.
+Exercise images and base data come from [free-exercise-db](https://github.com/yuhonas/free-exercise-db), released under the Unlicense. Form tips for the 83 checked exercises were rewritten for this project; the rest of the library keeps its original steps. Daylift gives general fitness guidance, not medical advice.
 
 ## Author
 

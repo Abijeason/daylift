@@ -4,7 +4,7 @@ import { FormDemo } from '../components/FormDemo'
 import { MusclesWorked } from '../components/MusclesWorked'
 import { exercises } from '../data'
 import { EXERCISE_SAFETY } from '../data/copy'
-import { EQUIPMENT_LABELS, MUSCLE_NAMES, searchExercises } from '../lib/rules'
+import { equipmentLabel, MUSCLE_NAMES, searchExercises } from '../lib/rules'
 import { useScreenMotion, useScrollTop } from '../lib/motion'
 import { useBack } from '../lib/back'
 import { formVideoLink } from '../lib/video'
@@ -21,12 +21,15 @@ function Detail({ exercise, onOpen, onBack }: { exercise: Exercise; onOpen(e: Ex
       <MusclesWorked exercise={exercise} />
       <h2>How to do it</h2>
       <ol className="steps">{exercise.steps.map(s => <li key={s}>{s}</li>)}</ol>
-      <h2>Common mistakes</h2>
-      <ul className="steps">{exercise.mistakes.map(m => <li key={m}>{m}</li>)}</ul>
+      {exercise.mistakes.length > 0 && (
+        <>
+          <h2>Common mistakes</h2>
+          <ul className="steps">{exercise.mistakes.map(m => <li key={m}>{m}</li>)}</ul>
+        </>
+      )}
       <h2>Equipment</h2>
-      {exercise.needs.length === 0
-        ? <p>No equipment needed</p>
-        : exercise.needs.map(n => <p key={n}>{EQUIPMENT_LABELS[n]}</p>)}
+      <p>{exercise.needs.length || exercise.gear ? equipmentLabel(exercise) : 'No equipment needed'}</p>
+      {exercise.library && <p className="muted">From the open exercise library. Check the form video, and start light if it's new to you.</p>}
       {easier.length > 0 && (
         <>
           <h2>Easier alternatives</h2>
@@ -80,7 +83,7 @@ export function Exercises() {
         {results.map(e => (
           <button key={e.id} className="option" onClick={() => setOpen(e)}>
             <strong>{e.name}</strong>
-            <span>{e.needs.length ? e.needs.map(n => EQUIPMENT_LABELS[n]).join(', ') : 'No equipment'}</span>
+            <span>{equipmentLabel(e)}</span>
           </button>
         ))}
       </div>

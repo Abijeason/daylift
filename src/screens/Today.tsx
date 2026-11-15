@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Logo } from '../components/Logo'
-import { exercises } from '../data'
+import { exercises, imageUrl } from '../data'
 import { EATING_TIPS } from '../data/copy'
 import { nextWorkout, rotation } from '../lib/planner'
 import { appLink, buildCustom, myWeek, planCount, shareLink, shareOrCopy, SHORT_DAYS, upcomingDays, weekdayIndex, WEEKDAYS, weeklyTarget, workoutName } from '../lib/custom'
@@ -21,7 +21,7 @@ function PlanList({ plan }: { plan: PlannedWorkout }) {
       {plan.exercises.map((e, i) => (
         <li key={e.id} data-reveal>
           <span className="index">{String(i + 1).padStart(2, '0')}</span>
-          <img src={`${import.meta.env.BASE_URL}exercises/${e.images[0]}`} alt="" loading="lazy" />
+          <img src={imageUrl(e, e.images[0])} alt="" loading="lazy" />
           <div>
             <strong>{e.name}</strong>
             <small>{MUSCLE_NAMES[e.muscle]}</small>

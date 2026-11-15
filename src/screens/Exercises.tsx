@@ -4,7 +4,7 @@ import { FormDemo } from '../components/FormDemo'
 import { MusclesWorked } from '../components/MusclesWorked'
 import { exercises } from '../data'
 import { EXERCISE_SAFETY } from '../data/copy'
-import { EQUIPMENT_LABELS, MUSCLE_NAMES } from '../lib/rules'
+import { EQUIPMENT_LABELS, MUSCLE_NAMES, searchExercises } from '../lib/rules'
 import { useScreenMotion, useScrollTop } from '../lib/motion'
 import { useBack } from '../lib/back'
 import { formVideoLink } from '../lib/video'
@@ -48,8 +48,7 @@ export function Exercises() {
   useScreenMotion(ref, [open])
 
   const results = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    if (q) return exercises.filter(e => e.name.toLowerCase().includes(q))
+    if (query.trim()) return searchExercises(exercises, query)
     return muscle ? exercises.filter(e => e.muscle === muscle) : []
   }, [query, muscle])
 
@@ -75,7 +74,7 @@ export function Exercises() {
         </div>
       )}
       {!query && <BodyMap selected={muscle} onSelect={setMuscle} />}
-      {query && results.length === 0 && <p className="muted">No exercises found. Try another name.</p>}
+      {query && results.length === 0 && <p className="muted">No exercises found. Try a name or a muscle, like biceps.</p>}
       {!query && muscle && results.length === 0 && <p className="muted center">No exercises for this muscle yet.</p>}
       <div className="list" key={`${muscle}-${query}`}>
         {results.map(e => (

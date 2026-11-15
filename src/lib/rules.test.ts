@@ -1,4 +1,5 @@
-import { allowedDays, exerciseCount, prescription, workoutMinutes } from './rules'
+import { allowedDays, exerciseCount, prescription, searchExercises, workoutMinutes } from './rules'
+import { exercises } from '../data'
 import type { Goal, Level, Profile } from '../types'
 
 test.each<[Goal, Level, number[]]>([
@@ -47,4 +48,13 @@ test('workout minutes follow goal and length', () => {
   const profile: Profile = { goal: 'stayActive', level: 'beginner', daysPerWeek: 2, length: 'short', equipment: [], units: 'kg' }
   expect(workoutMinutes(profile)).toBe(30)
   expect(workoutMinutes({ ...profile, length: 'standard' })).toBe(40)
+})
+
+test('searching a muscle finds every exercise for it, name matches first', () => {
+  const names = (q: string) => searchExercises(exercises, q).map(e => e.name)
+  expect(names('bicep')).toEqual(expect.arrayContaining(['Dumbbell Bicep Curl', 'Hammer Curls', 'Barbell Curl', 'Standing Biceps Cable Curl', 'Incline Dumbbell Curl', 'Concentration Curls']))
+  expect(names('bicep').slice(0, 2)).toEqual(['Dumbbell Bicep Curl', 'Standing Biceps Cable Curl'])
+  expect(names('tricep')).toEqual(expect.arrayContaining(['Bench Dips', 'Close-Grip Barbell Bench Press', 'Band Skull Crusher']))
+  expect(names('quads').length).toBeGreaterThan(0)
+  expect(names('  ')).toEqual([])
 })

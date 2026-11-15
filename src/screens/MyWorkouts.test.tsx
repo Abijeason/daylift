@@ -109,3 +109,12 @@ test('reset puts an edited workout back the way it was', async () => {
   expect(screen.getByLabelText(/workout name/i)).toHaveValue('Upper with Sam')
   expect(screen.getByRole('button', { name: /remove pushups/i })).toBeInTheDocument()
 })
+
+test('searching "bicep" in the builder offers every biceps exercise', async () => {
+  const user = userEvent.setup()
+  renderWithData(<WorkoutBuilder onClose={vi.fn()} />)
+  await user.type(screen.getByRole('searchbox'), 'bicep')
+  expect(screen.getByRole('button', { name: /add hammer curls/i })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: /add concentration curls/i })).toBeInTheDocument()
+  expect(screen.getAllByRole('button', { name: /^add /i })).toHaveLength(6)
+})

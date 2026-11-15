@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { exercises } from '../data'
 import { LIMITS } from '../lib/custom'
-import { EQUIPMENT_LABELS, MUSCLE_NAMES } from '../lib/rules'
+import { EQUIPMENT_LABELS, MUSCLE_NAMES, searchExercises } from '../lib/rules'
 import { useAppData } from '../state/useAppData'
 import type { CustomWorkout } from '../types'
 
@@ -20,8 +20,7 @@ export function WorkoutBuilder({ workout, forPlan, onClose }: { workout?: Custom
   const resetChanges = () => { setName(original.name); setIds(original.ids); setError(''); setConfirmReset(false) }
 
   const results = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return q ? exercises.filter(e => e.name.toLowerCase().includes(q) && !ids.includes(e.id)).slice(0, 8) : []
+    return searchExercises(exercises, query).filter(e => !ids.includes(e.id))
   }, [query, ids])
 
   const move = (i: number, by: number) => setIds(list => {
@@ -89,7 +88,8 @@ export function WorkoutBuilder({ workout, forPlan, onClose }: { workout?: Custom
         })}
       </ol>
 
-      <input type="search" className="search" placeholder="Search exercises to add" aria-label="Search exercises to add" value={query} onChange={e => setQuery(e.target.value)} />
+      <input type="search" className="search" placeholder="Search a name or muscle, like biceps" aria-label="Search exercises to add" value={query} onChange={e => setQuery(e.target.value)} />
+      {query.trim() && results.length === 0 && <p className="muted">No exercises found. Try a name or a muscle, like biceps.</p>}
       <div className="list">
         {results.map(e => (
           <button

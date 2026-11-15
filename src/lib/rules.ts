@@ -94,3 +94,12 @@ export function exerciseCount(p: Prescription, minutes: number): number {
   const count = Math.floor((minutes - WARMUP_MINUTES - p.cardioMin) / minutesPerExercise(p))
   return Math.min(8, Math.max(3, count))
 }
+
+// Matches the exercise name, or the muscle it mainly works ("bicep" finds Hammer Curls too). Name matches come first.
+export function searchExercises(list: Exercise[], query: string): Exercise[] {
+  const q = query.trim().toLowerCase()
+  if (!q) return []
+  const byName = list.filter(e => e.name.toLowerCase().includes(q))
+  const byMuscle = list.filter(e => !byName.includes(e) && [e.muscle, MUSCLE_NAMES[e.muscle].toLowerCase()].some(m => m.includes(q)))
+  return [...byName, ...byMuscle]
+}

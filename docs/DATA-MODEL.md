@@ -6,7 +6,7 @@ There's no server database. The app saves one JSON record in the browser's local
 |---|---|
 | `version` | Format version, currently 1 |
 | `profile` | Goal, level, days, workout length, equipment and units |
-| `history` | Finished workouts, each with its exercises and sets |
+| `history` | Finished workouts, each with its exercises and sets. A set may carry `left` and `right` (weight and reps) for one-arm work, with `weight` and `reps` holding the weaker arm. An exercise may carry its cable `attachment`. |
 | `inProgress` | The current workout, saved after every set |
 | `timerNoteSeen` | Whether the locked phone note has been shown |
 | `theme` | Light, dark or match the phone |

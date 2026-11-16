@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Progress } from './Progress'
 import { renderWithData, testLog, testProfile } from '../test-utils'
+import { load } from '../lib/storage'
 
 test('empty history shows a friendly start message', () => {
   renderWithData(<Progress />)
@@ -63,4 +64,34 @@ test('a past workout opens to show what was done, with a readable date', async (
   expect(screen.getByText(day)).toBeInTheDocument()
   await userEvent.click(screen.getByText('Full Body A', { selector: 'summary *' }))
   expect(screen.getAllByText('20 kg × 10').length).toBeGreaterThan(1)
+})
+
+test('a finished workout can be edited: change a set, add one, or delete the workout', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Progress />, { history: [testLog()] })
+  await user.click(screen.getAllByText('Full Body A')[0])
+  await user.click(screen.getByRole('button', { name: /edit full body a/i }))
+  const reps = screen.getByLabelText(/set 1 reps/i)
+  await user.clear(reps)
+  await user.type(reps, '12')
+  await user.click(screen.getByRole('button', { name: /add a set/i }))
+  await user.type(screen.getByLabelText(/set 2 reps/i), '9')
+  await user.click(screen.getByRole('button', { name: /save changes/i }))
+  expect(load().data.history[0].entries[0].sets).toEqual([{ weight: 20, reps: 12 }, { weight: 20, reps: 9 }])
+
+  await user.click(screen.getByRole('button', { name: /edit full body a/i }))
+  await user.click(screen.getByRole('button', { name: /^delete workout$/i }))
+  await user.click(screen.getByRole('button', { name: /yes, delete workout/i }))
+  expect(load().data.history).toEqual([])
+})
+
+test('an edit with a bad number is refused with a clear message', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Progress />, { history: [testLog()] })
+  await user.click(screen.getAllByText('Full Body A')[0])
+  await user.click(screen.getByRole('button', { name: /edit full body a/i }))
+  await user.clear(screen.getByLabelText(/set 1 reps/i))
+  await user.click(screen.getByRole('button', { name: /save changes/i }))
+  expect(screen.getByRole('alert')).toHaveTextContent(/check set 1/i)
+  expect(load().data.history[0].entries[0].sets).toEqual([{ weight: 20, reps: 10 }])
 })

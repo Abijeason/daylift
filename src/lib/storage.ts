@@ -29,13 +29,15 @@ function isProfile(p: unknown): boolean {
     && oneOf(UNITS, p.units)
 }
 
-const isSet = (s: unknown) => isObject(s) && isNumber(s.weight) && isNumber(s.reps)
+const isSide = (s: unknown) => s === undefined || (isObject(s) && isNumber(s.weight) && isNumber(s.reps))
+const isSet = (s: unknown) => isObject(s) && isNumber(s.weight) && isNumber(s.reps) && isSide(s.left) && isSide(s.right)
 
 const isEntry = (e: unknown) => isObject(e)
   && isString(e.exerciseId) && isString(e.name)
   && oneOf(['upper', 'lower'], e.region)
   && isNumber(e.targetSets) && isNumber(e.repMax)
   && Array.isArray(e.sets) && e.sets.every(isSet)
+  && (e.attachment === undefined || isString(e.attachment))
 
 const isDate = (v: unknown) => isString(v) && !Number.isNaN(Date.parse(v))
 

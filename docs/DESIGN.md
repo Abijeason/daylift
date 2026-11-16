@@ -81,7 +81,17 @@ The Progress tab has a Friends section. People type the name friends will see an
 
 ## Workout screen
 
-Logging comes first: the set count, the sets already done (each can be removed), last time's best set, the weight and reps boxes and Finish set all sit above the fold. Previous and next exercise links let people go back or skip a busy machine. The form photo, Watch form, Swap, muscles worked and form tips follow below. While resting, the screen says what comes next, and the summary lists every set.
+Logging comes first: the set count, the sets already done (each can be removed), last time's best set, the weight and reps boxes and Finish set all sit above the fold. Previous and next exercise links let people go back or skip a busy machine. The form photo, Watch form, Change exercise, muscles worked and form tips follow below. While resting, the screen says what comes next, and the summary lists every set.
+
+Real gym sessions don't go to plan, so the workout bends:
+- **Each arm separately** logs left and right weight and reps for one-arm work. The set counts as the weaker arm for bests and charts, both arms count towards total weight, and the choice is remembered per exercise.
+- **Attachment** (straight bar, rope, V-bar, EZ bar, single handle, wide lat bar, ankle strap) appears on cable exercises, is saved with the exercise and defaults to last time's.
+- **All exercises** lists every exercise with its sets done: tap one to go straight to it, × to remove it, or **+ Add an exercise** to search the whole library.
+- **Change exercise** replaces the current one with any exercise, with same-muscle suggestions first. If sets are already logged it says they'll be removed.
+- **Ended by mistake? Resume workout** on the summary takes the workout out of history and carries on.
+- In **Progress → History**, **Edit** on any workout changes, adds or removes sets, or deletes the workout. Bests and charts update to match.
+
+In the workout builder, each exercise has a **☰** handle: press and drag to reorder, or focus it and use the arrow keys.
 
 ## Muscles worked
 

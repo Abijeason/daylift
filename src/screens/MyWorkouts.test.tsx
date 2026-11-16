@@ -22,7 +22,8 @@ test('the builder adds, orders and saves a named workout', async () => {
   await user.clear(screen.getByRole('searchbox'))
   await user.type(screen.getByRole('searchbox'), 'goblet')
   await user.click(screen.getByRole('button', { name: 'Add Goblet Squat' }))
-  await user.click(screen.getByRole('button', { name: /move goblet squat up/i }))
+  screen.getByRole('button', { name: /reorder goblet squat/i }).focus()
+  await user.keyboard('{ArrowUp}')
   await user.click(screen.getByRole('button', { name: /save workout/i }))
   const saved = load().data.customWorkouts!
   expect(saved).toHaveLength(1)

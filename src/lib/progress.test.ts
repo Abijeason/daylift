@@ -1,4 +1,5 @@
-import { lastPerformance, lifetime, weekDays, workoutsThisWeek, isRestDay, newBests, parseReps, parseWeight, personalBests, suggestWeight, totalWeight, weeklyStreak } from './progress'
+import { armSet, describeSet, lastPerformance, lastUsed, lifetime, weekDays, workoutsThisWeek, isRestDay, newBests, parseReps, parseWeight, personalBests, suggestWeight, totalWeight, weeklyStreak } from './progress'
+import { testLog } from '../test-utils'
 import type { LoggedExercise, Units, WorkoutLog } from '../types'
 
 function entry(over: Partial<LoggedExercise> = {}): LoggedExercise {
@@ -164,4 +165,14 @@ test('last performance is the best set from the most recent session', () => {
   const newer = log([entry({ sets: [{ weight: 40, reps: 8 }, { weight: 42.5, reps: 6 }] })], '2026-11-03')
   expect(lastPerformance([older, newer], 'x')).toEqual({ weight: 42.5, reps: 6, units: 'kg' })
   expect(lastPerformance([], 'x')).toBeNull()
+})
+
+test('a one-arm set counts as the weaker arm, and both arms add to the total lifted', () => {
+  const set = armSet({ weight: 12, reps: 8 }, { weight: 14, reps: 10 })
+  expect(set).toMatchObject({ weight: 12, reps: 8 })
+  expect(describeSet(set, 'kg')).toBe('L 12 kg × 8 · R 14 kg × 10')
+  expect(armSet({ weight: 12, reps: 10 }, { weight: 12, reps: 8 })).toMatchObject({ weight: 12, reps: 8 })
+  const log = { ...testLog(), entries: [{ ...testLog().entries[0], sets: [set] }] }
+  expect(totalWeight(log)).toBe(12 * 8 + 14 * 10)
+  expect(lastUsed([log], 'Dumbbell_Bench_Press').sides).toBe(true)
 })

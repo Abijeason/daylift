@@ -1,4 +1,4 @@
-import type { LoggedExercise, Units, WorkoutLog } from '../types'
+import type { LoggedExercise, LoggedSet, Units, WorkoutLog } from '../types'
 
 const LB_PER_KG = 2.20462
 const MAX_WEIGHT = 1000
@@ -63,6 +63,28 @@ export function formatSet(weight: number, reps: number, units: Units, timed = fa
   return timed ? `${reps} sec` : `${reps} reps`
 }
 
+type Side = { weight: number; reps: number }
+
+// A one-arm set counts as its weaker arm: lighter weight, or fewer reps at the same weight.
+export function armSet(left: Side, right: Side): LoggedSet {
+  const weaker = left.weight < right.weight || (left.weight === right.weight && left.reps <= right.reps) ? left : right
+  return { ...weaker, left, right }
+}
+
+export function describeSet(set: LoggedSet, units: Units, timed = false): string {
+  if (set.left && set.right) return `L ${formatSet(set.left.weight, set.left.reps, units, timed)} · R ${formatSet(set.right.weight, set.right.reps, units, timed)}`
+  return formatSet(set.weight, set.reps, units, timed)
+}
+
+// One-arm logging is remembered per exercise, from the last time it was done.
+export function lastUsed(history: WorkoutLog[], exerciseId: string): { sides: boolean; attachment?: string } {
+  for (let i = history.length - 1; i >= 0; i--) {
+    const entry = history[i].entries.find(e => e.exerciseId === exerciseId && e.sets.length > 0)
+    if (entry) return { sides: entry.sets.some(s => s.left && s.right), attachment: entry.attachment }
+  }
+  return { sides: false }
+}
+
 export function lastPerformance(history: WorkoutLog[], exerciseId: string): { weight: number; reps: number; units: Units } | null {
   for (let i = history.length - 1; i >= 0; i--) {
     const entry = history[i].entries.find(e => e.exerciseId === exerciseId && e.sets.length > 0)
@@ -100,8 +122,11 @@ export function newBests(log: WorkoutLog, priorHistory: WorkoutLog[]): string[] 
     .map(e => e.name)
 }
 
+const setLoad = (set: LoggedSet): number =>
+  set.left && set.right ? set.left.weight * set.left.reps + set.right.weight * set.right.reps : set.weight * set.reps
+
 export const totalWeight = (log: WorkoutLog): number =>
-  log.entries.reduce((sum, e) => sum + e.sets.reduce((s, set) => s + set.weight * set.reps, 0), 0)
+  log.entries.reduce((sum, e) => sum + e.sets.reduce((s, set) => s + setLoad(set), 0), 0)
 
 function dayKey(date: Date): string {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`

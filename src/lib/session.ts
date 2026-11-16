@@ -52,3 +52,21 @@ export function finish(s: InProgress, now: Date): WorkoutLog | null {
   const entries = s.log.entries.filter(e => e.sets.length > 0)
   return entries.length === 0 ? null : { ...s.log, entries, finishedAt: now.toISOString() }
 }
+
+export function setAttachment(s: InProgress, index: number, attachment: string): InProgress {
+  const entries = s.log.entries.map((e, n) => (n === index ? { ...e, attachment: attachment || undefined } : e))
+  return { ...s, log: { ...s.log, entries } }
+}
+
+// The group changed its mind mid-workout: add an exercise at the end and go straight to it.
+export function addExercise(s: InProgress, next: Exercise): InProgress {
+  const plan = { ...s.plan, exercises: [...s.plan.exercises, next] }
+  return { ...s, plan, exerciseIndex: plan.exercises.length - 1, restEndsAt: null, log: { ...s.log, entries: [...s.log.entries, toEntry(next, plan)] } }
+}
+
+export function removeExercise(s: InProgress, index: number): InProgress {
+  const plan = { ...s.plan, exercises: s.plan.exercises.filter((_, n) => n !== index) }
+  const entries = s.log.entries.filter((_, n) => n !== index)
+  const exerciseIndex = s.exerciseIndex > index ? s.exerciseIndex - 1 : Math.min(s.exerciseIndex, plan.exercises.length)
+  return { ...s, plan, exerciseIndex, log: { ...s.log, entries } }
+}

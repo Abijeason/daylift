@@ -3,6 +3,11 @@ import type { Equipment, Exercise, Goal, Level, Muscle, Prescription, Profile, W
 export const WARMUP_MINUTES = 8
 export const HOLD_SECONDS = '20–40 sec'
 
+export const ATTACHMENTS = ['Straight bar', 'Rope', 'V-bar', 'EZ bar', 'Single handle', 'Wide lat bar', 'Ankle strap']
+// Cable stations take a bar, rope or handle, so the choice is logged with the exercise.
+export const takesAttachment = (e: Pick<Exercise, 'needs'>): boolean =>
+  e.needs.some(n => n === 'cable' || n === 'latPulldown' || n === 'seatedRow')
+
 export const EQUIPMENT_LABELS: Record<Equipment, string> = {
   dumbbells: 'Dumbbells', barbellRack: 'Barbell and rack', bench: 'Adjustable bench', cable: 'Cable machine',
   latPulldown: 'Lat pulldown', seatedRow: 'Seated row', chestPress: 'Chest press', shoulderPress: 'Shoulder press',

@@ -1,4 +1,5 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { useMore } from '../lib/more'
 import { exercises } from '../data'
 import { LIMITS } from '../lib/custom'
@@ -25,11 +26,45 @@ export function WorkoutBuilder({ workout, forPlan, onClose }: { workout?: Custom
   }, [query, ids])
   const shown = useMore(results)
 
-  const move = (i: number, by: number) => setIds(list => {
+  const moveTo = (from: number, to: number) => setIds(list => {
     const next = [...list]
-    ;[next[i], next[i + by]] = [next[i + by], next[i]]
+    next.splice(to, 0, ...next.splice(from, 1))
     return next
   })
+
+  // Press and drag the ☰ handle: the row follows the finger, swapping places as it passes other rows' middles.
+  // A ref, not state, so quick finger moves between redraws always see where the row is now.
+  const draggingRef = useRef<number | null>(null)
+  const [dragging, setDragging] = useState<number | null>(null)
+  const listRef = useRef<HTMLOListElement>(null)
+  const startDrag = (i: number) => { draggingRef.current = i; setDragging(i) }
+  const endDrag = () => { draggingRef.current = null; setDragging(null) }
+  const drag = (e: PointerEvent) => {
+    const from = draggingRef.current
+    if (from === null || !listRef.current) return
+    const rows = [...listRef.current.children]
+    let to = rows.findIndex(row => { const r = row.getBoundingClientRect(); return e.clientY < r.top + r.height / 2 })
+    if (to === -1) to = rows.length
+    if (to > from) to -= 1
+    if (to === from) return
+    draggingRef.current = to
+    // Redraw now, so the next move measures rows in their new order.
+    flushSync(() => { moveTo(from, to); setDragging(to) })
+  }
+  // The whole window follows the finger: moving a row in the page would drop a capture held by its handle.
+  const dragActive = dragging !== null
+  useEffect(() => {
+    if (!dragActive) return
+    window.addEventListener('pointermove', drag)
+    window.addEventListener('pointerup', endDrag)
+    window.addEventListener('pointercancel', endDrag)
+    return () => {
+      window.removeEventListener('pointermove', drag)
+      window.removeEventListener('pointerup', endDrag)
+      window.removeEventListener('pointercancel', endDrag)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dragActive])
 
   const saveWorkout = () => {
     const trimmed = name.trim()
@@ -72,18 +107,26 @@ export function WorkoutBuilder({ workout, forPlan, onClose }: { workout?: Custom
 
       <h2>Exercises ({ids.length})</h2>
       {ids.length === 0 && <p className="muted">Search below and add exercises in the order you'll do them.</p>}
-      <ol className="picked">
+      <ol className="picked" ref={listRef}>
         {ids.map((id, i) => {
           const e = byId.get(id)
           if (!e) return null
           return (
-            <li key={id}>
+            <li key={id} className={dragging === i ? 'dragging' : undefined}>
               <span className="index">{String(i + 1).padStart(2, '0')}</span>
               <span><strong>{e.name}</strong><small>{MUSCLE_NAMES[e.muscle]}</small></span>
               <span className="picked-actions">
-                <button aria-label={`Move ${e.name} up`} disabled={i === 0} onClick={() => move(i, -1)}>↑</button>
-                <button aria-label={`Move ${e.name} down`} disabled={i === ids.length - 1} onClick={() => move(i, 1)}>↓</button>
                 <button aria-label={`Remove ${e.name}`} onClick={() => setIds(list => list.filter(x => x !== id))}>×</button>
+                <button
+                  className="handle" aria-label={`Reorder ${e.name}, or use the up and down arrow keys`}
+                  onPointerDown={ev => { ev.preventDefault(); startDrag(i) }}
+                  onKeyDown={ev => {
+                    const to = ev.key === 'ArrowUp' ? i - 1 : ev.key === 'ArrowDown' ? i + 1 : -1
+                    if (to < 0 || to >= ids.length) return
+                    ev.preventDefault()
+                    moveTo(i, to)
+                  }}
+                >☰</button>
               </span>
             </li>
           )

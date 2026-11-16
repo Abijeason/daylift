@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react'
 import { LineChart } from '../components/LineChart'
 import { exercises } from '../data'
-import { convert, formatSet, personalBests } from '../lib/progress'
+import { convert, describeSet, formatSet, personalBests } from '../lib/progress'
 import { appLink, shareOrCopy, workoutName } from '../lib/custom'
 import { encodeFriend, LIMITS, snapshot } from '../lib/friends'
 import { GOALS } from '../lib/rules'
 import { useScreenMotion } from '../lib/motion'
+import { EditLog } from './EditLog'
 import { useAppData } from '../state/useAppData'
 
 const timed = new Set(exercises.filter(e => e.timed).map(e => e.id))
@@ -69,6 +70,7 @@ function Friends() {
 export function Progress() {
   const { data } = useAppData()
   const history = data.history
+  const [editing, setEditing] = useState<string | null>(null)
   const units = data.profile?.units ?? 'kg'
   const bests = Object.entries(personalBests(history))
   // Only weighted exercises have a weight to chart.
@@ -141,12 +143,17 @@ export function Progress() {
               <span>{workoutName(log)}</span>
               <span className="muted">{shortDate(log.finishedAt)}</span>
             </summary>
-            {log.entries.map(e => (
-              <div className="done-row" key={e.exerciseId}>
-                <strong>{e.name}</strong>
-                <span className="done-sets">{e.sets.map((s, i) => <span key={i}>{formatSet(s.weight, s.reps, log.units, timed.has(e.exerciseId))}</span>)}</span>
-              </div>
-            ))}
+            {editing === log.id ? <EditLog log={log} onDone={() => setEditing(null)} /> : (
+              <>
+                {log.entries.map(e => (
+                  <div className="done-row" key={e.exerciseId}>
+                    <strong>{e.name}{e.attachment ? ` · ${e.attachment}` : ''}</strong>
+                    <span className="done-sets">{e.sets.map((s, i) => <span key={i}>{describeSet(s, log.units, timed.has(e.exerciseId))}</span>)}</span>
+                  </div>
+                ))}
+                <button className="chip" aria-label={`Edit ${workoutName(log)} on ${shortDate(log.finishedAt)}`} onClick={() => setEditing(log.id)}>Edit</button>
+              </>
+            )}
           </details>
         ))}
       </section>

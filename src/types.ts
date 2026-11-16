@@ -72,8 +72,11 @@ export interface PlannedWorkout {
 }
 
 export interface LoggedSet {
+  // For one-arm sets this is the weaker arm, so bests and charts only rise when both arms do.
   weight: number
   reps: number
+  left?: { weight: number; reps: number }
+  right?: { weight: number; reps: number }
 }
 
 export interface LoggedExercise {
@@ -83,6 +86,7 @@ export interface LoggedExercise {
   targetSets: number
   repMax: number
   sets: LoggedSet[]
+  attachment?: string
 }
 
 export interface WorkoutLog {

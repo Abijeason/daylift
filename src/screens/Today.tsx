@@ -3,7 +3,7 @@ import { Logo } from '../components/Logo'
 import { exercises, imageUrl } from '../data'
 import { EATING_TIPS } from '../data/copy'
 import { nextWorkout, rotation } from '../lib/planner'
-import { appLink, buildCustom, myWeek, planCount, shareLink, shareOrCopy, SHORT_DAYS, upcomingDays, weekdayIndex, WEEKDAYS, weeklyTarget, workoutName } from '../lib/custom'
+import { appLink, buildCustom, myWeek, planCount, shareLink, shareOrCopy, SHORT_DAYS, upcomingDays, WEEKDAYS, weeklyTarget, workoutName } from '../lib/custom'
 import { isRestDay, lifetime, totalWeight, weekDays, weeklyStreak, workoutsThisWeek } from '../lib/progress'
 import { HOLD_SECONDS, MUSCLE_NAMES, WORKOUT_NAMES } from '../lib/rules'
 import { useScreenMotion } from '../lib/motion'
@@ -44,7 +44,8 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
   const next = myDays ? upcomingDays(myDays, now, trainedToday) : []
   const plan = myDays ? buildCustom(profile, next[0].workout, exercises) : nextWorkout(profile, data.history, exercises)
   const target = weeklyTarget(data)
-  const rest = myDays ? next[0].offset > 0 : isRestDay(data.history, profile.daysPerWeek, now)
+  // Once today's training is logged, today's card is done, whatever the plan says.
+  const rest = trainedToday || (myDays ? next[0].offset > 0 : isRestDay(data.history, profile.daysPerWeek, now))
   const streak = weeklyStreak(data.history, target, now)
   const done = Math.min(workoutsThisWeek(data.history, now), target)
   const { lifted } = lifetime(data.history, profile.units)
@@ -75,8 +76,8 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
     const labels = steps.length === 2 ? ['Then', 'Next'] : ['Next']
     behind = steps.map((step, i) => ({ name: order[(planCount(data.history) + step) % order.length], when: labels[i] }))
   }
-  const doneToday = myDays && trainedToday && myDays[weekdayIndex(now)]
-  const title = data.inProgress ? workoutName(data.inProgress.plan) : rest ? (doneToday ? 'Done for today' : 'Rest day') : workoutName(plan)
+  const title = data.inProgress ? workoutName(data.inProgress.plan) : rest ? (trainedToday ? 'Done for today' : 'Rest day') : workoutName(plan)
+  const again = trainedToday ? 'Train again' : 'Train anyway'
 
   return (
     <main className="screen" ref={ref}>
@@ -107,12 +108,12 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
             <span>
               {data.inProgress
                 ? 'Pick up where you left off.'
-                : rest ? 'Muscles grow while you recover.' : `${plan.exercises.length} exercises${lead ? ` · ${MUSCLE_NAMES[lead.muscle]} first` : ''}`}
+                : rest ? (trainedToday ? 'Nice work today. Muscles grow while you recover.' : 'Muscles grow while you recover.') : `${plan.exercises.length} exercises${lead ? ` · ${MUSCLE_NAMES[lead.muscle]} first` : ''}`}
             </span>
             {data.inProgress
               ? <button className="pill" onClick={onResume}>Resume workout</button>
               : rest
-                ? <button className="pill" aria-expanded={myDays ? choosing : undefined} onClick={() => (myDays && choices.length > 1 ? setChoosing(v => !v) : onStart(plan))}>Train anyway</button>
+                ? <button className="pill" aria-expanded={myDays ? choosing : undefined} onClick={() => (myDays && choices.length > 1 ? setChoosing(v => !v) : onStart(plan))}>{again}</button>
                 : <button className="pill" onClick={() => onStart(plan)}>Start workout</button>}
           </div>
         </div>
@@ -120,7 +121,7 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
 
       {choosing && rest && !data.inProgress && (
         <section className="choose" aria-label="Pick a workout to train">
-          <p className="eyebrow">Train anyway: pick a workout</p>
+          <p className="eyebrow">{again}: pick a workout</p>
           {choices.map(w => (
             <button key={w.id} className="option" aria-label={`Train ${w.name}`} onClick={() => onStart(buildCustom(profile, w, exercises))}>
               <strong>{w.name}</strong>

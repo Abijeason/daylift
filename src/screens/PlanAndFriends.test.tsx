@@ -166,3 +166,19 @@ test('on a rest day, Train anyway lets me pick any workout from my week', async 
   await user.click(within(list).getByRole('button', { name: 'Train Upper' }))
   expect(load().data.inProgress!.plan.exercises.map(e => e.id)).toEqual(['Pushups', 'Dumbbell_Bench_Press'])
 })
+
+test('after training today, Home says Done for today instead of Rest day', () => {
+  const todayLog = testLog(new Date().toISOString().slice(0, 10), { finishedAt: new Date().toISOString() })
+  start({ history: [todayLog] })
+  expect(screen.getByRole('heading', { level: 1, name: /done for today/i })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: /train again/i })).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: /train anyway/i })).not.toBeInTheDocument()
+})
+
+test('training on a rest day of my week also shows Done for today', () => {
+  const lower = { id: 'l1', name: 'Lower', exerciseIds: ['Goblet_Squat'], plan: true }
+  const todayLog = testLog(new Date().toISOString().slice(0, 10), { finishedAt: new Date().toISOString(), type: 'custom', title: 'Lower' })
+  start({ history: [todayLog], customWorkouts: [lower], planWeek: week({ [tomorrow]: 'l1' }), planMode: 'custom' })
+  expect(screen.getByRole('heading', { level: 1, name: /done for today/i })).toBeInTheDocument()
+  expect(screen.getByText(/nice work today/i)).toBeInTheDocument()
+})

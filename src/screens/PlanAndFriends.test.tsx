@@ -154,3 +154,15 @@ test('reset plan makes every day rest and keeps my own workouts', async () => {
   expect(load().data.planWeek).toEqual(Array(7).fill(null))
   expect(load().data.customWorkouts).toEqual([arms])
 })
+
+test('on a rest day, Train anyway lets me pick any workout from my week', async () => {
+  const user = userEvent.setup()
+  const upper = { id: 'u1', name: 'Upper', exerciseIds: ['Pushups', 'Dumbbell_Bench_Press'], plan: true }
+  const arms = { id: 'a1', name: 'Arms', exerciseIds: ['Hammer_Curls'], plan: true }
+  start({ customWorkouts: [upper, arms], planWeek: week({ [tomorrow]: 'a1', [(today + 2) % 7]: 'u1' }), planMode: 'custom' })
+  await user.click(screen.getByRole('button', { name: /train anyway/i }))
+  const list = screen.getByRole('region', { name: /pick a workout/i })
+  expect(within(list).getAllByRole('button').map(b => b.getAttribute('aria-label'))).toEqual(['Train Arms', 'Train Upper'])
+  await user.click(within(list).getByRole('button', { name: 'Train Upper' }))
+  expect(load().data.inProgress!.plan.exercises.map(e => e.id)).toEqual(['Pushups', 'Dumbbell_Bench_Press'])
+})

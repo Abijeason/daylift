@@ -54,6 +54,10 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
   const lead = plan.exercises[0]
   const ref = useRef<HTMLElement>(null)
   const [copied, setCopied] = useState<string | null>(null)
+  const [choosing, setChoosing] = useState(false)
+  // On a rest day any workout from my week can be trained, soonest first.
+  const choices = next.map(x => x.workout).filter((w, i, all) => all.indexOf(w) === i)
+  const daysOf = (w: CustomWorkout) => (myDays ?? []).flatMap((d, i) => (d?.id === w.id ? [SHORT_DAYS[i]] : [])).join(', ')
   const mine = (data.customWorkouts ?? []).filter(w => !w.plan)
   const share = async (w: CustomWorkout) => {
     if (await shareOrCopy(w.name, `Train ${w.name} with me on Daylift`, shareLink(w, appLink())) === 'copied') setCopied(w.id)
@@ -108,11 +112,23 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
             {data.inProgress
               ? <button className="pill" onClick={onResume}>Resume workout</button>
               : rest
-                ? <button className="pill" onClick={() => onStart(plan)}>Train anyway</button>
+                ? <button className="pill" aria-expanded={myDays ? choosing : undefined} onClick={() => (myDays && choices.length > 1 ? setChoosing(v => !v) : onStart(plan))}>Train anyway</button>
                 : <button className="pill" onClick={() => onStart(plan)}>Start workout</button>}
           </div>
         </div>
       </section>
+
+      {choosing && rest && !data.inProgress && (
+        <section className="choose" aria-label="Pick a workout to train">
+          <p className="eyebrow">Train anyway: pick a workout</p>
+          {choices.map(w => (
+            <button key={w.id} className="option" aria-label={`Train ${w.name}`} onClick={() => onStart(buildCustom(profile, w, exercises))}>
+              <strong>{w.name}</strong>
+              <span>{w.exerciseIds.length} {w.exerciseIds.length === 1 ? 'exercise' : 'exercises'} · usually {daysOf(w)}</span>
+            </button>
+          ))}
+        </section>
+      )}
 
       <section className="tiles">
         <div><strong className="number" data-count>{streak}</strong><span>Week streak</span></div>

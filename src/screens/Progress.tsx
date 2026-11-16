@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { LineChart } from '../components/LineChart'
 import { exercises } from '../data'
 import { convert, describeSet, formatSet, personalBests } from '../lib/progress'
@@ -79,6 +79,12 @@ export function Progress() {
     setDeleted({ log, at: history.findIndex(l => l.id === log.id) })
     update(d => ({ ...d, history: d.history.filter(l => l.id !== log.id) }))
   }
+  // Undo is offered for 5 seconds, then the delete stands.
+  useEffect(() => {
+    if (!deleted) return
+    const id = setTimeout(() => setDeleted(null), 5000)
+    return () => clearTimeout(id)
+  }, [deleted])
   const undo = () => {
     if (!deleted) return
     update(d => ({ ...d, history: [...d.history.slice(0, deleted.at), deleted.log, ...d.history.slice(deleted.at)] }))

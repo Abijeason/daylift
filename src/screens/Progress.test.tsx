@@ -1,4 +1,5 @@
-import { fireEvent, screen } from '@testing-library/react'
+import { act, fireEvent, screen } from '@testing-library/react'
+import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { Progress } from './Progress'
 import { renderWithData, testLog, testProfile } from '../test-utils'
@@ -118,4 +119,41 @@ test('an up-and-down scroll does not open Delete', () => {
   fireEvent.pointerMove(row, { clientX: 190, clientY: 200 })
   fireEvent.pointerUp(row, { clientX: 190, clientY: 200 })
   expect(row).toHaveStyle({ transform: 'translateX(0px)' })
+})
+
+test('history editing can add an exercise, switch to each arm, and remove an exercise', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Progress />, { history: [testLog()] })
+  await user.click(screen.getAllByText('Full Body A')[0])
+  await user.click(screen.getByRole('button', { name: /edit full body a/i }))
+
+  await user.click(screen.getByRole('button', { name: /\+ add an exercise/i }))
+  await user.type(screen.getByRole('searchbox', { name: /search exercises/i }), 'hammer curls')
+  await user.click(screen.getByRole('button', { name: 'Use Hammer Curls' }))
+  await user.click(screen.getByRole('checkbox', { name: /each arm separately for hammer curls/i }))
+  await user.type(screen.getAllByLabelText(/set 1 left weight/i)[0], '10')
+  await user.type(screen.getAllByLabelText(/set 1 left reps/i)[0], '8')
+  await user.type(screen.getAllByLabelText(/set 1 right weight/i)[0], '12')
+  await user.type(screen.getAllByLabelText(/set 1 right reps/i)[0], '10')
+
+  await user.click(screen.getByRole('button', { name: /remove dumbbell bench press from this workout/i }))
+  await user.click(screen.getByRole('button', { name: /save changes/i }))
+  const entries = load().data.history[0].entries
+  expect(entries.map(e => e.name)).toEqual(['Hammer Curls'])
+  expect(entries[0].sets[0]).toEqual({ weight: 10, reps: 8, left: { weight: 10, reps: 8 }, right: { weight: 12, reps: 10 } })
+})
+
+test('the Undo bar goes away after 5 seconds', async () => {
+  vi.useFakeTimers({ shouldAdvanceTime: true })
+  const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
+  renderWithData(<Progress />, { history: [testLog()] })
+  const row = screen.getAllByText('Full Body A')[0].closest('.swipe-row')!
+  fireEvent.pointerDown(row, { clientX: 300, clientY: 20 })
+  fireEvent.pointerMove(row, { clientX: 180, clientY: 22 })
+  fireEvent.pointerUp(row, { clientX: 180, clientY: 22 })
+  await user.click(screen.getByRole('button', { name: /^delete full body a/i }))
+  expect(screen.getByRole('button', { name: /undo/i })).toBeInTheDocument()
+  act(() => { vi.advanceTimersByTime(5100) })
+  expect(screen.queryByRole('button', { name: /undo/i })).not.toBeInTheDocument()
+  vi.useRealTimers()
 })

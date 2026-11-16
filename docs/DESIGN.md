@@ -89,8 +89,8 @@ Real gym sessions don't go to plan, so the workout bends:
 - **All exercises** lists every exercise with its sets done: tap one to go straight to it, × to remove it, or **+ Add an exercise** to search the whole library.
 - **Change exercise** replaces the current one with any exercise, with same-muscle suggestions first. If sets are already logged it says they'll be removed.
 - **Ended by mistake? Resume workout** on the summary takes the workout out of history and carries on.
-- In **Progress → History**, **Edit** on any workout changes, adds or removes sets, or deletes the workout. Bests and charts update to match.
-- In History, **swipe a workout left** to show a red **Delete** button. Deleting shows an **Undo** bar that puts it back in the same place. An up-and-down scroll never opens Delete, and keyboard users can delete through Edit.
+- In **Progress → History**, **Edit** makes a finished workout fully editable: add or remove exercises, switch any exercise to each arm separately, set cable attachments, and change, add or remove sets, or delete the workout. Bests and charts update to match.
+- In History, **swipe a workout left** to show a red **Delete** button. Deleting shows an **Undo** bar for 5 seconds that puts it back in the same place. An up-and-down scroll never opens Delete, and keyboard users can delete through Edit.
 
 In the workout builder, each exercise has a **☰** handle: press and drag to reorder, or focus it and use the arrow keys.
 

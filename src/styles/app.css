@@ -527,10 +527,13 @@ textarea.search { resize: vertical; min-height: 84px; font: inherit; }
 .jump [aria-current='step'] { border-color: var(--red); }
 .edit-log { display: flex; flex-direction: column; gap: 12px; padding: 8px 0 16px; }
 .edit-log h3 { margin: 8px 0 4px; font-family: var(--display); text-transform: uppercase; }
-.edit-set { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); }
-.edit-set > .muted { width: 100%; font-size: 0.8rem; }
-.edit-set label { flex: 1; min-width: 90px; font-size: 0.75rem; color: var(--muted); }
-.edit-set input { display: block; width: 100%; font: inherit; font-size: 1.1rem; color: var(--text); background: none; border: 0; border-bottom: 2px solid var(--line); padding: 6px 0; }
+.edit-set { padding: 6px 0 10px; border-bottom: 1px solid var(--line); }
+.edit-set-head { display: flex; justify-content: space-between; align-items: center; }
+.edit-set-head .muted { font-size: 0.8rem; }
+.edit-pair { display: flex; align-items: flex-end; gap: 10px; margin-top: 4px; }
+.edit-side { flex: none; width: 48px; padding-bottom: 8px; font-family: var(--display); font-weight: 800; text-transform: uppercase; }
+.edit-pair label { flex: 1; min-width: 0; font-size: 0.75rem; color: var(--muted); }
+.edit-pair input { display: block; width: 100%; font: inherit; font-size: 1.1rem; color: var(--text); background: none; border: 0; border-bottom: 2px solid var(--line); padding: 6px 0; }
 .history .chip { margin-top: 10px; }
 .jump-row { display: flex; align-items: center; gap: 6px; }
 .jump-row .option { flex: 1; }

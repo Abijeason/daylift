@@ -552,3 +552,5 @@ textarea.search { resize: vertical; min-height: 84px; font: inherit; }
 .undo-bar .link { color: var(--on-ink); font-weight: 700; }
 @media (prefers-reduced-motion: reduce) { .swipe-row { transition: none; } }
 .choose { display: flex; flex-direction: column; gap: 4px; margin: 4px 0 16px; padding: 12px 14px; background: var(--surface); border-radius: 16px; }
+.edit-exercises { display: flex; flex-direction: column; gap: 12px; }
+.edit-exercises > section.dragging { background: var(--surface); border-radius: 12px; box-shadow: 0 8px 24px rgb(0 0 0 / 0.25); }

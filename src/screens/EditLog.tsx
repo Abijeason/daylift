@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ExercisePicker } from '../components/ExercisePicker'
 import { exercises } from '../data'
 import { armSet, parseReps, parseWeight } from '../lib/progress'
+import { moveItem, useReorder } from '../lib/reorder'
 import { ATTACHMENTS, takesAttachment } from '../lib/rules'
 import { useAppData } from '../state/useAppData'
 import type { Exercise, LoggedExercise, LoggedSet, WorkoutLog } from '../types'
@@ -31,6 +32,7 @@ export function EditLog({ log, onDone }: { log: WorkoutLog; onDone(): void }) {
   const [adding, setAdding] = useState(false)
   const [error, setError] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const reorder = useReorder<HTMLDivElement>(drafts.length, (from, to) => setDrafts(all => moveItem(all, from, to)))
 
   const change = (i: number, fn: (d: Draft) => Draft) => setDrafts(all => all.map((d, k) => (k === i ? fn(d) : d)))
   const setRow = (i: number, k: number, row: Row) => change(i, d => ({ ...d, rows: d.rows.map((r, n) => (n === k ? row : r)) }))
@@ -93,14 +95,19 @@ export function EditLog({ log, onDone }: { log: WorkoutLog; onDone(): void }) {
 
   return (
     <div className="edit-log">
+      {drafts.length > 1 && <p className="muted">Drag ☰ to put the exercises in the order you did them.</p>}
+      <div className="edit-exercises" ref={reorder.list}>
       {drafts.map((d, i) => {
         const exercise = byId.get(d.exerciseId)
         const bodyweight = exercise?.bodyweight ?? false
         return (
-          <section key={`${d.exerciseId}-${i}`}>
+          <section key={d.exerciseId} className={reorder.dragging === i ? 'dragging' : undefined}>
             <div className="mine-head">
               <h3>{d.name}</h3>
-              <button className="remove" aria-label={`Remove ${d.name} from this workout`} onClick={() => setDrafts(all => all.filter((_, k) => k !== i))}>×</button>
+              <span className="picked-actions">
+                <button className="remove" aria-label={`Remove ${d.name} from this workout`} onClick={() => setDrafts(all => all.filter((_, k) => k !== i))}>×</button>
+                {drafts.length > 1 && <button {...reorder.handle(i, d.name)}>☰</button>}
+              </span>
             </div>
             {!exercise?.timed && (
               <label className="toggle">
@@ -136,6 +143,7 @@ export function EditLog({ log, onDone }: { log: WorkoutLog; onDone(): void }) {
           </section>
         )
       })}
+      </div>
 
       {adding ? (
         <ExercisePicker

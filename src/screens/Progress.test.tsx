@@ -157,3 +157,16 @@ test('the Undo bar goes away after 5 seconds', async () => {
   expect(screen.queryByRole('button', { name: /undo/i })).not.toBeInTheDocument()
   vi.useRealTimers()
 })
+
+test('history editing can reorder exercises into the order they were done', async () => {
+  const user = userEvent.setup()
+  const log = testLog()
+  const curl = { ...log.entries[0], exerciseId: 'Hammer_Curls', name: 'Hammer Curls', sets: [{ weight: 10, reps: 10 }] }
+  renderWithData(<Progress />, { history: [{ ...log, entries: [...log.entries, curl] }] })
+  await user.click(screen.getAllByText('Full Body A')[0])
+  await user.click(screen.getByRole('button', { name: /edit full body a/i }))
+  screen.getByRole('button', { name: /reorder hammer curls/i }).focus()
+  await user.keyboard('{ArrowUp}')
+  await user.click(screen.getByRole('button', { name: /save changes/i }))
+  expect(load().data.history[0].entries.map(e => e.name)).toEqual(['Hammer Curls', 'Dumbbell Bench Press'])
+})

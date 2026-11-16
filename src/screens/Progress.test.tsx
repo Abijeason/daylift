@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Progress } from './Progress'
 import { renderWithData, testLog, testProfile } from '../test-utils'
@@ -94,4 +94,28 @@ test('an edit with a bad number is refused with a clear message', async () => {
   await user.click(screen.getByRole('button', { name: /save changes/i }))
   expect(screen.getByRole('alert')).toHaveTextContent(/check set 1/i)
   expect(load().data.history[0].entries[0].sets).toEqual([{ weight: 20, reps: 10 }])
+})
+
+test('swiping a workout left shows Delete, and Undo brings it back', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Progress />, { history: [testLog('2026-10-01'), testLog('2026-10-02', { id: 'second' })] })
+  const row = screen.getAllByText('Full Body A')[0].closest('.swipe-row')!
+  fireEvent.pointerDown(row, { clientX: 300, clientY: 20 })
+  fireEvent.pointerMove(row, { clientX: 220, clientY: 22 })
+  fireEvent.pointerMove(row, { clientX: 180, clientY: 22 })
+  fireEvent.pointerUp(row, { clientX: 180, clientY: 22 })
+  expect(row).toHaveStyle({ transform: 'translateX(-96px)' })
+  await user.click(screen.getAllByRole('button', { name: /^delete full body a/i })[0])
+  expect(load().data.history.map(l => l.id)).toEqual(['2026-10-01'])
+  await user.click(screen.getByRole('button', { name: /undo/i }))
+  expect(load().data.history.map(l => l.id)).toEqual(['2026-10-01', 'second'])
+})
+
+test('an up-and-down scroll does not open Delete', () => {
+  renderWithData(<Progress />, { history: [testLog()] })
+  const row = screen.getAllByText('Full Body A')[0].closest('.swipe-row')!
+  fireEvent.pointerDown(row, { clientX: 200, clientY: 100 })
+  fireEvent.pointerMove(row, { clientX: 190, clientY: 200 })
+  fireEvent.pointerUp(row, { clientX: 190, clientY: 200 })
+  expect(row).toHaveStyle({ transform: 'translateX(0px)' })
 })

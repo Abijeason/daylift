@@ -539,3 +539,12 @@ textarea.search { resize: vertical; min-height: 84px; font: inherit; }
 .picked-actions .handle { touch-action: none; cursor: grab; color: var(--muted); font-size: 1.3rem; }
 .picked li.dragging { background: var(--surface); border-radius: 12px; box-shadow: 0 8px 24px rgb(0 0 0 / 0.25); }
 .picked li.dragging .handle { cursor: grabbing; color: var(--text); }
+
+/* Swipe left to delete */
+.swipe { position: relative; overflow: hidden; }
+.swipe-delete { position: absolute; inset: 0 0 0 auto; width: 96px; border: 0; background: var(--red); color: #fff; font-family: var(--display); font-weight: 700; font-size: 1rem; text-transform: uppercase; }
+.swipe-row { position: relative; background: var(--bg); touch-action: pan-y; transition: transform 220ms var(--ease-out); }
+.swipe-row.dragging { transition: none; }
+.undo-bar { white-space: nowrap; position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 16px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--on-ink); box-shadow: 0 8px 24px rgb(0 0 0 / 0.3); }
+.undo-bar .link { color: var(--on-ink); font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { .swipe-row { transition: none; } }

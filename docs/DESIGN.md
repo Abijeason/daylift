@@ -90,6 +90,7 @@ Real gym sessions don't go to plan, so the workout bends:
 - **Change exercise** replaces the current one with any exercise, with same-muscle suggestions first. If sets are already logged it says they'll be removed.
 - **Ended by mistake? Resume workout** on the summary takes the workout out of history and carries on.
 - In **Progress → History**, **Edit** on any workout changes, adds or removes sets, or deletes the workout. Bests and charts update to match.
+- In History, **swipe a workout left** to show a red **Delete** button. Deleting shows an **Undo** bar that puts it back in the same place. An up-and-down scroll never opens Delete, and keyboard users can delete through Edit.
 
 In the workout builder, each exercise has a **☰** handle: press and drag to reorder, or focus it and use the arrow keys.
 

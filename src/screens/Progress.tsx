@@ -7,6 +7,8 @@ import { encodeFriend, LIMITS, snapshot } from '../lib/friends'
 import { GOALS } from '../lib/rules'
 import { useScreenMotion } from '../lib/motion'
 import { EditLog } from './EditLog'
+import { SwipeToDelete } from '../components/SwipeToDelete'
+import type { WorkoutLog } from '../types'
 import { useAppData } from '../state/useAppData'
 
 const timed = new Set(exercises.filter(e => e.timed).map(e => e.id))
@@ -68,9 +70,20 @@ function Friends() {
 
 
 export function Progress() {
-  const { data } = useAppData()
+  const { data, update } = useAppData()
   const history = data.history
   const [editing, setEditing] = useState<string | null>(null)
+  // The last deleted workout and where it was, so Undo puts it back in place.
+  const [deleted, setDeleted] = useState<{ log: WorkoutLog; at: number } | null>(null)
+  const remove = (log: WorkoutLog) => {
+    setDeleted({ log, at: history.findIndex(l => l.id === log.id) })
+    update(d => ({ ...d, history: d.history.filter(l => l.id !== log.id) }))
+  }
+  const undo = () => {
+    if (!deleted) return
+    update(d => ({ ...d, history: [...d.history.slice(0, deleted.at), deleted.log, ...d.history.slice(deleted.at)] }))
+    setDeleted(null)
+  }
   const units = data.profile?.units ?? 'kg'
   const bests = Object.entries(personalBests(history))
   // Only weighted exercises have a weight to chart.
@@ -80,12 +93,20 @@ export function Progress() {
   const ref = useRef<HTMLElement>(null)
   useScreenMotion(ref, [history.length])
 
+  const undoBar = deleted && (
+    <div className="undo-bar" role="status">
+      <span>Deleted {workoutName(deleted.log)}</span>
+      <button className="link" onClick={undo}>Undo</button>
+    </div>
+  )
+
   if (history.length === 0) {
     return (
       <main className="screen" ref={ref}>
         <h1 data-split>Progress</h1>
         <p className="muted">Finish your first workout and your history will show up here.</p>
         <Friends />
+        {undoBar}
       </main>
     )
   }
@@ -138,7 +159,8 @@ export function Progress() {
       <section>
         <h2>History</h2>
         {[...history].reverse().map(log => (
-          <details className="history" key={log.id} data-reveal>
+          <SwipeToDelete key={log.id} label={`${workoutName(log)} on ${shortDate(log.finishedAt)}`} onDelete={() => remove(log)}>
+          <details className="history" data-reveal>
             <summary className="row">
               <span>{workoutName(log)}</span>
               <span className="muted">{shortDate(log.finishedAt)}</span>
@@ -155,8 +177,10 @@ export function Progress() {
               </>
             )}
           </details>
+          </SwipeToDelete>
         ))}
       </section>
+      {undoBar}
     </main>
   )
 }

@@ -92,7 +92,7 @@ Real gym sessions don't go to plan, so the workout bends:
 - In **Progress → History**, **Edit** makes a finished workout fully editable: add, remove or drag (☰) exercises into the order they were done, switch any exercise to each arm separately, set cable attachments, and change, add or remove sets, or delete the workout. Bests and charts update to match.
 - In History, **swipe a workout left** to show a red **Delete** button. Deleting shows an **Undo** bar for 5 seconds that puts it back in the same place. An up-and-down scroll never opens Delete, and keyboard users can delete through Edit.
 
-In the workout builder, each exercise has a **☰** handle: press and drag to reorder, or focus it and use the arrow keys.
+In the workout builder and the History editor, each exercise has a **☰** handle. Press and drag: the exercise lifts slightly and follows the finger, the others slide out of its way (200ms, strong ease-out), and on release it glides into its slot. Holding near the top or bottom edge scrolls the page. With reduced motion the slide is instant. Keyboard users focus the handle and use the arrow keys.
 
 ## Muscles worked
 

@@ -14,6 +14,8 @@ Welcome, Setup, Home, Active workout, Exercises, Progress and Settings. The last
 
 Sports editorial, like a training magazine. Headings use Barlow Condensed and body text uses Barlow, a pairing built for sports and fitness, with black, white and one red accent. Lines replace boxes wherever possible. Both fonts ship with the app, so they work offline.
 
+Red has two jobs. Bright `--red` draws lines, rules and accents. `--red-fill` (#d42a1f) sits behind white text, such as the Home card, Delete and danger buttons, so small white type stays above 4.5:1 in both themes.
+
 Light and dark themes both exist. The app follows the phone by default, and Settings lets people choose. Colours are variables at the top of `src/styles/app.css`.
 
 Light mode has its own, darker values for the body maps (`--body-outline`, `--muscle`, `--helper`), the cards and grey text, because the dark theme's subtle greys almost disappear on white.
@@ -81,10 +83,18 @@ The Progress tab has a Friends section. People type the name friends will see an
 
 ## Workout screen
 
-Logging comes first: the set count, the sets already done (each can be removed), last time's best set, the weight and reps boxes and Finish set all sit above the fold. Previous and next exercise links let people go back or skip a busy machine. The form photo, Watch form, Change exercise, muscles worked and form tips follow below. While resting, the screen says what comes next, and the summary lists every set.
+Logging comes first, built for one hand between sets:
+- **Set 2 of 3** in the display type, with the target reps beneath and a red rule that fills one segment per set done.
+- One options row: **Watch form**, **Change exercise** and, on cable exercises, the **Attachment** menu.
+- Weight and reps are big condensed numbers with **−/+** steppers (2.5 kg or 5 lb, 1 rep or 5 seconds). They start filled in: this workout's last set, otherwise the suggested weight and last time's reps, otherwise the bottom of the target range. A repeat set is one tap.
+- **Finish set** is pinned to the bottom of the screen, within thumb reach.
+- Removing a logged set shows **Removed set 2 · Undo** for 5 seconds.
+- **How to do it** folds away the form photo, muscles worked, steps and common mistakes. It starts open for people who chose "Brand new".
+
+Previous and next exercise links let people go back or skip a busy machine. While resting, the screen says what comes next, and the summary lists every set.
 
 Real gym sessions don't go to plan, so the workout bends:
-- **Each arm separately** logs left and right weight and reps for one-arm work. The set counts as the weaker arm for bests and charts, both arms count towards total weight, and the choice is remembered per exercise.
+- **Each arm separately** logs left and right weight and reps for one-arm work. It's offered on dumbbell, kettlebell, cable and band exercises, where each arm can be loaded on its own, not on barbells or machines. The set counts as the weaker arm for bests and charts, both arms count towards total weight, and the choice is remembered per exercise.
 - **Attachment** (straight bar, rope, V-bar, EZ bar, single handle, wide lat bar, ankle strap) appears on cable exercises, is saved with the exercise and defaults to last time's.
 - **All exercises** lists every exercise with its sets done: tap one to go straight to it, × to remove it, or **+ Add an exercise** to search the whole library.
 - **Change exercise** replaces the current one with any exercise, with same-muscle suggestions first. If sets are already logged it says they'll be removed.

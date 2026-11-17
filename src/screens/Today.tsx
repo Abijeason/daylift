@@ -133,8 +133,8 @@ export function Today({ onStart, onResume, onBuild, onPlan }: {
 
       <section className="tiles">
         <div><strong className="number" data-count>{streak}</strong><span>Week streak</span></div>
-        <div role="img" aria-label={`${done} of ${profile.daysPerWeek} workouts this week`}>
-          <strong className="number" aria-hidden="true">{done}/{profile.daysPerWeek}</strong>
+        <div role="img" aria-label={`${done} of ${target} workouts this week`}>
+          <strong className="number" aria-hidden="true">{done}/{target}</strong>
           <span className="week-dots" aria-hidden="true">{week.map((d, i) => <i key={i} className={`${d.trained ? 'on' : ''}${d.today ? ' today' : ''}`} />)}</span>
         </div>
         <div><strong className="number" data-count>{lifted.toLocaleString()}</strong><span>{profile.units} lifted</span></div>

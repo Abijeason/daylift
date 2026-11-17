@@ -182,3 +182,10 @@ test('training on a rest day of my week also shows Done for today', () => {
   expect(screen.getByRole('heading', { level: 1, name: /done for today/i })).toBeInTheDocument()
   expect(screen.getByText(/nice work today/i)).toBeInTheDocument()
 })
+
+test('the weekly count follows my own week, not the days picked in Setup', () => {
+  const upper = { id: 'u1', name: 'Upper', exerciseIds: ['Pushups'], plan: true }
+  // Setup said 3 days; the group's week has 4 training days.
+  start({ customWorkouts: [upper], planWeek: week({ 0: 'u1', 1: 'u1', 3: 'u1', 4: 'u1' }), planMode: 'custom' })
+  expect(screen.getByRole('img', { name: /0 of 4 workouts this week/i })).toBeInTheDocument()
+})

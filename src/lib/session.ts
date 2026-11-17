@@ -70,3 +70,9 @@ export function removeExercise(s: InProgress, index: number): InProgress {
   const exerciseIndex = s.exerciseIndex > index ? s.exerciseIndex - 1 : Math.min(s.exerciseIndex, plan.exercises.length)
   return { ...s, plan, exerciseIndex, log: { ...s.log, entries } }
 }
+
+// Puts a removed set back where it was, for Undo.
+export function insertSet(s: InProgress, exerciseIndex: number, setIndex: number, set: LoggedSet): InProgress {
+  const entries = s.log.entries.map((e, n) => (n === exerciseIndex ? { ...e, sets: [...e.sets.slice(0, setIndex), set, ...e.sets.slice(setIndex)] } : e))
+  return { ...s, log: { ...s.log, entries } }
+}

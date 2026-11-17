@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { FormDemo } from '../components/FormDemo'
 import { MusclesWorked } from '../components/MusclesWorked'
 import { TimerRing } from '../components/TimerRing'
@@ -8,9 +8,9 @@ import { swapOptions } from '../lib/planner'
 import { armSet, describeSet, formatSet, lastPerformance, lastUsed, newBests, parseReps, parseWeight, suggestWeight, totalWeight, workoutsThisWeek } from '../lib/progress'
 import { ATTACHMENTS, HOLD_SECONDS, LEVELS, takesAttachment } from '../lib/rules'
 import { ExercisePicker } from '../components/ExercisePicker'
-import { addExercise, addSet, finish, removeExercise, removeSet, secondsLeft, setAttachment, swapExercise } from '../lib/session'
+import { addExercise, addSet, finish, insertSet, removeExercise, removeSet, secondsLeft, setAttachment, swapExercise } from '../lib/session'
 import { useScreenMotion, useScrollTop } from '../lib/motion'
-import { appLink, shareOrCopy, workoutName } from '../lib/custom'
+import { appLink, shareOrCopy, weeklyTarget, workoutName } from '../lib/custom'
 import { encodeFriend, snapshot } from '../lib/friends'
 import { formVideoLink } from '../lib/video'
 import { useAppData } from '../state/useAppData'
@@ -50,7 +50,7 @@ function useWakeLock() {
 function Summary({ log, bests, onExit, onResume }: { log: WorkoutLog; bests: string[]; onExit(): void; onResume(): void }) {
   const { data } = useAppData()
   const minutes = Math.max(1, Math.round((Date.parse(log.finishedAt) - Date.parse(log.startedAt)) / 60000))
-  const target = data.profile?.daysPerWeek ?? 3
+  const target = weeklyTarget(data)
   const thisWeek = Math.min(workoutsThisWeek(data.history, new Date()), target)
   const timed = new Set(exercises.filter(e => e.timed).map(e => e.id))
   const ref = useRef<HTMLElement>(null)
@@ -93,27 +93,69 @@ function Summary({ log, bests, onExit, onResume }: { log: WorkoutLog; bests: str
   )
 }
 
-function SetForm({ exercise, units, lastSet, onDone }: {
+const STEP: Record<Units, number> = { kg: 2.5, lb: 5 }
+const tidy = (n: number) => String(Math.round(n * 100) / 100)
+
+// Drawn, not typed glyphs, so the sign sits optically centred at any size.
+const Sign = ({ plus }: { plus?: boolean }) => (
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+    <path d={plus ? 'M5 12h14M12 5v14' : 'M5 12h14'} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+  </svg>
+)
+
+// A big number with -/+ either side: most sets repeat the last one, so changing a value is a tap, not typing.
+function Stepper({ label, value, onChange, step, unit, decimal }: {
+  label: string; value: string; onChange(v: string): void; step: number; unit: string; decimal?: boolean
+}) {
+  const nudge = (by: number) => {
+    const current = Number(value.replace(',', '.')) || 0
+    onChange(tidy(Math.max(0, current + by)))
+  }
+  const id = useId()
+  return (
+    <div className="stepper">
+      <label htmlFor={id}>{label}</label>
+      <div className="stepper-row">
+        <button type="button" aria-label={`-${tidy(step)} ${unit}`} onClick={() => nudge(-step)}><Sign /></button>
+        <input id={id} inputMode={decimal ? 'decimal' : 'numeric'} value={value} onChange={e => onChange(e.target.value)} />
+        <button type="button" aria-label={`+${tidy(step)} ${unit}`} onClick={() => nudge(step)}><Sign plus /></button>
+      </div>
+    </div>
+  )
+}
+
+// Equipment you can load per side; a barbell or machine moves with both arms at once.
+const oneSided = (e: Exercise) => !e.timed && e.needs.some(n => n === 'dumbbells' || n === 'kettlebells' || n === 'cable' || n === 'bands')
+
+function SetForm({ exercise, units, lastSet, targetReps, onDone }: {
   exercise: Exercise
   units: Units
   lastSet?: LoggedSet
+  targetReps: number
   onDone(set: LoggedSet): void
 }) {
   const { data } = useAppData()
-  const start = (w?: number) => (w ? String(w) : '')
-  const [sides, setSides] = useState(lastSet ? !!lastSet.left : lastUsed(data.history, exercise.id).sides)
-  const [weight, setWeight] = useState(start(lastSet?.weight))
-  const [reps, setReps] = useState('')
-  const [left, setLeft] = useState({ weight: start(lastSet?.left?.weight ?? lastSet?.weight), reps: '' })
-  const [right, setRight] = useState({ weight: start(lastSet?.right?.weight ?? lastSet?.weight), reps: '' })
-  const [error, setError] = useState('')
   const hint = suggestWeight(data.history, exercise.id, units)
   const last = lastPerformance(data.history, exercise.id)
+  // Start from this workout's last set, then the suggestion, so a repeat set is just Finish set.
+  const startWeight = lastSet?.weight || hint.weight || 0
+  const startReps = lastSet?.reps ?? (last && last.reps) ?? targetReps
+  const pair = (side?: { weight: number; reps: number }) => ({
+    weight: exercise.bodyweight ? '' : (side?.weight || startWeight) ? tidy(side?.weight || startWeight) : '',
+    reps: tidy(side?.reps ?? startReps),
+  })
+  const [sides, setSides] = useState(lastSet ? !!lastSet.left : lastUsed(data.history, exercise.id).sides)
+  const [both, setBoth] = useState(pair())
+  const [left, setLeft] = useState(pair(lastSet?.left))
+  const [right, setRight] = useState(pair(lastSet?.right))
+  const [error, setError] = useState('')
   const repsWord = exercise.timed ? 'seconds' : 'reps'
+  const repUnit = exercise.timed ? 'sec' : 'rep'
+  const repStep = exercise.timed ? 5 : 1
 
-  const read = (w: string, r: string, side = '') => {
-    const pw = exercise.bodyweight ? 0 : parseWeight(w)
-    const pr = parseReps(r)
+  const read = (v: { weight: string; reps: string }, side = '') => {
+    const pw = exercise.bodyweight ? 0 : parseWeight(v.weight)
+    const pr = parseReps(v.reps)
     if (pw === null) { setError(`Enter a ${side}weight more than 0 and under 1000, like 22.5.`); return null }
     if (pr === null) { setError(`Enter your ${side}${repsWord} as a whole number.`); return null }
     return { weight: pw, reps: pr }
@@ -122,31 +164,24 @@ function SetForm({ exercise, units, lastSet, onDone }: {
   const submit = () => {
     let set: LoggedSet | null
     if (sides) {
-      const l = read(left.weight, left.reps, 'left arm ')
-      const r = l && read(right.weight, right.reps, 'right arm ')
+      const l = read(left, 'left arm ')
+      const r = l && read(right, 'right arm ')
       set = l && r ? armSet(l, r) : null
     } else {
-      set = read(weight, reps)
+      set = read(both)
     }
     if (!set) return
     navigator.vibrate?.(30)
     onDone(set)
   }
 
-  const fields = (label: string, value: { weight: string; reps: string }, change: (v: { weight: string; reps: string }) => void) => (
-    <fieldset className="arm">
-      <legend>{label}</legend>
-      <div className="set-inputs">
-        {!exercise.bodyweight && (
-          <label>{label} weight ({units})
-            <input inputMode="decimal" value={value.weight} onChange={e => change({ ...value, weight: e.target.value })} placeholder={hint.weight?.toString()} />
-          </label>
-        )}
-        <label>{label} {repsWord}
-          <input inputMode="numeric" value={value.reps} onChange={e => change({ ...value, reps: e.target.value })} />
-        </label>
-      </div>
-    </fieldset>
+  const fields = (prefix: string, value: { weight: string; reps: string }, change: (v: { weight: string; reps: string }) => void) => (
+    <div className="set-inputs">
+      {!exercise.bodyweight && (
+        <Stepper label={`${prefix}Weight (${units})`} unit={`${prefix ? prefix.trim().toLowerCase() + ' ' : ''}${units}`} step={STEP[units]} decimal value={value.weight} onChange={w => change({ ...value, weight: w })} />
+      )}
+      <Stepper label={exercise.timed ? `${prefix}Seconds held` : `${prefix}Reps`} unit={`${prefix ? prefix.trim().toLowerCase() + ' ' : ''}${repUnit}`} step={repStep} value={value.reps} onChange={r => change({ ...value, reps: r })} />
+    </div>
   )
 
   return (
@@ -156,10 +191,10 @@ function SetForm({ exercise, units, lastSet, onDone }: {
         <p className="muted">
           {hint.weight === null
             ? 'Choose a weight where the last reps feel hard but your form stays clean.'
-            : `Try ${hint.weight} ${units}.${hint.increase ? ' You earned an increase!' : ''}`}
+            : `Suggested: ${hint.weight} ${units}.${hint.increase ? ' You earned an increase!' : ''}`}
         </p>
       )}
-      {!exercise.timed && (
+      {(oneSided(exercise) || sides) && (
         <label className="toggle">
           <input type="checkbox" checked={sides} onChange={e => { setSides(e.target.checked); setError('') }} />
           Each arm separately
@@ -167,23 +202,14 @@ function SetForm({ exercise, units, lastSet, onDone }: {
       )}
       {sides ? (
         <>
-          {fields('Left', left, setLeft)}
-          {fields('Right', right, setRight)}
+          <fieldset className="arm"><legend>Left</legend>{fields('Left ', left, setLeft)}</fieldset>
+          <fieldset className="arm"><legend>Right</legend>{fields('Right ', right, setRight)}</fieldset>
         </>
-      ) : (
-        <div className="set-inputs">
-          {!exercise.bodyweight && (
-            <label>Weight ({units})
-              <input inputMode="decimal" value={weight} onChange={e => setWeight(e.target.value)} placeholder={hint.weight?.toString()} />
-            </label>
-          )}
-          <label>{exercise.timed ? 'Seconds held' : 'Reps'}
-            <input inputMode="numeric" value={reps} onChange={e => setReps(e.target.value)} />
-          </label>
-        </div>
-      )}
+      ) : fields('', both, setBoth)}
       {error && <p className="error" role="alert">{error}</p>}
-      <button className="primary" type="submit">Finish set</button>
+      <div className="finish-bar">
+        <button className="primary" type="submit">Finish set</button>
+      </div>
     </form>
   )
 }
@@ -194,6 +220,13 @@ export function Workout({ onExit }: { onExit(): void }) {
   const [done, setDone] = useState<{ log: WorkoutLog; bests: string[]; resume: InProgress } | null>(null)
   const [picking, setPicking] = useState<'change' | 'add' | null>(null)
   const [removing, setRemoving] = useState<number | null>(null)
+  // A removed set can be put back for 5 seconds.
+  const [removed, setRemoved] = useState<{ exercise: number; at: number; set: LoggedSet } | null>(null)
+  useEffect(() => {
+    if (!removed) return
+    const id = setTimeout(() => setRemoved(null), 5000)
+    return () => clearTimeout(id)
+  }, [removed])
   const [confirmEnd, setConfirmEnd] = useState(false)
   const [now, setNow] = useState(Date.now)
   const [showNote] = useState(!data.timerNoteSeen)
@@ -323,7 +356,7 @@ export function Workout({ onExit }: { onExit(): void }) {
   const options = swapOptions(profile, exercise, plan, exercises)
 
   return (
-    <main className="screen">
+    <main className="screen logging">
       {header}
       <div className="exercise-count" aria-hidden="true">
         {plan.exercises.map((e, i) => <span key={e.id} className={i < index ? 'on' : i === index ? 'now' : ''} />)}
@@ -331,22 +364,40 @@ export function Workout({ onExit }: { onExit(): void }) {
       <h1>{exercise.name}</h1>
       <p className="target">
         {entry.sets.length >= entry.targetSets
-          ? `All ${entry.targetSets} sets done · log an extra set or move on`
-          : `Set ${entry.sets.length + 1} of ${entry.targetSets} · ${exercise.timed ? `hold ${HOLD_SECONDS}` : `${plan.prescription.repMin}–${plan.prescription.repMax} reps`}`}
+          ? <><strong>All {entry.targetSets} sets done</strong> Log an extra set or move on</>
+          : <><strong>Set {entry.sets.length + 1} of {entry.targetSets}</strong> {exercise.timed ? `Hold ${HOLD_SECONDS}` : `${plan.prescription.repMin}–${plan.prescription.repMax} reps`}</>}
       </p>
+      <div className="set-rule" role="img" aria-label={`${Math.min(entry.sets.length, entry.targetSets)} of ${entry.targetSets} sets done`}>
+        {Array.from({ length: entry.targetSets }, (_, i) => <i key={i} className={i < entry.sets.length ? 'on' : ''} />)}
+      </div>
+      <div className="exercise-options">
+        <a className="chip" href={formVideoLink(exercise)} target="_blank" rel="noreferrer">Watch form</a>
+        <button className="chip" aria-expanded={picking === 'change'} onClick={() => setPicking(picking === 'change' ? null : 'change')}>Change exercise</button>
+        {takesAttachment(exercise) && (
+          <label className="attachment">
+            <span className="sr-only">Attachment</span>
+            <select value={attachment ?? ''} onChange={e => set(s => setAttachment(s, index, e.target.value))}>
+              <option value="">Attachment</option>
+              {ATTACHMENTS.map(a => <option key={a} value={a}>{a}</option>)}
+            </select>
+          </label>
+        )}
+      </div>
+      {picking === 'change' && (
+        <ExercisePicker
+          title={`Change ${exercise.name}`}
+          warning={entry.sets.length > 0 ? `Your ${entry.sets.length} logged ${entry.sets.length === 1 ? 'set' : 'sets'} for ${exercise.name} will be removed.` : undefined}
+          suggestions={options}
+          exclude={plan.exercises.map(e => e.id)}
+          onPick={e => { set(s => swapExercise(s, e)); setPicking(null) }}
+          onClose={() => setPicking(null)}
+        />
+      )}
       {!exercise.needs.every(n => profile.equipment.includes(n)) && (
         <p className="flag">Not on your My Gym list. {options.length > 0 ? 'Use Change exercise if you need to.' : 'Change it, or skip it with Next exercise if you need to.'}</p>
       )}
       {!LEVELS[profile.level].allowed.includes(exercise.level) && (
         <p className="flag">This one may be above your level. Swap for an easier option if it feels too hard.</p>
-      )}
-      {takesAttachment(exercise) && (
-        <label className="field">Attachment
-          <select value={attachment ?? ''} onChange={e => set(s => setAttachment(s, index, e.target.value))}>
-            <option value="">Not set</option>
-            {ATTACHMENTS.map(a => <option key={a} value={a}>{a}</option>)}
-          </select>
-        </label>
       )}
       {entry.sets.length > 0 && (
         <ol className="logged">
@@ -354,7 +405,7 @@ export function Workout({ onExit }: { onExit(): void }) {
             <li key={i}>
               <span className="muted">Set {i + 1}</span>
               <span>{describeSet(s, log.units, exercise.timed)}</span>
-              <button className="remove" aria-label={`Remove set ${i + 1}`} onClick={() => set(st => removeSet(st, i))}>×</button>
+              <button className="remove" aria-label={`Remove set ${i + 1}`} onClick={() => { setRemoved({ exercise: index, at: i, set: s }); set(st => removeSet(st, i)) }}>×</button>
             </li>
           ))}
         </ol>
@@ -364,6 +415,7 @@ export function Workout({ onExit }: { onExit(): void }) {
         exercise={exercise}
         units={log.units}
         lastSet={entry.sets[entry.sets.length - 1]}
+        targetReps={exercise.timed ? 30 : plan.prescription.repMin}
         onDone={done => {
           // The attachment shown (picked now, or last time's) is saved with the first set.
           update(d => (d.inProgress
@@ -412,28 +464,25 @@ export function Workout({ onExit }: { onExit(): void }) {
           <button className="link" onClick={() => setPicking('add')}>+ Add an exercise</button>
         )}
       </details>
-      <FormDemo exercise={exercise} />
-      <div className="demo-actions">
-        <a className="chip" href={formVideoLink(exercise)} target="_blank" rel="noreferrer">Watch form</a>
-        <button className="chip" onClick={() => setPicking(picking === 'change' ? null : 'change')}>Change exercise</button>
-      </div>
-      {picking === 'change' && (
-        <ExercisePicker
-          title={`Change ${exercise.name}`}
-          warning={entry.sets.length > 0 ? `Your ${entry.sets.length} logged ${entry.sets.length === 1 ? 'set' : 'sets'} for ${exercise.name} will be removed.` : undefined}
-          suggestions={options}
-          exclude={plan.exercises.map(e => e.id)}
-          onPick={e => { set(s => swapExercise(s, e)); setPicking(null) }}
-          onClose={() => setPicking(null)}
-        />
-      )}
-      <MusclesWorked exercise={exercise} />
-      <details className="tips">
-        <summary>Form tips</summary>
-        <ol>{exercise.steps.map(s => <li key={s}>{s}</li>)}</ol>
-        <h2>Common mistakes</h2>
-        <ul>{exercise.mistakes.map(m => <li key={m}>{m}</li>)}</ul>
+      {/* Brand-new lifters see how it's done straight away; everyone else opens it when they need it. */}
+      <details className="how" open={profile.level === 'brandNew'}>
+        <summary>How to do it</summary>
+        <FormDemo exercise={exercise} />
+        <MusclesWorked exercise={exercise} />
+        <ol className="steps">{exercise.steps.map(s => <li key={s}>{s}</li>)}</ol>
+        {exercise.mistakes.length > 0 && (
+          <>
+            <h2>Common mistakes</h2>
+            <ul className="steps">{exercise.mistakes.map(m => <li key={m}>{m}</li>)}</ul>
+          </>
+        )}
       </details>
+      {removed && removed.exercise === index && (
+        <div className="undo-bar workout-undo" role="status">
+          <span>Removed set {removed.at + 1}</span>
+          <button className="link" onClick={() => { set(st => insertSet(st, removed.exercise, removed.at, removed.set)); setRemoved(null) }}>Undo</button>
+        </div>
+      )}
     </main>
   )
 }

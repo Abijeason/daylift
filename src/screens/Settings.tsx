@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { COMING_SOON } from '../data/copy'
+import { myWeek, trainingDays } from '../lib/custom'
 import { Feedback } from './Feedback'
 import { allowedDays, GOALS, LEVELS } from '../lib/rules'
 import { exportBackup, importBackup } from '../lib/storage'
@@ -11,6 +12,7 @@ import type { Goal, Level, Profile, SavedData, Theme } from '../types'
 export function Settings() {
   const { data, update, reset } = useAppData()
   const profile = data.profile
+  const week = myWeek(data)
   const [importError, setImportError] = useState('')
   const [pending, setPending] = useState<SavedData | null>(null)
   const [confirmReset, setConfirmReset] = useState(false)
@@ -45,7 +47,7 @@ export function Settings() {
       <h1 data-split>Settings</h1>
 
       <section>
-        <h2>Your plan</h2>
+        <h2>Goal and level</h2>
         <label className="field">Goal
           <select value={profile.goal} onChange={e => change({ goal: e.target.value as Goal })}>
             {(Object.keys(GOALS) as Goal[]).map(g => <option key={g} value={g}>{GOALS[g].label}</option>)}
@@ -61,12 +63,17 @@ export function Settings() {
             {allowedDays(profile.goal, profile.level).map(d => <option key={d} value={d}>{d}</option>)}
           </select>
         </label>
+        {week && <p className="muted">You're following your own week, with {trainingDays(week)} training days. Change it with Customise plan on Home.</p>}
         <label className="field">Workout length
           <select value={profile.length} onChange={e => change({ length: e.target.value as Profile['length'] })}>
             <option value="short">Short</option>
             <option value="standard">Standard</option>
           </select>
         </label>
+      </section>
+
+      <section>
+        <h2>Display</h2>
         <label className="field">Theme
           <select value={data.theme ?? 'auto'} onChange={e => update(d => ({ ...d, theme: e.target.value as Theme }))}>
             <option value="auto">Match my phone</option>

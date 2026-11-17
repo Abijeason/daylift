@@ -258,10 +258,10 @@ test('each arm can be logged separately', async () => {
   const user = userEvent.setup()
   renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
   await user.click(screen.getByRole('checkbox', { name: /each arm separately/i }))
-  await user.type(screen.getByLabelText(/left weight/i), '12')
-  await user.type(screen.getByLabelText(/left reps/i), '8')
-  await user.type(screen.getByLabelText(/right weight/i), '14')
-  await user.type(screen.getByLabelText(/right reps/i), '10')
+  for (const [label, value] of [[/left weight/i, '12'], [/left reps/i, '8'], [/right weight/i, '14'], [/right reps/i, '10']] as const) {
+    await user.clear(screen.getByLabelText(label))
+    await user.type(screen.getByLabelText(label), value)
+  }
   await user.click(screen.getByRole('button', { name: /finish set/i }))
   expect(load().data.inProgress!.log.entries[0].sets[0]).toEqual({ weight: 12, reps: 8, left: { weight: 12, reps: 8 }, right: { weight: 14, reps: 10 } })
 })
@@ -324,4 +324,41 @@ test('change exercise can pick any exercise, and warns that logged sets go', asy
   await user.click(screen.getByRole('button', { name: 'Use Preacher Curl' }))
   expect(screen.getByRole('heading', { name: 'Preacher Curl' })).toBeInTheDocument()
   expect(load().data.inProgress!.log.entries[0].sets).toEqual([])
+})
+
+test('the set starts filled in, so a repeat set is one tap, and -/+ adjust it', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  // First set ever: reps start at the bottom of the target range.
+  expect(screen.getByLabelText(/^reps/i)).toHaveValue(String(plan.prescription.repMin))
+  await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
+  // The next set repeats the last one.
+  expect(screen.getByLabelText(/^weight/i)).toHaveValue('20')
+  expect(screen.getByLabelText(/^reps/i)).toHaveValue('10')
+  await user.click(screen.getByRole('button', { name: '+2.5 kg' }))
+  await user.click(screen.getByRole('button', { name: '-1 rep' }))
+  await user.click(screen.getByRole('button', { name: /finish set/i }))
+  expect(load().data.inProgress!.log.entries[0].sets[1]).toEqual({ weight: 22.5, reps: 9 })
+})
+
+test('a removed set can be put back with Undo', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
+  await user.click(screen.getByRole('button', { name: /remove set 1/i }))
+  expect(load().data.inProgress!.log.entries[0].sets).toEqual([])
+  await user.click(screen.getByRole('button', { name: /undo/i }))
+  expect(load().data.inProgress!.log.entries[0].sets).toEqual([{ weight: 20, reps: 10 }])
+})
+
+test('each arm separately only shows where one arm can be loaded on its own', async () => {
+  const user = userEvent.setup()
+  const barbell = exercises.find(e => e.id === 'Barbell_Squat')!
+  const curl = exercises.find(e => e.id === 'Dumbbell_Bicep_Curl')!
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: { ...newSession({ ...plan, exercises: [barbell, curl] }, 'kg', new Date()), exerciseIndex: 0 } })
+  expect(screen.queryByRole('checkbox', { name: /each arm separately/i })).not.toBeInTheDocument()
+  await user.click(screen.getByRole('button', { name: /next exercise/i }))
+  expect(screen.getByRole('checkbox', { name: /each arm separately/i })).toBeInTheDocument()
 })

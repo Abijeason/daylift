@@ -8,6 +8,8 @@
   --ink: #ffffff;
   --on-ink: #0c0c0d;
   --red: #ff4136;
+  /* Red behind white text: deep enough for small white type to pass 4.5:1. Bright --red stays for lines and accents. */
+  --red-fill: #d42a1f;
   --body-outline: var(--surface);
   --muscle: var(--surface-2);
   --helper: color-mix(in srgb, var(--red) 40%, var(--surface-2));
@@ -112,7 +114,7 @@ button, .secondary, .chip { font: inherit; color: inherit; cursor: pointer; touc
 .primary { background: var(--ink); color: var(--on-ink); overflow: hidden; }
 .primary::after { content: ''; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--red); transform: scaleX(0); transform-origin: left; animation: draw 900ms var(--ease-out) 400ms forwards; }
 .secondary { background: var(--surface-2); color: var(--text); }
-.danger { background: var(--red); color: #fff; }
+.danger { background: var(--red-fill); color: #fff; }
 .primary:active, .secondary:active, .danger:active, .option:active, .tile:active, .chip:active { transform: scale(0.97); }
 .file { position: relative; }
 section > .secondary { margin-top: 8px; }
@@ -207,7 +209,7 @@ section > .secondary { margin-top: 8px; }
 .tile img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #000; filter: grayscale(1); transition: filter 180ms; }
 .tile span { padding: 8px 10px; min-height: 40px; font-size: 0.9rem; line-height: 1.2; }
 .tile[aria-pressed='true'] img { filter: none; }
-.tile[aria-pressed='true']::after { content: '✓'; position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; display: grid; place-items: center; background: var(--red); color: #fff; font-weight: 800; border-radius: var(--radius); animation: fill 200ms var(--ease-out); }
+.tile[aria-pressed='true']::after { content: '✓'; position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; display: grid; place-items: center; background: var(--red-fill); color: #fff; font-weight: 800; border-radius: var(--radius); animation: fill 200ms var(--ease-out); }
 .tile[aria-pressed='true'] { background: var(--ink); color: var(--on-ink); }
 
 .tabs {
@@ -334,7 +336,7 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .deck-back-0 { left: 32px; right: 32px; top: 0; height: 280px; background: var(--surface); color: var(--muted); animation-delay: 180ms; }
 .deck-back-1 { left: 16px; right: 16px; top: 34px; height: 290px; background: var(--surface-2); color: var(--muted); animation-delay: 90ms; }
 .deck-back-1 span:last-child, .deck-back-0 span:last-child { font-family: inherit; font-size: 0.8rem; font-weight: 600; }
-.deck-front { left: 0; right: 0; top: 68px; bottom: 0; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; background: var(--red); color: #fff; box-shadow: 0 18px 40px rgb(0 0 0 / 0.28); animation: deck-front-in 680ms var(--ease-out) backwards; }
+.deck-front { left: 0; right: 0; top: 68px; bottom: 0; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; background: var(--red-fill); color: #fff; box-shadow: 0 18px 40px rgb(0 0 0 / 0.28); animation: deck-front-in 680ms var(--ease-out) backwards; }
 .deck-front.resting { background: var(--ink); color: var(--on-ink); }
 .deck-front h1 { margin: 0; font-size: 4.2rem; line-height: 0.88; text-wrap: balance; }
 .deck-meta { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -348,7 +350,7 @@ select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid
 .tiles .number { font-size: 2.1rem; }
 .tiles span { color: var(--muted); font-size: 0.78rem; }
 .week-dots { display: flex; gap: 3px; margin-top: 2px; }
-.week-dots i { flex: 1; height: 6px; border-radius: 3px; background: var(--muscle); }
+.week-dots i { flex: 1; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--text) 46%, var(--surface)); }
 .week-dots i.on { background: var(--red); }
 .week-dots i.today { box-shadow: inset 0 0 0 1.5px var(--text); }
 
@@ -545,7 +547,7 @@ textarea.search { resize: vertical; min-height: 84px; font: inherit; }
 
 /* Swipe left to delete */
 .swipe { position: relative; overflow: hidden; }
-.swipe-delete { position: absolute; inset: 0 0 0 auto; width: 96px; border: 0; background: var(--red); color: #fff; font-family: var(--display); font-weight: 700; font-size: 1rem; text-transform: uppercase; }
+.swipe-delete { position: absolute; inset: 0 0 0 auto; width: 96px; border: 0; background: var(--red-fill); color: #fff; font-family: var(--display); font-weight: 700; font-size: 1rem; text-transform: uppercase; }
 .swipe-row { position: relative; background: var(--bg); touch-action: pan-y; transition: transform 220ms var(--ease-out); }
 .swipe-row.dragging { transition: none; }
 .undo-bar { white-space: nowrap; position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 16px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--on-ink); box-shadow: 0 8px 24px rgb(0 0 0 / 0.3); }
@@ -556,3 +558,27 @@ textarea.search { resize: vertical; min-height: 84px; font: inherit; }
 .edit-exercises > section.dragging { background: var(--surface); border-radius: 12px; box-shadow: 0 8px 24px rgb(0 0 0 / 0.25); }
 /* The lifted item rides above the others while they slide under it. */
 .picked li.dragging, .edit-exercises > section.dragging { position: relative; z-index: 2; }
+
+/* Set logging: big condensed numbers with -/+ steppers, the red rule as set progress, Finish set within thumb reach */
+.logging { padding-bottom: calc(112px + env(safe-area-inset-bottom)); }
+.target { font-weight: 500; color: var(--muted); }
+.target strong { display: block; font-family: var(--display); font-weight: 800; font-size: 1.6rem; line-height: 1.1; letter-spacing: 0.01em; text-transform: uppercase; color: var(--text); }
+.set-rule { display: flex; gap: 4px; margin: 4px 0 2px; }
+.set-rule i { flex: 1; height: 4px; border-radius: 2px; background: var(--line); transition: background-color 200ms var(--ease-out); }
+.set-rule i.on { background: var(--red); }
+.exercise-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.attachment select { min-height: 44px; width: auto; margin: 0; background-color: transparent; padding: 0 36px 0 14px; border: 1px solid var(--line); border-radius: var(--radius); font: inherit; font-family: var(--display); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.02em; }
+.set-inputs .stepper { flex: 1; min-width: 0; }
+.stepper label { display: block; font-size: 0.86rem; color: var(--muted); margin-bottom: 4px; }
+.stepper-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 4px; border-bottom: 2px solid var(--line); }
+.stepper-row:focus-within { border-bottom-color: var(--red); }
+.stepper-row button { display: grid; place-items: center; width: 44px; height: 52px; border: 0; border-radius: var(--radius); background: var(--surface); color: var(--text); touch-action: manipulation; }
+.stepper-row button:active { transform: scale(0.94); background: var(--surface-2); }
+.set-inputs .stepper-row input { width: 100%; min-width: 0; padding: 4px 0; border: 0; background: none; color: var(--text); text-align: center; font-family: var(--display); font-weight: 800; font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; outline: none; }
+.finish-bar { position: fixed; left: 50%; bottom: 0; z-index: 10; width: min(100%, 520px); transform: translateX(-50%); padding: 14px var(--gutter) calc(14px + env(safe-area-inset-bottom)); background: linear-gradient(to bottom, transparent, var(--bg) 28%); }
+.finish-bar .primary { width: 100%; margin: 0; }
+.how { margin: 8px 0; }
+.how summary { min-height: 44px; display: flex; align-items: center; font-weight: 600; cursor: pointer; }
+.how[open] { display: flex; flex-direction: column; gap: 12px; }
+.workout-undo { bottom: calc(96px + env(safe-area-inset-bottom)); }
+@media (prefers-reduced-motion: reduce) { .set-rule i, .stepper-row button { transition: none; } }

@@ -373,3 +373,16 @@ test('pressing Next on the last exercise can be undone, and the end screen is ho
   await user.click(screen.getByRole('button', { name: /back to/i }))
   expect(screen.getByRole('heading', { name: plan.exercises[0].name })).toBeInTheDocument()
 })
+
+test('after changing the exercise, Undo is gone, so a removed set never lands on the new one', async () => {
+  const user = userEvent.setup()
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: atFirst() })
+  await logSet('20', '10')
+  await user.click(screen.getByRole('button', { name: /skip rest/i }))
+  await user.click(screen.getByRole('button', { name: /remove set 1/i }))
+  await user.click(screen.getByRole('button', { name: /change exercise/i }))
+  await user.type(screen.getByRole('searchbox', { name: /search exercises/i }), 'preacher curl')
+  await user.click(screen.getByRole('button', { name: 'Use Preacher Curl' }))
+  expect(screen.queryByRole('button', { name: /undo/i })).not.toBeInTheDocument()
+  expect(load().data.inProgress!.log.entries[0].sets).toEqual([])
+})

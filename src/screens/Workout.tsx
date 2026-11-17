@@ -221,7 +221,7 @@ export function Workout({ onExit }: { onExit(): void }) {
   const [picking, setPicking] = useState<'change' | 'add' | null>(null)
   const [removing, setRemoving] = useState<number | null>(null)
   // A removed set can be put back for 5 seconds.
-  const [removed, setRemoved] = useState<{ exercise: number; at: number; set: LoggedSet } | null>(null)
+  const [removed, setRemoved] = useState<{ exercise: number; id: string; at: number; set: LoggedSet } | null>(null)
   useEffect(() => {
     if (!removed) return
     const id = setTimeout(() => setRemoved(null), 5000)
@@ -412,7 +412,7 @@ export function Workout({ onExit }: { onExit(): void }) {
             <li key={i}>
               <span className="muted">Set {i + 1}</span>
               <span>{describeSet(s, log.units, exercise.timed)}</span>
-              <button className="remove" aria-label={`Remove set ${i + 1}`} onClick={() => { setRemoved({ exercise: index, at: i, set: s }); set(st => removeSet(st, i)) }}>×</button>
+              <button className="remove" aria-label={`Remove set ${i + 1}`} onClick={() => { setRemoved({ exercise: index, id: exercise.id, at: i, set: s }); set(st => removeSet(st, i)) }}>×</button>
             </li>
           ))}
         </ol>
@@ -484,7 +484,7 @@ export function Workout({ onExit }: { onExit(): void }) {
           </>
         )}
       </details>
-      {removed && removed.exercise === index && (
+      {removed && removed.exercise === index && removed.id === exercise.id && (
         <div className="undo-bar workout-undo" role="status">
           <span>Removed set {removed.at + 1}</span>
           <button className="link" onClick={() => { set(st => insertSet(st, removed.exercise, removed.at, removed.set)); setRemoved(null) }}>Undo</button>

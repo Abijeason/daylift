@@ -335,6 +335,9 @@ export function Workout({ onExit }: { onExit(): void }) {
   }
 
   if (!exercise) {
+    // Reached by Next exercise on the last one too, so it says what's unfinished and offers a way back.
+    const unfinished = plan.exercises.filter((_, i) => log.entries[i].sets.length < log.entries[i].targetSets)
+    const lastIndex = plan.exercises.length - 1
     return (
       <main className="screen">
         {header}
@@ -344,9 +347,13 @@ export function Workout({ onExit }: { onExit(): void }) {
             <p>{plan.prescription.cardioMin} minutes at a pace that makes you breathe harder. A treadmill, bike, or brisk walk all work.</p>
           </>
         ) : (
-          <h1>All sets done</h1>
+          <h1>{unfinished.length ? 'End of the list' : 'All sets done'}</h1>
+        )}
+        {unfinished.length > 0 && (
+          <p className="muted">Sets still to do: {unfinished.map(e => e.name).join(', ')}. Go back to log them, or finish now and keep what you've done.</p>
         )}
         <button className="primary" onClick={end}>Finish workout</button>
+        {lastIndex >= 0 && <button className="link" onClick={() => goTo(unfinished.length ? plan.exercises.indexOf(unfinished[0]) : lastIndex)}>← Back to {(unfinished[0] ?? plan.exercises[lastIndex]).name}</button>}
       </main>
     )
   }

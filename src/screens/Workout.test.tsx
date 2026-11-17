@@ -362,3 +362,14 @@ test('each arm separately only shows where one arm can be loaded on its own', as
   await user.click(screen.getByRole('button', { name: /next exercise/i }))
   expect(screen.getByRole('checkbox', { name: /each arm separately/i })).toBeInTheDocument()
 })
+
+test('pressing Next on the last exercise can be undone, and the end screen is honest', async () => {
+  const user = userEvent.setup()
+  const last = plan.exercises.length - 1
+  renderWithData(<Workout onExit={vi.fn()} />, { inProgress: session({ exerciseIndex: last }) })
+  await user.click(screen.getByRole('button', { name: /next exercise/i }))
+  expect(screen.queryByRole('heading', { name: /all sets done/i })).not.toBeInTheDocument()
+  expect(screen.getByText(/sets still to do/i)).toBeInTheDocument()
+  await user.click(screen.getByRole('button', { name: /back to/i }))
+  expect(screen.getByRole('heading', { name: plan.exercises[0].name })).toBeInTheDocument()
+})
